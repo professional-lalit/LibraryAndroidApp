@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loginUIInteractor"
+            type="com.library.app.screens.onboarding.login.LoginUIInteractor" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".screens.onboarding.login.LoginActivity">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextStyle"
+            android:text="@string/app_name"
+            android:textSize="@dimen/text_size_50"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_size_50"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/edt_email"
+                style="@style/EditTextStyle"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:text="@={loginUIInteractor.email}" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                style="@style/EditTextStyle"
+                android:layout_marginTop="@dimen/dimen_size_20"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:text="@={loginUIInteractor.password}" />
+
+            <TextView
+                android:id="@+id/txt_forgot_password"
+                style="@style/TextStyle"
+                android:layout_gravity="end"
+                android:onClick="@{() -> loginUIInteractor.openForgotPasswordScreen()}"
+                android:padding="@dimen/dimen_size_5"
+                android:text="@string/forgot_password"
+                android:textColor="@color/text_red" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/btn_login"
+                    style="@style/ButtonStyle"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/dimen_size_20"
+                    android:background="@color/btn_green"
+                    android:onClick="@{() -> loginUIInteractor.login()}"
+                    android:text="@string/login"
+                    android:visibility="@{loginUIInteractor.loading ? View.GONE : View.VISIBLE}" />
+
+                <ProgressBar
+                    android:id="@+id/pgbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="@{loginUIInteractor.loading ? View.VISIBLE : View.GONE}" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_sign_up"
+            style="@style/TextStyle"
+            android:onClick="@{()->loginUIInteractor.openSignupScreen()}"
+            android:padding="@dimen/dimen_size_20"
+            android:text="@string/dont_have_acc_signup"
+            android:textColor="@color/btn_orange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
