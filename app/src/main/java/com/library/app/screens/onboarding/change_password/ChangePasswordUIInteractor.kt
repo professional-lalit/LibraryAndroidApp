@@ -20,6 +20,8 @@ import javax.inject.Inject
 
 /**
  * Created by Lalit Hajare, Software Engineer on 16/6/20
+ * This class manages the UI operations on 'activity_change_password'
+ * @see ChangePasswordActivity
  */
 class ChangePasswordUIInteractor @Inject constructor(
     val mContext: Context,

@@ -16,8 +16,6 @@ import javax.inject.Inject
  * & encapsulates the business logic `change password` process on Flowchart
  * The main purpose of this class is to deliver the result from `AuthRepository`
  * @see com.library.app.repositories.AuthRepository
- * It validates the login screen data using `ChangePasswordValidationUsecase`
- * @see com.library.app.screens.onboarding.change_password.ChangePasswordValidationUsecase
  */
 class ChangePasswordViewModel @Inject constructor(
     val mAuthRepository: AuthRepository,

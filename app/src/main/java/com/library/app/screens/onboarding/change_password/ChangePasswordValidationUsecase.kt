@@ -5,6 +5,10 @@ import com.library.app.common.Constants.MINIMUM_PASSWORD_LENGTH
 import java.util.regex.Pattern
 import javax.inject.Inject
 
+/**
+ * This class validates input on Change Password screen.
+ * It returns the validation code on which the Activity/Screen acts upon.
+ */
 class ChangePasswordValidationUsecase @Inject constructor() {
 
     private val INVALID_PASSWORD_PATTERN: Pattern = Pattern.compile(Constants.invalidPwdPattern)

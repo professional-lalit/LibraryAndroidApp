@@ -14,6 +14,13 @@ import com.library.app.screens.common.DialogManager
 import com.library.app.screens.common.Navigation
 import javax.inject.Inject
 
+/**
+ * This class consists controlling logic for Forgot Password block on Flowchart
+ * The UI operations are managed `ForgotPasswordUIInteractor`.
+ * @see ForgotPasswordUIInteractor
+ * The `ForgotPasswordViewModel` manages the business logic for this class.
+ * @see ForgotPasswordViewModel
+ */
 class ForgotPasswordActivity : BaseActivity(),
     ForgotPasswordUIInteractor.ForgotPasswordController {
 
