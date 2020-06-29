@@ -8,7 +8,7 @@ import javax.inject.Inject
 /**
  * Created by Lalit Hajare, Software Engineer on 3/6/20
  * This class validation the fields on Login screen
- * The verification class for this class is com.library.app.screens.onboarding.login.LoginValidationUsecaseTest
+ * It returns the validation code on which the Activity/Screen acts upon.
  */
 class LoginValidationUsecase @Inject constructor() {
 

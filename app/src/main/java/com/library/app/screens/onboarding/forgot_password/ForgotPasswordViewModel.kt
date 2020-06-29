@@ -15,6 +15,10 @@ import javax.inject.Inject
 
 /**
  * Created by Lalit Hajare, Software Engineer on 22/6/20
+ * The main purpose of this class is to deliver the result from `AuthRepository`
+ * @see AuthRepository
+ * It validates the forgot password screen data using `LoginValidationUsecase`
+ * @see ForgotPasswordValidationUsecase
  */
 class ForgotPasswordViewModel @Inject constructor(
     val context: Context,

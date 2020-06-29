@@ -8,6 +8,7 @@ import javax.inject.Inject
 /**
  * Created by Lalit Hajare, Software Engineer on 29/6/20
  * This class is used to validate the email entered in ForgotPassword Screen
+ * * It returns the validation code on which the Activity/Screen acts upon.
  */
 class ForgotPasswordValidationUsecase @Inject constructor() {
     private val EMAIL_PATTERN: Pattern = Pattern.compile(Constants.emailPattern)

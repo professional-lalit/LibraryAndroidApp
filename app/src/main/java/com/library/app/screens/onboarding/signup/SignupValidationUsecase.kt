@@ -10,8 +10,8 @@ import javax.inject.Inject
 /**
  * Created by Lalit Hajare, Software Engineer on 3/6/20
  * This class validation the fields on Signup screen
- * The verification class for this class is com.library.app.screens.onboarding.signup.SignupValidationUsecaseTest
- */
+ * It returns the validation code on which the Activity/Screen acts upon.
+*/
 class SignupValidationUsecase @Inject constructor() {
 
     private val EMAIL_PATTERN: Pattern = Pattern.compile(emailPattern)
