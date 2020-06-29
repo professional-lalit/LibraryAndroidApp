@@ -31,16 +31,18 @@ class ChangePasswordViewModel @Inject constructor(
     fun submitNewPassword(
         oldPassword: String,
         newPassword: String,
-        rePassword: String,
-        callback: (ChangePasswordValidationUsecase.ChangePasswordValidations) -> Unit
-    ): Boolean {
-        if (changePasswordValidationUsecase.isValid(newPassword, rePassword, callback)) {
+        rePassword: String
+    ): ChangePasswordValidationUsecase.ChangePasswordValidations {
+        val code = changePasswordValidationUsecase.getValidationCode(
+            newPassword,
+            rePassword
+        )
+        if (code == ChangePasswordValidationUsecase.ChangePasswordValidations.VALID) {
             launch {
                 mResult.postValue(mAuthRepository.changePassword(oldPassword, newPassword))
             }
-            return true
         }
-        return false
+        return code
     }
 
 }

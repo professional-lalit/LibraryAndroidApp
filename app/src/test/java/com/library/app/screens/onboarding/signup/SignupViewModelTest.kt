@@ -40,8 +40,6 @@ class SignupViewModelTest {
     private val mAuthRepository: AuthRepository = Mockito.mock(AuthRepository::class.java)
     private val mSignupValidationUsecase: SignupValidationUsecase =
         Mockito.mock(SignupValidationUsecase::class.java)
-    private val mObserver = Mockito.mock(Observer::class.java) as Observer<Result<Any>>
-
 
     private var SUT = SignupViewModel(mAuthRepository, mSignupValidationUsecase)
 
@@ -57,11 +55,9 @@ class SignupViewModelTest {
                 anyOrNull(),
                 anyOrNull(),
                 anyOrNull(),
-                anyOrNull(),
                 anyOrNull()
             )
-        ).thenReturn(true)
-        SUT.result.observeForever(mObserver)
+        ).thenReturn(SignupValidationUsecase.SignupValidations.VALID)
     }
 
     /**
@@ -80,6 +76,8 @@ class SignupViewModelTest {
         Mockito.`when`(SUT.authRepository.signup(anyOrNull())).thenReturn(
             errorResponse
         )
+        val observer = Mockito.mock(Observer::class.java) as Observer<Result<Any>>
+        SUT.result.observeForever(observer)
         //Act
         SUT.signup(
             name,
@@ -87,11 +85,10 @@ class SignupViewModelTest {
             password,
             repassword
         )
-        delay(100)
         //Assert
         val captor = ArgumentCaptor.forClass(Result::class.java)
         captor.run {
-            Mockito.verify(mObserver, Mockito.times(1)).onChanged(capture())
+            Mockito.verify(observer, Mockito.times(1)).onChanged(capture())
             assertEquals(errorResponse, value)
         }
     }
@@ -107,6 +104,8 @@ class SignupViewModelTest {
         Mockito.`when`(SUT.authRepository.signup(anyOrNull())).thenReturn(
             successResponse
         )
+        val observer = Mockito.mock(Observer::class.java) as Observer<Result<Any>>
+        SUT.result.observeForever(observer)
         //Act
         SUT.signup(
             name,
@@ -114,11 +113,10 @@ class SignupViewModelTest {
             password,
             repassword
         )
-        delay(100 * 2)
         //Assert
         val captor = ArgumentCaptor.forClass(Result::class.java)
         captor.run {
-            Mockito.verify(mObserver, Mockito.times(1)).onChanged(capture())
+            Mockito.verify(observer, Mockito.times(1)).onChanged(capture())
             assertEquals(successResponse, value)
         }
     }

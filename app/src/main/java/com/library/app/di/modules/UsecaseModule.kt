@@ -10,19 +10,14 @@ import dagger.Provides
 @Module
 class UsecaseModule {
 
-
     @Provides
-    fun getSignupValidationUsecase(context: Context): SignupValidationUsecase {
-        return SignupValidationUsecase(
-            context
-        )
+    fun getSignupValidationUsecase(): SignupValidationUsecase {
+        return SignupValidationUsecase()
     }
 
     @Provides
-    fun getLoginValidationUsecase(context: Context): LoginValidationUsecase {
-        return LoginValidationUsecase(
-            context
-        )
+    fun getLoginValidationUsecase(): LoginValidationUsecase {
+        return LoginValidationUsecase()
     }
 
     @Provides

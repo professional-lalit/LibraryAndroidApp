@@ -3,10 +3,12 @@ package com.library.app.screens.onboarding.login
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.LoginResponseSchema
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.Navigation
+import com.library.app.screens.onboarding.signup.SignupValidationUsecase
 import javax.inject.Inject
 
 /**
@@ -77,8 +79,18 @@ class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
      * Initiates the Login API call
      */
     override fun loginUser(email: String, password: String) {
-        if (loginViewModel.login(email, password)) {
-            mLoginUIInteractor.loading = true
+        val validationCode = loginViewModel.login(email, password)
+        handleValidation(validationCode)
+    }
+
+    private fun handleValidation(validationCode: LoginValidationUsecase.LoginValidations) {
+        when (validationCode) {
+            LoginValidationUsecase.LoginValidations.EMPTY_EMAIL_ERROR -> getString(R.string.plz_enter_email)
+            LoginValidationUsecase.LoginValidations.INVALID_EMAIL_ERROR -> getString(R.string.plz_enter_valid_email)
+            LoginValidationUsecase.LoginValidations.EMPTY_PASSWORD_ERROR -> getString(R.string.plz_enter_pwd)
+            LoginValidationUsecase.LoginValidations.INVALID_PASSWORD_LENGTH_ERROR -> getString(R.string.pwd_shd_contain_6_char)
+            LoginValidationUsecase.LoginValidations.SPCHR_PASSWORD_ERROR -> getString(R.string.pwd_shd_have_1_sp_char)
+            LoginValidationUsecase.LoginValidations.VALID -> mLoginUIInteractor.loading = true
         }
     }
 

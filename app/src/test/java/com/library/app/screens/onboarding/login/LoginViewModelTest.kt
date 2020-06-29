@@ -44,12 +44,11 @@ class LoginViewModelTest {
     @get:Rule
     val instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+
     /**
      * Dependencies for SUT
      */
-    private var response: Result<Any> = Result.Success(LoginResponseSchema("xxxx", "xxxx"))
-
-    val mAuthRepository = mock(AuthRepository::class.java)
+    private val mAuthRepository = mock(AuthRepository::class.java)
     private val mLoginValidationUsecase: LoginValidationUsecase =
         mock(LoginValidationUsecase::class.java)
 
@@ -64,10 +63,9 @@ class LoginViewModelTest {
         `when`(
             SUT.loginValidationUsecase.validateCredentials(
                 anyOrNull(),
-                anyOrNull(),
                 anyOrNull()
             )
-        ).thenReturn(true)
+        ).thenReturn(LoginValidationUsecase.LoginValidations.VALID)
     }
 
     /**
@@ -77,7 +75,7 @@ class LoginViewModelTest {
     @Test
     fun `login failed`() = runBlockingTest {
         //Arrange
-        response = Result.Error(
+        val response = Result.Error(
             ErrorResponseSchema(
                 "xxxxxx",
                 arrayListOf(ErrorObj("xxxx", "xxxx", "xxxx", "xxxx"))
@@ -91,7 +89,11 @@ class LoginViewModelTest {
         //Act
         SUT.login(email, password)
         //Assert
-        verify(observer).onChanged(response)
+        val captor = ArgumentCaptor.forClass(Result::class.java)
+        captor.run {
+            verify(observer, times(1)).onChanged(capture())
+            assertEquals(response, value)
+        }
     }
 
 
@@ -111,7 +113,11 @@ class LoginViewModelTest {
         //Act
         SUT.login(email, password)
         //Assert
-        verify(observer).onChanged(successResponse)
+        val captor = ArgumentCaptor.forClass(Result::class.java)
+        captor.run {
+            verify(observer, times(1)).onChanged(capture())
+            assertEquals(successResponse, value)
+        }
     }
 
     @After

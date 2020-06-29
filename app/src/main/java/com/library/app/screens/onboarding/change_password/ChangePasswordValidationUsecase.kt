@@ -1,7 +1,7 @@
 package com.library.app.screens.onboarding.change_password
 
-import com.library.app.R
 import com.library.app.common.Constants
+import com.library.app.common.Constants.MINIMUM_PASSWORD_LENGTH
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -17,29 +17,24 @@ class ChangePasswordValidationUsecase @Inject constructor() {
         NEW_PASSWORD_EMPTY,
         NEW_PASSWORD_LENGTH_ERROR,
         NEW_PASSWORD_SPCHR_ERROR,
-        MATCHING_ERROR,
+        PASSWORD_MATCHING_ERROR,
         VALID
     }
 
-    fun isValid(
+    fun getValidationCode(
         newPassword: String,
-        confirmPassword: String,
-        cb: (ChangePasswordValidations) -> Unit
-    ): Boolean {
+        confirmedPassword: String
+    ): ChangePasswordValidations {
         if (newPassword.isEmpty()) {
-            cb.invoke(ChangePasswordValidations.NEW_PASSWORD_EMPTY)
-            return false
-        } else if (newPassword.length < 6) {
-            cb.invoke(ChangePasswordValidations.NEW_PASSWORD_LENGTH_ERROR)
-            return false
+            return ChangePasswordValidations.NEW_PASSWORD_EMPTY
+        } else if (newPassword.length < MINIMUM_PASSWORD_LENGTH) {
+            return ChangePasswordValidations.NEW_PASSWORD_LENGTH_ERROR
         } else if (!hasSpecialChar(newPassword)) {
-            cb.invoke(ChangePasswordValidations.NEW_PASSWORD_SPCHR_ERROR)
-            return false
-        } else if (confirmPassword != newPassword) {
-            cb.invoke(ChangePasswordValidations.MATCHING_ERROR)
-            return false
+            return ChangePasswordValidations.NEW_PASSWORD_SPCHR_ERROR
+        } else if (confirmedPassword != newPassword) {
+            return ChangePasswordValidations.PASSWORD_MATCHING_ERROR
         }
-        return true
+        return ChangePasswordValidations.VALID
     }
 
 }

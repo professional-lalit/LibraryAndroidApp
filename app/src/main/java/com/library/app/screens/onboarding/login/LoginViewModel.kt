@@ -51,22 +51,19 @@ class LoginViewModel @Inject constructor(
     /**
      * Get login result from `AuthRepository` & update the LiveData
      */
-    fun login(email: String, password: String): Boolean {
-        if (loginValidationUsecase.validateCredentials(
-                email,
-                password
-            ) { errorMsg ->
-                mValidationMessage.postValue(errorMsg)
-            }
-        ) {
+    fun login(email: String, password: String): LoginValidationUsecase.LoginValidations {
+        val code = loginValidationUsecase.validateCredentials(
+            email,
+            password
+        )
+        if (code == LoginValidationUsecase.LoginValidations.VALID) {
             val loginRequestSchema = LoginRequestSchema(email, password)
             launch {
                 val response = authRepository.login(loginRequestSchema)
                 mLoginResult.postValue(response)
             }
-            return true
         }
-        return false
+        return code
     }
 
 }

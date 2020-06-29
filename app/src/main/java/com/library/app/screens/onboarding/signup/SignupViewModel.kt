@@ -46,23 +46,25 @@ class SignupViewModel @Inject constructor(
     /**
      * Get signup result from `AuthRepository` & update the LiveData
      */
-    fun signup(name: String, email: String, password: String, repassword: String): Boolean {
-        if (signupValidationUsecase.validateCredentials(
-                name,
-                email,
-                password,
-                repassword
-            ) { msg ->
-                mValidationResult.postValue(msg)
-            }
-        ) {
+    fun signup(
+        name: String,
+        email: String,
+        password: String,
+        repassword: String
+    ): SignupValidationUsecase.SignupValidations {
+        val code = signupValidationUsecase.validateCredentials(
+            name,
+            email,
+            password,
+            repassword
+        )
+        if (code == SignupValidationUsecase.SignupValidations.VALID) {
             val signupRequestSchema = SignupRequestSchema(name, email, password)
             launch {
                 val response = authRepository.signup(signupRequestSchema)
                 mSignupResult.postValue(response)
             }
-            return true
         }
-        return false
+        return code
     }
 }

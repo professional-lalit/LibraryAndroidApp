@@ -1,7 +1,5 @@
 package com.library.app.screens.onboarding.login
 
-import android.content.Context
-import com.library.app.R
 import com.library.app.common.Constants.emailPattern
 import com.library.app.common.Constants.invalidPwdPattern
 import java.util.regex.Pattern
@@ -12,7 +10,7 @@ import javax.inject.Inject
  * This class validation the fields on Login screen
  * The verification class for this class is com.library.app.screens.onboarding.login.LoginValidationUsecaseTest
  */
-class LoginValidationUsecase @Inject constructor(val mContext: Context) {
+class LoginValidationUsecase @Inject constructor() {
 
     private val EMAIL_PATTERN: Pattern = Pattern.compile(emailPattern)
     private val INVALID_PASSWORD_PATTERN: Pattern = Pattern.compile(invalidPwdPattern)
@@ -25,28 +23,28 @@ class LoginValidationUsecase @Inject constructor(val mContext: Context) {
         return password.isNotEmpty() && !INVALID_PASSWORD_PATTERN.matcher(password).matches()
     }
 
+    enum class LoginValidations {
+        EMPTY_EMAIL_ERROR, INVALID_EMAIL_ERROR, EMPTY_PASSWORD_ERROR, INVALID_PASSWORD_LENGTH_ERROR
+        , SPCHR_PASSWORD_ERROR, VALID
+    }
+
     /**
      * Returns Boolean value whether the credentials are in proper format before sending to server
-     * Also, invokes the callback function passed in this functions, returning appropriate message
+     * Also, invokes the callback function passed in this functions, returning validation code
      */
-    fun validateCredentials(email: String, password: String, cb: (String) -> Unit): Boolean {
+    fun validateCredentials(email: String, password: String): LoginValidations {
         if (email.isEmpty()) {
-            cb.invoke(mContext.getString(R.string.plz_enter_email))
-            return false
+            return LoginValidations.EMPTY_EMAIL_ERROR
         } else if (!isValidEmail(email)) {
-            cb.invoke(mContext.getString(R.string.plz_enter_valid_email))
-            return false
+            return LoginValidations.INVALID_EMAIL_ERROR
         } else if (password.isEmpty()) {
-            cb.invoke(mContext.getString(R.string.plz_enter_pwd))
-            return false
+            return LoginValidations.EMPTY_PASSWORD_ERROR
         } else if (password.length < 6) {
-            cb.invoke(mContext.getString(R.string.pwd_shd_contain_6_char))
-            return false
+            return LoginValidations.INVALID_PASSWORD_LENGTH_ERROR
         } else if (!hasSpecialChar(password)) {
-            cb.invoke(mContext.getString(R.string.pwd_shd_have_1_sp_char))
-            return false
+            return LoginValidations.SPCHR_PASSWORD_ERROR
         }
-        return true
+        return LoginValidations.VALID
     }
 
 }

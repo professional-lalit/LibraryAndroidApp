@@ -3,6 +3,7 @@ package com.library.app.screens.onboarding.signup
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.SignupResponseSchema
 import com.library.app.screens.common.BaseActivity
@@ -75,8 +76,26 @@ class SignupActivity : BaseActivity(), SignupUIInteractor.SignupController {
      * Calls the Signup API via ViewModel
      */
     override fun signUpUser(name: String, email: String, password: String, repassword: String) {
-        if (signupViewModel.signup(name, email, password, repassword)) {
-            mSignupUIInteractor.loading = true
+        val validationCode = signupViewModel.signup(
+            name,
+            email,
+            password,
+            repassword
+        )
+        handleValidation(validationCode)
+    }
+
+    private fun handleValidation(validationCode: SignupValidationUsecase.SignupValidations) {
+        when (validationCode) {
+            SignupValidationUsecase.SignupValidations.EMPTY_NAME_ERROR -> getString(R.string.plz_enter_name)
+            SignupValidationUsecase.SignupValidations.FULL_NAME_ERROR -> getString(R.string.plz_first_last_name)
+            SignupValidationUsecase.SignupValidations.EMPTY_EMAIL_ERROR -> getString(R.string.plz_enter_email)
+            SignupValidationUsecase.SignupValidations.INVALID_EMAIL_ERROR -> getString(R.string.plz_enter_valid_email)
+            SignupValidationUsecase.SignupValidations.EMPTY_PASSWORD_ERROR -> getString(R.string.plz_enter_pwd)
+            SignupValidationUsecase.SignupValidations.INVALID_PASSWORD_LENGTH_ERROR -> getString(R.string.pwd_shd_contain_6_char)
+            SignupValidationUsecase.SignupValidations.SPCHR_PASSWORD_ERROR -> getString(R.string.pwd_shd_have_1_sp_char)
+            SignupValidationUsecase.SignupValidations.UNMATCHING_PASSWORDS_ERROR -> getString(R.string.pwd_dont_match)
+            SignupValidationUsecase.SignupValidations.VALID -> mSignupUIInteractor.loading = true
         }
     }
 

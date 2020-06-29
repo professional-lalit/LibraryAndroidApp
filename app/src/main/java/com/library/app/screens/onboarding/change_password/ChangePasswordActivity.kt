@@ -1,6 +1,5 @@
 package com.library.app.screens.onboarding.change_password
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -8,10 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.ChangePasswordResponseSchema
-import com.library.app.networking.models.ForgotPasswordResposeSchema
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.Navigation
-import com.library.app.screens.onboarding.login.LoginViewModel
 import javax.inject.Inject
 
 class ChangePasswordActivity : BaseActivity(), ChangePasswordUIInteractor.ChangePasswordController {
@@ -57,16 +54,13 @@ class ChangePasswordActivity : BaseActivity(), ChangePasswordUIInteractor.Change
     }
 
     override fun submit(oldPassword: String, password: String, repassword: String) {
-        if (mChangePasswordViewModel.submitNewPassword(
+        handleValidation(
+            mChangePasswordViewModel.submitNewPassword(
                 oldPassword,
                 password,
                 repassword
-            ) { validationCode ->
-                handleValidation(validationCode)
-            }
-        ) {
-            mChangePasswordUIInteractor.loading = true
-        }
+            )
+        )
     }
 
     private fun handleValidation(validationCode: ChangePasswordValidationUsecase.ChangePasswordValidations) {
@@ -77,10 +71,10 @@ class ChangePasswordActivity : BaseActivity(), ChangePasswordUIInteractor.Change
                 mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.pwd_shd_contain_6_char))
             ChangePasswordValidationUsecase.ChangePasswordValidations.NEW_PASSWORD_SPCHR_ERROR ->
                 mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.pwd_shd_have_1_sp_char))
-            ChangePasswordValidationUsecase.ChangePasswordValidations.MATCHING_ERROR ->
+            ChangePasswordValidationUsecase.ChangePasswordValidations.PASSWORD_MATCHING_ERROR ->
                 mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.pwd_dont_match))
-            else -> {
-            }
+            ChangePasswordValidationUsecase.ChangePasswordValidations.VALID ->
+                mChangePasswordUIInteractor.loading = true
         }
     }
 

@@ -12,7 +12,7 @@ import javax.inject.Inject
  * This class validation the fields on Signup screen
  * The verification class for this class is com.library.app.screens.onboarding.signup.SignupValidationUsecaseTest
  */
-class SignupValidationUsecase @Inject constructor(val mContext: Context) {
+class SignupValidationUsecase @Inject constructor() {
 
     private val EMAIL_PATTERN: Pattern = Pattern.compile(emailPattern)
     private val INVALID_PASSWORD_PATTERN: Pattern = Pattern.compile(invalidPwdPattern)
@@ -25,6 +25,11 @@ class SignupValidationUsecase @Inject constructor(val mContext: Context) {
         return password.isNotEmpty() && !INVALID_PASSWORD_PATTERN.matcher(password).matches()
     }
 
+    enum class SignupValidations {
+        EMPTY_NAME_ERROR, FULL_NAME_ERROR, EMPTY_EMAIL_ERROR, INVALID_EMAIL_ERROR, EMPTY_PASSWORD_ERROR,
+        INVALID_PASSWORD_LENGTH_ERROR, SPCHR_PASSWORD_ERROR, UNMATCHING_PASSWORDS_ERROR, VALID
+    }
+
     /**
      * Returns Boolean value whether the credentials are in proper format before sending to server
      * Also, invokes the callback function passed in this functions, returning appropriate message
@@ -33,35 +38,26 @@ class SignupValidationUsecase @Inject constructor(val mContext: Context) {
         name: String,
         email: String,
         password: String,
-        confPassword: String,
-        cb: (String) -> Unit
-    ): Boolean {
+        confPassword: String
+    ): SignupValidations {
         if (name.isEmpty()) {
-            cb.invoke(mContext.getString(R.string.plz_enter_name))
-            return false
+            return SignupValidations.EMPTY_NAME_ERROR
         } else if (!name.contains(" ")) {
-            cb.invoke(mContext.getString(R.string.plz_first_last_name))
-            return false
+            return SignupValidations.FULL_NAME_ERROR
         } else if (email.isEmpty()) {
-            cb.invoke(mContext.getString(R.string.plz_enter_email))
-            return false
+            return SignupValidations.EMPTY_EMAIL_ERROR
         } else if (!isValidEmail(email)) {
-            cb.invoke(mContext.getString(R.string.plz_enter_valid_email))
-            return false
+            return SignupValidations.INVALID_EMAIL_ERROR
         } else if (password.isEmpty()) {
-            cb.invoke(mContext.getString(R.string.plz_enter_pwd))
-            return false
+            return SignupValidations.EMPTY_PASSWORD_ERROR
         } else if (password.length < 6) {
-            cb.invoke(mContext.getString(R.string.pwd_shd_contain_6_char))
-            return false
+            return SignupValidations.INVALID_PASSWORD_LENGTH_ERROR
         } else if (!hasSpecialChar(password)) {
-            cb.invoke(mContext.getString(R.string.pwd_shd_have_1_sp_char))
-            return false
+            return SignupValidations.SPCHR_PASSWORD_ERROR
         } else if (confPassword != password) {
-            cb.invoke(mContext.getString(R.string.pwd_dont_match))
-            return false
+            return SignupValidations.UNMATCHING_PASSWORDS_ERROR
         }
-        return true
+        return SignupValidations.VALID
     }
 
 }
