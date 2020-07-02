@@ -25,6 +25,8 @@ import org.mockito.junit.MockitoJUnitRunner
  * Created by Lalit Hajare, Software Engineer on 11/6/20
  * The purpose of this class is to ensure the desired behaviour of `SignupViewModel`
  * @see com.library.app.screens.onboarding.signup.SignupViewModel for more information
+ * 1. Test whether the sign up API result was 'Result.Error', i.e, API Failure
+ * 2. Test whether the sign up API result was 'Result.Success', i.e, API Success
  */
 @RunWith(MockitoJUnitRunner::class)
 class SignupViewModelTest {
@@ -44,7 +46,6 @@ class SignupViewModelTest {
     private val name = "XXXXX"
     private val email = "XXXXX"
     private val password = "XXXXX"
-    private val repassword = "XXXXX"
 
     @Before
     fun prepareTest() {

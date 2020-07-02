@@ -26,6 +26,8 @@ import org.mockito.junit.MockitoJUnitRunner
  * Created by Lalit Hajare, Software Engineer on 9/6/20
  * The purpose of this class is to ensure the desired behaviour of `LoginViewModel`
  * @see com.library.app.screens.onboarding.login.LoginViewModel for more information
+ * 1. Test whether the login up API result was 'Result.Error', i.e, API Failure
+ * 2. Test whether the login up API result was 'Result.Success', i.e, API Success
  */
 @RunWith(MockitoJUnitRunner::class)
 class LoginViewModelTest {
