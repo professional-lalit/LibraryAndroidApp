@@ -8,18 +8,23 @@ import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.ChangePasswordResponseSchema
 import com.library.app.screens.common.BaseActivity
-import com.library.app.screens.common.Navigation
+import com.library.app.screens.onboarding.forgot_password.ForgotPasswordUIInteractor
+import com.library.app.screens.onboarding.forgot_password.ForgotPasswordViewModel
 import javax.inject.Inject
 
+/**
+ * This class consists controlling logic for Change Password block on Flowchart
+ * The UI operations are managed `ChangePasswordUIInteractor`.
+ * @see ChangePasswordUIInteractor
+ * The `ChangePasswordViewModel` manages the business logic for this class.
+ * @see ChangePasswordViewModel
+ */
 class ChangePasswordActivity : BaseActivity(), ChangePasswordUIInteractor.ChangePasswordController {
 
     lateinit var mChangePasswordViewModel: ChangePasswordViewModel
 
     @Inject
     lateinit var mChangePasswordUIInteractor: ChangePasswordUIInteractor
-
-    @Inject
-    lateinit var mNavigation: Navigation
 
     override fun onStart() {
         super.onStart()
@@ -54,32 +59,14 @@ class ChangePasswordActivity : BaseActivity(), ChangePasswordUIInteractor.Change
     }
 
     override fun submit(oldPassword: String, password: String, repassword: String) {
-        handleValidation(
-            mChangePasswordViewModel.submitNewPassword(
-                oldPassword,
-                password,
-                repassword
-            )
+        mChangePasswordViewModel.submitNewPassword(
+            oldPassword,
+            password
         )
     }
 
-    private fun handleValidation(validationCode: ChangePasswordValidationUsecase.ChangePasswordValidations) {
-        when (validationCode) {
-            ChangePasswordValidationUsecase.ChangePasswordValidations.NEW_PASSWORD_EMPTY ->
-                mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.plz_enter_pwd))
-            ChangePasswordValidationUsecase.ChangePasswordValidations.NEW_PASSWORD_LENGTH_ERROR ->
-                mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.pwd_shd_contain_6_char))
-            ChangePasswordValidationUsecase.ChangePasswordValidations.NEW_PASSWORD_SPCHR_ERROR ->
-                mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.pwd_shd_have_1_sp_char))
-            ChangePasswordValidationUsecase.ChangePasswordValidations.PASSWORD_MATCHING_ERROR ->
-                mChangePasswordUIInteractor.showChangePasswordValidationDialog(getString(R.string.pwd_dont_match))
-            ChangePasswordValidationUsecase.ChangePasswordValidations.VALID ->
-                mChangePasswordUIInteractor.loading = true
-        }
-    }
-
     override fun openLoginScreen() {
-        mNavigation.OnBoarding().openLoginScreenAfterForgotPasswordFlow(this)
+        mScreenNavigator.OnBoarding().openLoginScreenAfterForgotPasswordFlow(this)
     }
 
     override fun getDialogFragmentManager(): FragmentManager {

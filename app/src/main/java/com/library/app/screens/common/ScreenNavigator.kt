@@ -9,9 +9,9 @@ import com.library.app.screens.onboarding.signup.SignupActivity
 /**
  * Created by Lalit Hajare, Software Engineer on 15/6/20
  * This class consists screen navigation routes, each function in this class is
- * an intent to open some screen
+ * an intent to open some screen.
  */
-class Navigation {
+class ScreenNavigator {
 
     /**
      * This section refers to the navigation routes while user has not yet logged in

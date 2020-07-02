@@ -14,6 +14,8 @@ import com.library.app.networking.models.ChangePasswordResponseSchema
 import com.library.app.networking.models.ErrorResponseSchema
 import com.library.app.screens.common.BaseController
 import com.library.app.screens.common.DialogManager
+import com.library.app.screens.common.InputValidator
+import com.library.app.screens.common.ValidationManager
 import com.library.app.screens.onboarding.login.LoginViewModel
 import makeToast
 import javax.inject.Inject
@@ -21,11 +23,16 @@ import javax.inject.Inject
 /**
  * Created by Lalit Hajare, Software Engineer on 16/6/20
  * This class manages the UI operations on 'activity_change_password'
- * @see ChangePasswordActivity
+ * This class is controlled through `ChangePasswordController`
+ * @see ChangePasswordController
+ * @param mContext: used to get strings from resources to show messages
+ * @param mDialogManager: used to show dialogs, `DialogManager` manages the initialization and build
+ * @param mValidationManager: used to validate the input on screen.
  */
 class ChangePasswordUIInteractor @Inject constructor(
     val mContext: Context,
-    val mDialogManager: DialogManager
+    val mDialogManager: DialogManager,
+    val mValidationManager: ValidationManager
 ) : BaseObservable() {
 
     var changePasswordController: ChangePasswordController? = null
@@ -65,12 +72,44 @@ class ChangePasswordUIInteractor @Inject constructor(
     // ************************************* EVENTS ****************************************
 
     fun submit() {
-        changePasswordController?.submit(oldPasswpord, newPasswpord, rePasswpord)
+        if (checkValidation())
+            changePasswordController?.submit(oldPasswpord, newPasswpord, rePasswpord)
+    }
+
+    private fun checkValidation(): Boolean {
+        val validator = mValidationManager
+            .getChangePasswordValidator(oldPasswpord, newPasswpord, rePasswpord)
+        when (validator.isValid()) {
+            InputValidator.ValidationCode.EMPTY_PASSWORD_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_pwd))
+                return false
+            }
+            InputValidator.ValidationCode.INVALID_PASSWORD_LENGTH_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.pwd_shd_contain_6_char))
+                return false
+            }
+            InputValidator.ValidationCode.NEW_PASSWORD_SPCHR_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.pwd_shd_have_1_sp_char))
+                return false
+            }
+            InputValidator.ValidationCode.UNMATCHING_PASSWORDS_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_name))
+                return false
+            }
+            InputValidator.ValidationCode.VALID -> return true
+            else -> {
+                return false
+            }
+        }
     }
 
     // ************************************* EVENTS ****************************************
 
     // ************************************* ACTIONS ****************************************
+
+    fun showValidationDialog(message: String) {
+        makeToast(mContext, message)
+    }
 
     fun showChangePasswordSuccessDialog(changePasswordResponseSchema: ChangePasswordResponseSchema) {
         mDialogManager.showChangePasswordSuccessDialog(

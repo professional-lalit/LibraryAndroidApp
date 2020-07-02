@@ -11,6 +11,8 @@ import com.library.app.BR
 import com.library.app.R
 import com.library.app.common.CustomApplication
 import com.library.app.databinding.ActivityLoginBinding
+import com.library.app.screens.common.InputValidator
+import com.library.app.screens.common.ValidationManager
 import makeToast
 import javax.inject.Inject
 
@@ -19,7 +21,10 @@ import javax.inject.Inject
  * This class is used to operate the UI changes as directed by it's controller
  * This class is only used to manage the UI for `activity_login`
  */
-class LoginUIInteractor @Inject constructor(val mContext: Context) : BaseObservable() {
+class LoginUIInteractor @Inject constructor(
+    val mContext: Context,
+    val mValidationManager: ValidationManager
+) : BaseObservable() {
 
     var loginController: LoginController? = null
 
@@ -76,7 +81,38 @@ class LoginUIInteractor @Inject constructor(val mContext: Context) : BaseObserva
     // ************************************ EVENTS *****************************************
 
     fun login() {
-        loginController?.loginUser(email, password)
+        if (checkValidation())
+            loginController?.loginUser(email, password)
+    }
+
+    private fun checkValidation(): Boolean {
+        val validator = mValidationManager.getLoginValidator(email, password)
+        when (validator.isValid()) {
+            InputValidator.ValidationCode.EMPTY_EMAIL_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_email))
+                return false
+            }
+            InputValidator.ValidationCode.INVALID_EMAIL_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_valid_email))
+                return false
+            }
+            InputValidator.ValidationCode.EMPTY_PASSWORD_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_pwd))
+                return false
+            }
+            InputValidator.ValidationCode.INVALID_PASSWORD_LENGTH_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.pwd_shd_contain_6_char))
+                return false
+            }
+            InputValidator.ValidationCode.NEW_PASSWORD_SPCHR_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.pwd_shd_have_1_sp_char))
+                return false
+            }
+            InputValidator.ValidationCode.VALID -> return true
+            else -> {
+                return false
+            }
+        }
     }
 
     fun openSignupScreen() {

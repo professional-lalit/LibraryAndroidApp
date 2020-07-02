@@ -6,6 +6,7 @@ import com.library.app.di.annotations.ForgotPasswordScope
 import com.library.app.di.annotations.LoginScope
 import com.library.app.di.annotations.SignupScope
 import com.library.app.screens.common.DialogManager
+import com.library.app.screens.common.ValidationManager
 import com.library.app.screens.onboarding.change_password.ChangePasswordUIInteractor
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordUIInteractor
 import com.library.app.screens.onboarding.login.LoginActivity
@@ -23,32 +24,34 @@ class UIInteractorModule {
 
     @Provides
     @LoginScope
-    fun provideLoginUIInteractor(context: Context): LoginUIInteractor {
-        return LoginUIInteractor(context)
+    fun provideLoginUIInteractor(context: Context, validationManager: ValidationManager): LoginUIInteractor {
+        return LoginUIInteractor(context,validationManager)
     }
 
     @Provides
     @SignupScope
-    fun provideSignupUIInteractor(context: Context): SignupUIInteractor {
-        return SignupUIInteractor(context)
+    fun provideSignupUIInteractor(context: Context, validationManager: ValidationManager): SignupUIInteractor {
+        return SignupUIInteractor(context,validationManager)
     }
 
     @Provides
     @ForgotPasswordScope
     fun provideForgotPasswordUIInteractor(
         context: Context,
-        dialogManager: DialogManager
+        dialogManager: DialogManager,
+        validationManager: ValidationManager
     ): ForgotPasswordUIInteractor {
-        return ForgotPasswordUIInteractor(context, dialogManager)
+        return ForgotPasswordUIInteractor(context, dialogManager,validationManager)
     }
 
     @Provides
     @ChangePasswordScope
     fun provideChangePasswordUIInteractor(
         context: Context,
-        dialogManager: DialogManager
+        dialogManager: DialogManager,
+        validationManager: ValidationManager
     ): ChangePasswordUIInteractor {
-        return ChangePasswordUIInteractor(context, dialogManager)
+        return ChangePasswordUIInteractor(context, dialogManager,validationManager)
     }
 
 

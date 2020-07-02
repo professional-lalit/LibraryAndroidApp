@@ -1,17 +1,16 @@
 package com.library.app.screens.onboarding.signup
 
-import android.content.Context
-import com.library.app.R
+import com.library.app.screens.common.InputValidator
+import com.library.app.screens.common.ValidationManager
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
 
-class SignupValidationUsecaseTest {
+class SignupInputValidatorTest {
 
     //System Under Test
-    val SUT = SignupValidationUsecase()
+    val mValidationManager = ValidationManager()
+    private lateinit var SUT: InputValidator
 
 
     @Before
@@ -26,9 +25,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = "123@456"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.VALID)
+        Assert.assertEquals(InputValidator.ValidationCode.VALID, value)
     }
 
     @Test
@@ -39,9 +39,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = "123@456"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.EMPTY_EMAIL_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.EMPTY_EMAIL_ERROR, value)
     }
 
     @Test
@@ -52,9 +53,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = "123@456"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.INVALID_EMAIL_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.INVALID_EMAIL_ERROR, value)
     }
 
     @Test
@@ -65,9 +67,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = ""
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.EMPTY_PASSWORD_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.EMPTY_PASSWORD_ERROR, value)
     }
 
     @Test
@@ -78,9 +81,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = "12345"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.INVALID_PASSWORD_LENGTH_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.INVALID_PASSWORD_LENGTH_ERROR, value)
     }
 
     @Test
@@ -91,9 +95,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = "12345"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.SPCHR_PASSWORD_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.SPCHR_PASSWORD_ERROR, value)
     }
 
     fun `non matching passwords`() {
@@ -103,9 +108,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit Hajare"
         val confPassword = "123@45"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.UNMATCHING_PASSWORDS_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.UNMATCHING_PASSWORDS_ERROR, value)
     }
 
     fun `empty name`() {
@@ -115,9 +121,10 @@ class SignupValidationUsecaseTest {
         val name = ""
         val confPassword = "123@456"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.EMPTY_NAME_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.EMPTY_NAME_ERROR, value)
     }
 
     fun `last name not entered`() {
@@ -127,9 +134,10 @@ class SignupValidationUsecaseTest {
         val name = "Lalit"
         val confPassword = "123@45"
         //Act
-        val value = SUT.validateCredentials(name, email, password, confPassword)
+        SUT = mValidationManager.getSignupValidator(name, email, password, confPassword)
+        val value = SUT.isValid()
         //Assert
-        Assert.assertEquals(value, SignupValidationUsecase.SignupValidations.FULL_NAME_ERROR)
+        Assert.assertEquals(InputValidator.ValidationCode.FULL_NAME_ERROR, value)
     }
 
 

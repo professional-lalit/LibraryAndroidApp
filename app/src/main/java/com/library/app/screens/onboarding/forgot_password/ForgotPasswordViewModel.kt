@@ -5,12 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.library.app.common.BaseViewModel
 import com.library.app.networking.Result
-import com.library.app.networking.models.BaseResponseSchema
 import com.library.app.networking.models.ForgotPasswordRequestSchema
-import com.library.app.networking.models.ForgotPasswordResposeSchema
 import com.library.app.repositories.AuthRepository
 import kotlinx.coroutines.launch
-import makeToast
 import javax.inject.Inject
 
 /**
@@ -18,7 +15,7 @@ import javax.inject.Inject
  * The main purpose of this class is to deliver the result from `AuthRepository`
  * @see AuthRepository
  * It validates the forgot password screen data using `LoginValidationUsecase`
- * @see ForgotPasswordValidationUsecase
+ * @see ForgotPasswordInputValidator
  */
 class ForgotPasswordViewModel @Inject constructor(
     val context: Context,

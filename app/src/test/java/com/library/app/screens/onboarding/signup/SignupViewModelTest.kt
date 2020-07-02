@@ -7,11 +7,9 @@ import com.library.app.networking.models.ErrorObj
 import com.library.app.networking.models.ErrorResponseSchema
 import com.library.app.networking.models.SignupResponseSchema
 import com.library.app.repositories.AuthRepository
-import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.anyOrNull
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -38,10 +36,10 @@ class SignupViewModelTest {
      * Dependencies for SUT
      */
     private val mAuthRepository: AuthRepository = Mockito.mock(AuthRepository::class.java)
-    private val mSignupValidationUsecase: SignupValidationUsecase =
-        Mockito.mock(SignupValidationUsecase::class.java)
+    private val mSignupInputValidator: SignupInputValidator =
+        Mockito.mock(SignupInputValidator::class.java)
 
-    private var SUT = SignupViewModel(mAuthRepository, mSignupValidationUsecase)
+    private var SUT = SignupViewModel(mAuthRepository, mSignupInputValidator)
 
     private val name = "XXXXX"
     private val email = "XXXXX"
@@ -49,15 +47,8 @@ class SignupViewModelTest {
     private val repassword = "XXXXX"
 
     @Before
-    fun setUp() {
-        Mockito.`when`(
-            SUT.signupValidationUsecase.validateCredentials(
-                anyOrNull(),
-                anyOrNull(),
-                anyOrNull(),
-                anyOrNull()
-            )
-        ).thenReturn(SignupValidationUsecase.SignupValidations.VALID)
+    fun prepareTest() {
+
     }
 
     /**
@@ -82,8 +73,7 @@ class SignupViewModelTest {
         SUT.signup(
             name,
             email,
-            password,
-            repassword
+            password
         )
         //Assert
         val captor = ArgumentCaptor.forClass(Result::class.java)
@@ -110,8 +100,7 @@ class SignupViewModelTest {
         SUT.signup(
             name,
             email,
-            password,
-            repassword
+            password
         )
         //Assert
         val captor = ArgumentCaptor.forClass(Result::class.java)

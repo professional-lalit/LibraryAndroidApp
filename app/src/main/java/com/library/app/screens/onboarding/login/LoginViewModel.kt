@@ -3,16 +3,11 @@ package com.library.app.screens.onboarding.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
 import com.library.app.common.BaseViewModel
 import com.library.app.networking.models.LoginRequestSchema
-import com.library.app.networking.models.LoginResponseSchema
 import kotlinx.coroutines.launch
 import com.library.app.networking.Result
 import com.library.app.repositories.AuthRepository
-import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -22,7 +17,7 @@ import javax.inject.Inject
  * The main purpose of this class is to deliver the result from `AuthRepository`
  * @see com.library.app.repositories.AuthRepository
  * It validates the login screen data using `LoginValidationUsecase`
- * @see com.library.app.screens.onboarding.login.LoginValidationUsecase
+ * @see com.library.app.screens.onboarding.login.LoginInputValidator
  */
 class LoginViewModel @Inject constructor(
     /**
@@ -33,7 +28,7 @@ class LoginViewModel @Inject constructor(
     /**
      * Validates the data entered from screen
      */
-    val loginValidationUsecase: LoginValidationUsecase
+    val loginInputValidator: LoginInputValidator
 ) :
     BaseViewModel() {
     /**
@@ -51,19 +46,12 @@ class LoginViewModel @Inject constructor(
     /**
      * Get login result from `AuthRepository` & update the LiveData
      */
-    fun login(email: String, password: String): LoginValidationUsecase.LoginValidations {
-        val code = loginValidationUsecase.validateCredentials(
-            email,
-            password
-        )
-        if (code == LoginValidationUsecase.LoginValidations.VALID) {
-            val loginRequestSchema = LoginRequestSchema(email, password)
-            launch {
-                val response = authRepository.login(loginRequestSchema)
-                mLoginResult.postValue(response)
-            }
+    fun login(email: String, password: String) {
+        val loginRequestSchema = LoginRequestSchema(email, password)
+        launch {
+            val response = authRepository.login(loginRequestSchema)
+            mLoginResult.postValue(response)
         }
-        return code
     }
 
 }

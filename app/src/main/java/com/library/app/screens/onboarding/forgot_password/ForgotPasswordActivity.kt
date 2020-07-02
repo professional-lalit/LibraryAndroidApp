@@ -1,17 +1,13 @@
 package com.library.app.screens.onboarding.forgot_password
 
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.library.app.common.Constants
 import com.library.app.networking.Result
 import com.library.app.networking.models.ForgotPasswordResposeSchema
 import com.library.app.screens.common.BaseActivity
-import com.library.app.screens.common.DialogManager
-import com.library.app.screens.common.Navigation
+import com.library.app.screens.common.ScreenNavigator
 import javax.inject.Inject
 
 /**
@@ -29,9 +25,6 @@ class ForgotPasswordActivity : BaseActivity(),
 
     @Inject
     lateinit var mForgotPasswordUIInteractor: ForgotPasswordUIInteractor
-
-    @Inject
-    lateinit var mNavigation: Navigation
 
     override fun onStart() {
         super.onStart()
@@ -77,6 +70,6 @@ class ForgotPasswordActivity : BaseActivity(),
     }
 
     override fun openChangePasswordScreen() {
-        mNavigation.OnBoarding().openChangePasswordScreen(this)
+        mScreenNavigator.OnBoarding().openChangePasswordScreen(this)
     }
 }

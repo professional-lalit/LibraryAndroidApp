@@ -16,6 +16,9 @@ import com.library.app.networking.models.ErrorResponseSchema
 import com.library.app.networking.models.ForgotPasswordResposeSchema
 import com.library.app.screens.common.BaseController
 import com.library.app.screens.common.DialogManager
+import com.library.app.screens.common.InputValidator
+import com.library.app.screens.common.ValidationManager
+import makeToast
 import javax.inject.Inject
 
 /**
@@ -25,7 +28,8 @@ import javax.inject.Inject
  */
 class ForgotPasswordUIInteractor @Inject constructor(
     val mContext: Context,
-    val dialogManager: DialogManager
+    val dialogManager: DialogManager,
+    val mValidationManager: ValidationManager
 ) : BaseObservable() {
 
     var mForgotPasswordController: ForgotPasswordController? = null
@@ -62,13 +66,36 @@ class ForgotPasswordUIInteractor @Inject constructor(
     // ***************************************** EVENTS ******************************************
 
     fun submit() {
-        mForgotPasswordController?.onSubmitEmail(email)
+        if (checkValidation())
+            mForgotPasswordController?.onSubmitEmail(email)
+    }
+
+    private fun checkValidation(): Boolean {
+        val validator = mValidationManager.getForgotPasswordValidator(email)
+        when (validator.isValid()) {
+            InputValidator.ValidationCode.EMPTY_EMAIL_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_email))
+                return false
+            }
+            InputValidator.ValidationCode.INVALID_EMAIL_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_valid_email))
+                return false
+            }
+            InputValidator.ValidationCode.VALID -> return true
+            else -> {
+                return false
+            }
+        }
     }
 
     // ***************************************** EVENTS ******************************************
 
 
     // ***************************************** ACTIONS ***************************************
+
+    fun showValidationDialog(message: String) {
+        makeToast(mContext, message)
+    }
 
     fun showPasswordRecoverySuccessDialog(forgotPasswordResposeSchema: ForgotPasswordResposeSchema) {
         dialogManager.showForgotPasswordSuccessDialog(

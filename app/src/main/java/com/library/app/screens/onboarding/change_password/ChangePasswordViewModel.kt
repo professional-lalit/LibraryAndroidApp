@@ -2,10 +2,8 @@ package com.library.app.screens.onboarding.change_password
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
 import com.library.app.common.BaseViewModel
 import com.library.app.networking.Result
-import com.library.app.networking.models.ForgotPasswordRequestSchema
 import com.library.app.repositories.AuthRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +17,7 @@ import javax.inject.Inject
  */
 class ChangePasswordViewModel @Inject constructor(
     val mAuthRepository: AuthRepository,
-    val changePasswordValidationUsecase: ChangePasswordValidationUsecase
+    val changePasswordInputValidator: ChangePasswordInputValidator
 ) : BaseViewModel() {
 
     private val mResult = MediatorLiveData<Result<Any>>()
@@ -28,19 +26,11 @@ class ChangePasswordViewModel @Inject constructor(
 
     fun submitNewPassword(
         oldPassword: String,
-        newPassword: String,
-        rePassword: String
-    ): ChangePasswordValidationUsecase.ChangePasswordValidations {
-        val code = changePasswordValidationUsecase.getValidationCode(
-            newPassword,
-            rePassword
-        )
-        if (code == ChangePasswordValidationUsecase.ChangePasswordValidations.VALID) {
-            launch {
-                mResult.postValue(mAuthRepository.changePassword(oldPassword, newPassword))
-            }
+        newPassword: String
+    ) {
+        launch {
+            mResult.postValue(mAuthRepository.changePassword(oldPassword, newPassword))
         }
-        return code
     }
 
 }

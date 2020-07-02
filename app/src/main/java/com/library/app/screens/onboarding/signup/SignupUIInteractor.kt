@@ -9,13 +9,24 @@ import androidx.databinding.DataBindingUtil
 import com.library.app.BR
 import com.library.app.R
 import com.library.app.databinding.ActivitySignupBinding
+import com.library.app.screens.common.InputValidator
+import com.library.app.screens.common.ValidationManager
 import makeToast
 import javax.inject.Inject
 
 /**
  * Created by Lalit Hajare, Software Engineer on 15/6/20
+ * This class acts as UI manager for `SignupActivity`
+ * It abstracts the UI logic from core business logic and helps `SignupActivity`
+ * work independently as `controller` through `SignupController`
+ * @see SignupController
+ * @see SignupActivity
  */
-class SignupUIInteractor @Inject constructor(val mContext: Context) : BaseObservable() {
+class SignupUIInteractor @Inject constructor(
+    val mContext: Context,
+    val mValidationManager: ValidationManager
+) :
+    BaseObservable() {
 
     var signupController: SignupController? = null
 
@@ -78,7 +89,51 @@ class SignupUIInteractor @Inject constructor(val mContext: Context) : BaseObserv
     // ************************************ ACTIONS *****************************************
 
     fun signup() {
-        signupController?.signUpUser(name, email, password, repassword)
+        if (checkValidation()) {
+            signupController?.signUpUser(name, email, password)
+        }
+    }
+
+    private fun checkValidation(): Boolean {
+        val validator = mValidationManager.getSignupValidator(name, email, password, repassword)
+        when (validator.isValid()) {
+            InputValidator.ValidationCode.EMPTY_NAME_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_name))
+                return false
+            }
+            InputValidator.ValidationCode.FULL_NAME_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_first_last_name))
+                return false
+            }
+            InputValidator.ValidationCode.EMPTY_EMAIL_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_email))
+                return false
+            }
+            InputValidator.ValidationCode.INVALID_EMAIL_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_valid_email))
+                return false
+            }
+            InputValidator.ValidationCode.EMPTY_PASSWORD_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_pwd))
+                return false
+            }
+            InputValidator.ValidationCode.INVALID_PASSWORD_LENGTH_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.pwd_shd_contain_6_char))
+                return false
+            }
+            InputValidator.ValidationCode.NEW_PASSWORD_SPCHR_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.pwd_shd_have_1_sp_char))
+                return false
+            }
+            InputValidator.ValidationCode.UNMATCHING_PASSWORDS_ERROR -> {
+                showValidationDialog(mContext.getString(R.string.plz_enter_name))
+                return false
+            }
+            InputValidator.ValidationCode.VALID -> return true
+            else -> {
+                return false
+            }
+        }
     }
 
     fun openLoginScreen() {
@@ -91,7 +146,7 @@ class SignupUIInteractor @Inject constructor(val mContext: Context) : BaseObserv
      * A standard to communicate with the controller.
      */
     interface SignupController {
-        fun signUpUser(name: String, email: String, password: String, repassword: String)
+        fun signUpUser(name: String, email: String, password: String)
         fun openLoginScreen()
     }
 }

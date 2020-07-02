@@ -2,35 +2,24 @@ package com.library.app.screens.onboarding.login
 
 import androidx.lifecycle.Observer
 import com.library.app.networking.Result
-import com.library.app.networking.models.LoginRequestSchema
 import com.library.app.networking.models.LoginResponseSchema
 import com.library.app.repositories.AuthRepository
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.library.app.networking.models.ErrorObj
 import com.library.app.networking.models.ErrorResponseSchema
 import com.nhaarman.mockitokotlin2.anyOrNull
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers
 import org.mockito.junit.MockitoJUnitRunner
-import utils.ManagedCoroutineScope
-import utils.TestScope
 
 
 /**
@@ -49,23 +38,18 @@ class LoginViewModelTest {
      * Dependencies for SUT
      */
     private val mAuthRepository = mock(AuthRepository::class.java)
-    private val mLoginValidationUsecase: LoginValidationUsecase =
-        mock(LoginValidationUsecase::class.java)
+    private val mLoginInputValidator: LoginInputValidator =
+        mock(LoginInputValidator::class.java)
 
-    private var SUT = LoginViewModel(mAuthRepository, mLoginValidationUsecase)
+    private var SUT = LoginViewModel(mAuthRepository, mLoginInputValidator)
 
     private val email = "test@gmail.com"
     private val password = "123@Abc"
 
 
     @Before
-    fun setUp() {
-        `when`(
-            SUT.loginValidationUsecase.validateCredentials(
-                anyOrNull(),
-                anyOrNull()
-            )
-        ).thenReturn(LoginValidationUsecase.LoginValidations.VALID)
+    fun prepareTest() {
+
     }
 
     /**

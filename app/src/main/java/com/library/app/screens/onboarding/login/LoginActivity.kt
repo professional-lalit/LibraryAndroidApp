@@ -7,8 +7,6 @@ import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.LoginResponseSchema
 import com.library.app.screens.common.BaseActivity
-import com.library.app.screens.common.Navigation
-import com.library.app.screens.onboarding.signup.SignupValidationUsecase
 import javax.inject.Inject
 
 /**
@@ -21,12 +19,6 @@ class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
      * Consists the controller logic for this class
      */
     lateinit var loginViewModel: LoginViewModel
-
-    /**
-     * Used to navigate between screens
-     */
-    @Inject
-    lateinit var mNavigation: Navigation
 
     /**
      * Used to delegate the responsiblity of UI operations
@@ -79,29 +71,17 @@ class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
      * Initiates the Login API call
      */
     override fun loginUser(email: String, password: String) {
-        val validationCode = loginViewModel.login(email, password)
-        handleValidation(validationCode)
-    }
-
-    private fun handleValidation(validationCode: LoginValidationUsecase.LoginValidations) {
-        when (validationCode) {
-            LoginValidationUsecase.LoginValidations.EMPTY_EMAIL_ERROR -> getString(R.string.plz_enter_email)
-            LoginValidationUsecase.LoginValidations.INVALID_EMAIL_ERROR -> getString(R.string.plz_enter_valid_email)
-            LoginValidationUsecase.LoginValidations.EMPTY_PASSWORD_ERROR -> getString(R.string.plz_enter_pwd)
-            LoginValidationUsecase.LoginValidations.INVALID_PASSWORD_LENGTH_ERROR -> getString(R.string.pwd_shd_contain_6_char)
-            LoginValidationUsecase.LoginValidations.SPCHR_PASSWORD_ERROR -> getString(R.string.pwd_shd_have_1_sp_char)
-            LoginValidationUsecase.LoginValidations.VALID -> mLoginUIInteractor.loading = true
-        }
+        loginViewModel.login(email, password)
     }
 
     /**
      * Intent to open the Signup Screen
      */
     override fun openSignupScreen() {
-        mNavigation.OnBoarding().openSignupScreen(this)
+        mScreenNavigator.OnBoarding().openSignupScreen(this)
     }
 
     override fun openForgotPasswordScreen() {
-        mNavigation.OnBoarding().openForgotPasswordScreen(this)
+        mScreenNavigator.OnBoarding().openForgotPasswordScreen(this)
     }
 }
