@@ -55,7 +55,7 @@ class ValidationManager {
      * Builds the `ChangePasswordValidator` and returns
      * @see com.library.app.screens.onboarding.change_password.ChangePasswordInputValidator
      * @param oldPassword: 'oldPassword' entered in ChangePassword Screen to validate
-     * @param password: 'password' entered in ChangePassword Screen to validate
+     * @param newPassword: 'newPassword' entered in ChangePassword Screen to validate
      * @param confirmedPassword: 'confirmedPassword' entered in ChangePassword Screen to validate
      */
     fun getChangePasswordValidator(
