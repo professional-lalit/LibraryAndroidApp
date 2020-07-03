@@ -2,10 +2,27 @@ package com.library.app.screens.onboarding.signup
 
 import com.library.app.screens.common.InputValidator
 import com.library.app.screens.common.ValidationManager
+import com.library.app.screens.onboarding.login.LoginInputValidator
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * This class ensures the functioning of `SignupInputValidator`
+ * It checks for:
+ * 1. Valid credentials
+ * 2. Empty email
+ * 3. Invalid email
+ * 4. Empty password
+ * 5. password length minimum 6
+ * 6. password at least 1 special character
+ * 7. non matching passwords
+ * 8. empty name
+ * 9. last name not entered
+ * @see LoginInputValidator
+ * The instance of Validator is obtained through `ValidationManager`
+ * @see ValidationManager
+ */
 class SignupInputValidatorTest {
 
     //System Under Test
@@ -101,6 +118,7 @@ class SignupInputValidatorTest {
         Assert.assertEquals(InputValidator.ValidationCode.SPCHR_PASSWORD_ERROR, value)
     }
 
+    @Test
     fun `non matching passwords`() {
         //Arrange
         val email = "lalit@gmail.com"
@@ -114,6 +132,7 @@ class SignupInputValidatorTest {
         Assert.assertEquals(InputValidator.ValidationCode.UNMATCHING_PASSWORDS_ERROR, value)
     }
 
+    @Test
     fun `empty name`() {
         //Arrange
         val email = "lalit@gmail.com"
@@ -127,6 +146,7 @@ class SignupInputValidatorTest {
         Assert.assertEquals(InputValidator.ValidationCode.EMPTY_NAME_ERROR, value)
     }
 
+    @Test
     fun `last name not entered`() {
         //Arrange
         val email = "lalit@gmail.com"

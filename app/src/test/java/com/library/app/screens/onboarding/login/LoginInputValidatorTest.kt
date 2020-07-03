@@ -6,6 +6,19 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * This class ensures the functioning of `LoginInputValidator`
+ * It checks for:
+ * 1. Valid credentials
+ * 2. Empty email
+ * 3. Invalid email
+ * 4. Empty password
+ * 5. password length minimum 6
+ * 6. password at least 1 special character
+ * @see LoginInputValidator
+ * The instance of Validator is obtained through `ValidationManager`
+ * @see ValidationManager
+ */
 class LoginInputValidatorTest {
 
     //System Under Test
@@ -78,7 +91,7 @@ class LoginInputValidatorTest {
     }
 
     @Test
-    fun `password atleast 1 special character`() {
+    fun `password at least 1 special character`() {
         //Arrange
         val email = "lalit@gmail.com"
         val password = "123456"
