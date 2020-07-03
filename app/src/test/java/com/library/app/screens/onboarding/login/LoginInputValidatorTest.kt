@@ -5,6 +5,8 @@ import com.library.app.screens.common.ValidationManager
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 /**
  * This class ensures the functioning of `LoginInputValidator`
@@ -19,6 +21,7 @@ import org.junit.Test
  * The instance of Validator is obtained through `ValidationManager`
  * @see ValidationManager
  */
+@RunWith(JUnit4::class)
 class LoginInputValidatorTest {
 
     //System Under Test

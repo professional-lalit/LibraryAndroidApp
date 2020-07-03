@@ -5,6 +5,8 @@ import com.library.app.screens.common.ValidationManager
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 /**
  * Created by Lalit Hajare, Software Engineer on 29/6/20
@@ -17,6 +19,7 @@ import org.junit.Test
  * 5. Valid credentials
  * @see com.library.app.screens.onboarding.change_password.ChangePasswordInputValidator
  */
+@RunWith(JUnit4::class)
 class ChangePasswordInputValidatorTest {
 
     val mValidationManager = ValidationManager()

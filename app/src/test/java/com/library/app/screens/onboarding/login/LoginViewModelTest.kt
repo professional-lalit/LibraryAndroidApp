@@ -12,13 +12,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.library.app.networking.models.ErrorObj
 import com.library.app.networking.models.ErrorResponseSchema
 import com.nhaarman.mockitokotlin2.anyOrNull
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import observeOnce
 import org.junit.After
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
+import org.junit.runners.JUnit4
 import org.mockito.junit.MockitoJUnitRunner
 
 
@@ -29,21 +29,18 @@ import org.mockito.junit.MockitoJUnitRunner
  * 1. Test whether the login up API result was 'Result.Error', i.e, API Failure
  * 2. Test whether the login up API result was 'Result.Success', i.e, API Success
  */
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(JUnit4::class)
 class LoginViewModelTest {
 
     @get:Rule
     val instantExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
-
     /**
      * Dependencies for SUT
      */
     private val mAuthRepository = mock(AuthRepository::class.java)
-    private val mLoginInputValidator: LoginInputValidator =
-        mock(LoginInputValidator::class.java)
 
-    private var SUT = LoginViewModel(mAuthRepository, mLoginInputValidator)
+    private var SUT = LoginViewModel(mAuthRepository)
 
     private val email = "test@gmail.com"
     private val password = "123@Abc"
@@ -61,24 +58,20 @@ class LoginViewModelTest {
     @Test
     fun `login failed`() = runBlockingTest {
         //Arrange
-        val response = Result.Error(
+        val errorResponse = Result.Error(
             ErrorResponseSchema(
                 "xxxxxx",
                 arrayListOf(ErrorObj("xxxx", "xxxx", "xxxx", "xxxx"))
             )
         )
         `when`(SUT.authRepository.login(anyOrNull())).thenReturn(
-            response
+            errorResponse
         )
-        val observer = mock(Observer::class.java) as Observer<Result<Any>>
-        SUT.result.observeForever(observer)
         //Act
         SUT.login(email, password)
         //Assert
-        val captor = ArgumentCaptor.forClass(Result::class.java)
-        captor.run {
-            verify(observer, times(1)).onChanged(capture())
-            assertEquals(response, value)
+        SUT.result.observeOnce { value ->
+            org.junit.Assert.assertEquals(errorResponse, value)
         }
     }
 
@@ -94,15 +87,11 @@ class LoginViewModelTest {
         `when`(SUT.authRepository.login(anyOrNull())).thenReturn(
             successResponse
         )
-        val observer = mock(Observer::class.java) as Observer<Result<Any>>
-        SUT.result.observeForever(observer)
         //Act
         SUT.login(email, password)
         //Assert
-        val captor = ArgumentCaptor.forClass(Result::class.java)
-        captor.run {
-            verify(observer, times(1)).onChanged(capture())
-            assertEquals(successResponse, value)
+        SUT.result.observeOnce { value ->
+            org.junit.Assert.assertEquals(successResponse, value)
         }
     }
 

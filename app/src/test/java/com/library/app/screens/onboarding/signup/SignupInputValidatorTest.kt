@@ -6,6 +6,8 @@ import com.library.app.screens.onboarding.login.LoginInputValidator
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 /**
  * This class ensures the functioning of `SignupInputValidator`
@@ -23,12 +25,12 @@ import org.junit.Test
  * The instance of Validator is obtained through `ValidationManager`
  * @see ValidationManager
  */
+@RunWith(JUnit4::class)
 class SignupInputValidatorTest {
 
     //System Under Test
     val mValidationManager = ValidationManager()
     private lateinit var SUT: InputValidator
-
 
     @Before
     fun prepareTest() {

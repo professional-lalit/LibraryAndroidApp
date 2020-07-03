@@ -5,6 +5,8 @@ import com.library.app.screens.common.ValidationManager
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 /**
  * Created by Lalit Hajare, Software Engineer on 29/6/20
@@ -15,6 +17,7 @@ import org.junit.Test
  * 3. Non-empty email
  * @see ForgotPasswordInputValidator
  */
+@RunWith(JUnit4::class)
 class ForgotPasswordInputValidatorTest {
 
     val mValidationManager = ValidationManager()

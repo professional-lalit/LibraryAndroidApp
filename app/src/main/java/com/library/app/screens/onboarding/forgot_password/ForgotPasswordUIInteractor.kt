@@ -24,7 +24,7 @@ import javax.inject.Inject
 /**
  * Created by Lalit Hajare, Software Engineer on 21/6/20
  * This class manages the UI operations on 'activity_forgot_password'
- *  and is controlled by ForgotPasswordController
+ * and is controlled by ForgotPasswordController
  */
 class ForgotPasswordUIInteractor @Inject constructor(
     val mContext: Context,
@@ -93,7 +93,7 @@ class ForgotPasswordUIInteractor @Inject constructor(
 
     // ***************************************** ACTIONS ***************************************
 
-    fun showValidationDialog(message: String) {
+    private fun showValidationDialog(message: String) {
         makeToast(mContext, message)
     }
 

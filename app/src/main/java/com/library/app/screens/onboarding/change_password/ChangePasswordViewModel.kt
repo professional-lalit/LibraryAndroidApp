@@ -16,8 +16,7 @@ import javax.inject.Inject
  * @see com.library.app.repositories.AuthRepository
  */
 class ChangePasswordViewModel @Inject constructor(
-    val mAuthRepository: AuthRepository,
-    val changePasswordInputValidator: ChangePasswordInputValidator
+    val mAuthRepository: AuthRepository
 ) : BaseViewModel() {
 
     private val mResult = MediatorLiveData<Result<Any>>()

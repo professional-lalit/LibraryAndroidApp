@@ -12,11 +12,13 @@ import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import observeOnce
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
@@ -28,7 +30,7 @@ import org.mockito.junit.MockitoJUnitRunner
  * 1. Test whether the sign up API result was 'Result.Error', i.e, API Failure
  * 2. Test whether the sign up API result was 'Result.Success', i.e, API Success
  */
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(JUnit4::class)
 class SignupViewModelTest {
 
     @get:Rule
@@ -68,8 +70,6 @@ class SignupViewModelTest {
         Mockito.`when`(SUT.authRepository.signup(anyOrNull())).thenReturn(
             errorResponse
         )
-        val observer = Mockito.mock(Observer::class.java) as Observer<Result<Any>>
-        SUT.result.observeForever(observer)
         //Act
         SUT.signup(
             name,
@@ -77,10 +77,8 @@ class SignupViewModelTest {
             password
         )
         //Assert
-        val captor = ArgumentCaptor.forClass(Result::class.java)
-        captor.run {
-            Mockito.verify(observer, Mockito.times(1)).onChanged(capture())
-            assertEquals(errorResponse, value)
+        SUT.result.observeOnce { value ->
+            org.junit.Assert.assertEquals(errorResponse, value)
         }
     }
 
@@ -95,8 +93,6 @@ class SignupViewModelTest {
         Mockito.`when`(SUT.authRepository.signup(anyOrNull())).thenReturn(
             successResponse
         )
-        val observer = Mockito.mock(Observer::class.java) as Observer<Result<Any>>
-        SUT.result.observeForever(observer)
         //Act
         SUT.signup(
             name,
@@ -104,10 +100,8 @@ class SignupViewModelTest {
             password
         )
         //Assert
-        val captor = ArgumentCaptor.forClass(Result::class.java)
-        captor.run {
-            Mockito.verify(observer, Mockito.times(1)).onChanged(capture())
-            assertEquals(successResponse, value)
+        SUT.result.observeOnce { value ->
+            org.junit.Assert.assertEquals(successResponse, value)
         }
     }
 

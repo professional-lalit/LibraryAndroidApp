@@ -23,12 +23,7 @@ class LoginViewModel @Inject constructor(
     /**
      * Calls underlying API endpoint & returns API result
      */
-    val authRepository: AuthRepository,
-
-    /**
-     * Validates the data entered from screen
-     */
-    val loginInputValidator: LoginInputValidator
+    val authRepository: AuthRepository
 ) :
     BaseViewModel() {
     /**

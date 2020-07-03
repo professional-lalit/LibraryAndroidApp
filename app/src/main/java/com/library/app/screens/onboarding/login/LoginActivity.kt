@@ -12,6 +12,7 @@ import javax.inject.Inject
 /**
  * Created by Lalit Hajare, Software Engineer on 3/6/20
  * This class encapsulates the `Login` process in Flow chart
+ *
  */
 class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
 
