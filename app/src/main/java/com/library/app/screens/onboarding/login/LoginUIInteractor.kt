@@ -81,8 +81,10 @@ class LoginUIInteractor @Inject constructor(
     // ************************************ EVENTS *****************************************
 
     fun login() {
-        if (checkValidation())
+        if (checkValidation()) {
             loginController?.loginUser(email, password)
+            loading = true
+        }
     }
 
     private fun checkValidation(): Boolean {
