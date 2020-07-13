@@ -71,6 +71,11 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    /**
+     * Calls the API to change password
+     * @param oldPassword: The old verified password
+     * @param newPassword: The new desired valid password
+     */
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Any> {
         val changePasswordRequestSchema =
             ChangePasswordRequestSchema(mPreferences.userId!!, oldPassword, newPassword)

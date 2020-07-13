@@ -5,13 +5,14 @@ import com.library.app.screens.onboarding.change_password.ChangePasswordActivity
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordActivity
 import com.library.app.screens.onboarding.login.LoginActivity
 import com.library.app.screens.onboarding.signup.SignupActivity
+import javax.inject.Inject
 
 /**
  * Created by Lalit Hajare, Software Engineer on 15/6/20
  * This class consists screen navigation routes, each function in this class is
  * an intent to open some screen.
  */
-class ScreenNavigator {
+class ScreenNavigator @Inject constructor(){
 
     /**
      * This section refers to the navigation routes while user has not yet logged in

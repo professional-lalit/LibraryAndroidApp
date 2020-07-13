@@ -61,7 +61,7 @@ class SignupActivity : BaseActivity(), SignupUIInteractor.SignupController {
                 mSignupUIInteractor.showSignupSuccessDialog(response.message!!)
             } else if (result is Result.Error) {
                 val err = result.errorResponseSchema
-                mSignupUIInteractor.showSignupFailDialog(err.data[0].msg)
+                mSignupUIInteractor.showSignupFailDialog(err.message)
             }
         })
     }

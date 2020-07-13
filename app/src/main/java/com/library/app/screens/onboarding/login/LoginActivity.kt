@@ -63,7 +63,7 @@ class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
                 mLoginUIInteractor.showLoginSuccessDialog(response.message!!)
             } else if (result is Result.Error) {
                 val err = result.errorResponseSchema
-                mLoginUIInteractor.showLoginFailDialog(err.data[0].msg)
+                mLoginUIInteractor.showLoginFailDialog(err.message)
             }
         })
     }
