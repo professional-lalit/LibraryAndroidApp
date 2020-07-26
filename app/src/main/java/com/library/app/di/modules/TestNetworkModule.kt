@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class TestNetworkModule {
+class TestNetworkModule  {
 
     @Singleton
     @Provides

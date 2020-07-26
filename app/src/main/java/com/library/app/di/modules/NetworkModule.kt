@@ -22,7 +22,7 @@ import javax.inject.Singleton
  */
 
 @Module
-class NetworkModule {
+open class NetworkModule {
 
     @Singleton
     @Provides
@@ -40,7 +40,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(apiClient: OkHttpClient): Retrofit {
+    open fun provideRetrofit(apiClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(apiClient)
             .baseUrl(Constants.BASE_URL)

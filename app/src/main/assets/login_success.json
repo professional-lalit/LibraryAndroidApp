@@ -1,4 +1,5 @@
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhhamFyZS5sYWxpdEBnbWFpbC5jb20iLCJ1c2VySWQiOiI1ZjBiMDE1ZDFmZTg4NzcxY2ZjMzI1ODYiLCJpYXQiOjE1OTQ1NTczNzEsImV4cCI6MTU5NDU2MDk3MX0.KveusP9vsvS83vPw1F1uQnsFVFVp5wCm3Oxc6oHko78",
-  "userId": "5f0b015d1fe88771cfc32586"
+  "userId": "5f0b015d1fe88771cfc32586",
+  "message": "login successful"
 }
