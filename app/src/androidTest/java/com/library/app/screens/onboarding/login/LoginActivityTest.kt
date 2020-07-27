@@ -24,7 +24,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class LoginActivityTest {
@@ -40,7 +39,6 @@ class LoginActivityTest {
     @Before
     @Throws(Exception::class)
     fun setup() {
-        webServer.enqueue(MockResponse().setBody(FileReader.readStringFromFile("login_success.json")))
         webServer.start(8080)
     }
 
@@ -51,7 +49,9 @@ class LoginActivityTest {
     }
 
     @Test
-    fun enter_email_password_check_login_success() {
+    fun login_success() {
+
+        webServer.enqueue(MockResponse().setBody(FileReader.readStringFromFile("login_success.json")))
 
         onView(withId(R.id.edt_email)).perform(typeText(emailToBeTyped), closeSoftKeyboard())
         onView(withId(R.id.edt_password)).perform(typeText(passwordToBeTyped), closeSoftKeyboard())
@@ -61,6 +61,25 @@ class LoginActivityTest {
         onView(withId(R.id.pgbar)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
         onView(withText("login successful")).inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.btn_login)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        onView(withId(R.id.pgbar)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+    }
+
+    
+    @Test
+    fun login_fail(){
+        webServer.enqueue(MockResponse().setBody(FileReader.readStringFromFile("login_error.json")))
+
+        onView(withId(R.id.edt_email)).perform(typeText(emailToBeTyped), closeSoftKeyboard())
+        onView(withId(R.id.edt_password)).perform(typeText(passwordToBeTyped), closeSoftKeyboard())
+        onView(withId(R.id.btn_login)).perform(click())
+
+        onView(withId(R.id.btn_login)).check(matches(withEffectiveVisibility(Visibility.GONE)))
+        onView(withId(R.id.pgbar)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+
+        onView(withText("Wrong password!")).inRoot(ToastMatcher())
             .check(matches(isDisplayed()))
 
         onView(withId(R.id.btn_login)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
