@@ -57,27 +57,22 @@ class LoginActivityTest {
         onView(withId(R.id.edt_password)).perform(typeText(passwordToBeTyped), closeSoftKeyboard())
         onView(withId(R.id.btn_login)).perform(click())
 
-        onView(withId(R.id.btn_login)).check(matches(withEffectiveVisibility(Visibility.GONE)))
-        onView(withId(R.id.pgbar)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-
-        onView(withText("login successful")).inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
+        onView(withText("Login successful!")).inRoot(
+            ToastMatcher()
+        ).check(matches(isDisplayed()))
 
         onView(withId(R.id.btn_login)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
         onView(withId(R.id.pgbar)).check(matches(withEffectiveVisibility(Visibility.GONE)))
     }
 
-    
+
     @Test
-    fun login_fail(){
+    fun login_fail() {
         webServer.enqueue(MockResponse().setBody(FileReader.readStringFromFile("login_error.json")))
 
         onView(withId(R.id.edt_email)).perform(typeText(emailToBeTyped), closeSoftKeyboard())
         onView(withId(R.id.edt_password)).perform(typeText(passwordToBeTyped), closeSoftKeyboard())
         onView(withId(R.id.btn_login)).perform(click())
-
-        onView(withId(R.id.btn_login)).check(matches(withEffectiveVisibility(Visibility.GONE)))
-        onView(withId(R.id.pgbar)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
 
         onView(withText("Wrong password!")).inRoot(ToastMatcher())
             .check(matches(isDisplayed()))
