@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".screens.main.fragments.home.HomeFragment">
+
+    <TextView
+        style="@style/TextStyle"
+        android:layout_width="match_parent"
+        android:background="@color/btn_grey"
+        android:padding="@dimen/dimen_size_5"
+        android:text="@string/trending"
+        android:textColor="@color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trending_books_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:layout_width="match_parent"
+        android:background="@color/btn_grey"
+        android:padding="@dimen/dimen_size_5"
+        android:text="@string/recently_visited"
+        android:textColor="@color/black" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recent_visited_books_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        style="@style/TextStyle"
+        android:layout_width="match_parent"
+        android:background="@color/btn_grey"
+        android:padding="@dimen/dimen_size_5"
+        android:text="@string/categories"
+        android:textColor="@color/black" />
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

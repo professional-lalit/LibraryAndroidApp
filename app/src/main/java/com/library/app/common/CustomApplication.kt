@@ -10,8 +10,13 @@ import javax.inject.Inject
 
 open class CustomApplication : DaggerApplication() {
 
+    companion object {
+        var appInstance: CustomApplication? = null
+    }
+
     override fun onCreate() {
         super.onCreate()
+        appInstance = this
     }
 
     override fun attachBaseContext(base: Context?) {

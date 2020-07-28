@@ -1,6 +1,7 @@
 package com.library.app.di.modules
 
 import com.library.app.di.annotations.*
+import com.library.app.screens.main.MainActivity
 import com.library.app.screens.onboarding.change_password.ChangePasswordActivity
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordActivity
 import com.library.app.screens.onboarding.login.LoginActivity
@@ -30,5 +31,9 @@ abstract class ActivityBuildersModule {
     @SignupScope
     @ContributesAndroidInjector
     abstract fun contributeSignupActivity(): SignupActivity
+
+    @MainScope
+    @ContributesAndroidInjector
+    abstract fun contributeMainActivity(): MainActivity
 
 }

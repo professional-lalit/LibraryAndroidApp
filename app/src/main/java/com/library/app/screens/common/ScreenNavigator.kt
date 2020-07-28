@@ -1,6 +1,8 @@
 package com.library.app.screens.common
 
 import android.content.Intent
+import com.library.app.screens.SplashActivity
+import com.library.app.screens.main.MainActivity
 import com.library.app.screens.onboarding.change_password.ChangePasswordActivity
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordActivity
 import com.library.app.screens.onboarding.login.LoginActivity
@@ -12,7 +14,7 @@ import javax.inject.Inject
  * This class consists screen navigation routes, each function in this class is
  * an intent to open some screen.
  */
-class ScreenNavigator @Inject constructor(){
+class ScreenNavigator @Inject constructor() {
 
     /**
      * This section refers to the navigation routes while user has not yet logged in
@@ -39,6 +41,24 @@ class ScreenNavigator @Inject constructor(){
         }
 
         fun openLoginScreenAfterForgotPasswordFlow(activity: ChangePasswordActivity) {
+            val intent = Intent(activity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            activity.startActivity(intent)
+        }
+
+        fun openHomePageAfterLogin(activity: LoginActivity) {
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            activity.startActivity(intent)
+        }
+
+        fun openHomePageAfterSplash(activity: SplashActivity) {
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            activity.startActivity(intent)
+        }
+
+        fun openLoginActivityAfterSplash(activity: SplashActivity) {
             val intent = Intent(activity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity.startActivity(intent)

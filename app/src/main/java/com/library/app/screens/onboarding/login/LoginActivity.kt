@@ -61,6 +61,7 @@ class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
             if (result is Result.Success) {
                 val response = result.data as LoginResponseSchema
                 mLoginUIInteractor.showLoginSuccessDialog(response.message!!)
+                mScreenNavigator.OnBoarding().openHomePageAfterLogin(this)
             } else if (result is Result.Error) {
                 val err = result.errorResponseSchema
                 mLoginUIInteractor.showLoginFailDialog(err.message)
