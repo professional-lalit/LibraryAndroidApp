@@ -11,4 +11,7 @@ open class BaseFragment : Fragment() {
 
     @Inject
     lateinit var mScreenNavigator: ScreenNavigator
+
+    @Inject
+    lateinit var mDialogManager: DialogManager
 }

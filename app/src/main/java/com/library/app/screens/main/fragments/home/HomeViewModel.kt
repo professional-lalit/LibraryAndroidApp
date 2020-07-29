@@ -31,7 +31,8 @@ class HomeViewModel @Inject constructor(val mBookRepository: BookRepository) : B
                 mTrendingBookList.postValue(mBookRepository.getTrendingBooks())
             }
             withContext(Dispatchers.IO) {
-                mRecentBooksVisitedList.postValue(mBookRepository.getRecentVisitedBooks())
+                val list = mBookRepository.getRecentVisitedBooks()
+                mRecentBooksVisitedList.postValue(list)
             }
             withContext(Dispatchers.IO) {
                 mCategoryList.postValue(mBookRepository.getBookCategories())

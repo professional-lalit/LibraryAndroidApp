@@ -2,7 +2,6 @@ package com.library.app.di.modules
 
 import android.content.Context
 import com.library.app.common.CustomApplication
-import com.library.app.common.ImageLoadManager
 import com.library.app.common.Prefs
 import com.library.app.screens.common.DialogManager
 import com.library.app.screens.common.ScreenNavigator
@@ -48,10 +47,5 @@ class AppModule {
         return ValidationManager()
     }
 
-    @Singleton
-    @Provides
-    fun getImageLoadManager(customApplication: CustomApplication): ImageLoadManager {
-        return ImageLoadManager(customApplication)
-    }
 
 }

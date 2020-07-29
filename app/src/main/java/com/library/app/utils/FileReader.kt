@@ -8,9 +8,9 @@ import java.io.InputStreamReader
  * Created by Lalit N. Hajare, Software Engineer on 28/07/2020
  */
 object FileReader {
-    fun readStringFromFile(fileName: String): String {
+    fun readStringFromFile(dirName: String, fileName: String): String {
         try {
-            val inputStream = CustomApplication.appInstance!!.assets.open(fileName)
+            val inputStream = CustomApplication.appInstance!!.assets.open("$dirName/$fileName")
             val builder = StringBuilder()
             val reader = InputStreamReader(inputStream, "UTF-8")
             reader.readLines().forEach {

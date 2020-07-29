@@ -22,17 +22,39 @@ class BookRepository @Inject constructor(
 ) : BaseRepository(mRetrofit) {
 
     suspend fun getTrendingBooks(): ArrayList<Book>? {
-        val type: Type = object : TypeToken<ArrayList<BookListResponseSchema>>() {}.type
-        return Gson().fromJson(FileReader.readStringFromFile("TrendingBookList.json"), type)
+        val bookList = ArrayList<Book>()
+        val type: Type = object : TypeToken<BookListResponseSchema>() {}.type
+        val bookSchemas = (Gson().fromJson(
+            FileReader.readStringFromFile("book_apis", "TrendingBookList.json"),
+            type
+        ) as BookListResponseSchema).books
+        for (bookSchema in bookSchemas) {
+            bookList.add(bookSchema.convert())
+        }
+        return bookList
     }
 
     suspend fun getRecentVisitedBooks(): ArrayList<Book>? {
-        val type: Type = object : TypeToken<ArrayList<BookListResponseSchema>>() {}.type
-        return Gson().fromJson(FileReader.readStringFromFile("TrendingBookList.json"), type)
+        val bookList = ArrayList<Book>()
+        val type: Type = object : TypeToken<BookListResponseSchema>() {}.type
+        val bookSchemas = (Gson().fromJson(
+            FileReader.readStringFromFile("book_apis", "TrendingBookList.json"),
+            type
+        ) as BookListResponseSchema).books
+        for (bookSchema in bookSchemas) {
+            bookList.add(bookSchema.convert())
+        }
+        return bookList
     }
 
     suspend fun getBookCategories(): ArrayList<Category>? {
-        return arrayListOf(Category("Programming"), Category("Art"), Category("Life Style"))
+        return arrayListOf(
+            Category("Programming"), Category("Art"), Category("Life Style")
+            , Category("Academic"), Category("Competitive"), Category("General Knowledge")
+            , Category("Philosophy"), Category("Science"), Category("Technology")
+            , Category("Spiritual"), Category("Sports"), Category("Inspirational")
+            , Category("Political"), Category("History"), Category("Food & Travel")
+        )
     }
 
 }

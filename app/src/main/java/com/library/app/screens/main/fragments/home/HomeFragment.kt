@@ -6,22 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.library.app.R
+import com.library.app.models.Book
+import com.library.app.models.Category
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.BaseFragment
-import com.library.app.screens.main.fragments.books.BookAdapter
-import com.library.app.screens.main.fragments.books.CategoryAdapter
+import com.library.app.utils.Utils
+import javax.inject.Inject
 
 
-class HomeFragment : BaseFragment() {
+class HomeFragment @Inject constructor(val mHomeUIInteractor: HomeUIInteractor) : BaseFragment(),
+    HomeUIInteractor.HomeUIController {
 
-    private lateinit var mTrendingBooksRecyclerView: RecyclerView
-    private lateinit var mRecentVisitedBooksRecyclerView: RecyclerView
-    private lateinit var mCategoriesRecyclerView: RecyclerView
-    lateinit var mHomeViewModel: HomeViewModel
+    private lateinit var mHomeViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +25,7 @@ class HomeFragment : BaseFragment() {
             this,
             (activity as BaseActivity).providerFactory
         ).get(HomeViewModel::class.java)
+        mHomeUIInteractor.homeUIController = this
     }
 
     override fun onCreateView(
@@ -36,36 +33,39 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return mHomeUIInteractor.getRootView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mTrendingBooksRecyclerView = view.findViewById(R.id.trending_books_recycler)
-        mRecentVisitedBooksRecyclerView = view.findViewById(R.id.recent_visited_books_recycler)
-        mCategoriesRecyclerView = view.findViewById(R.id.categories_recycler)
-
-        showHomeData()
+        mHomeUIInteractor.trendingBooksLoading = true
+        mHomeUIInteractor.recentVisitedBooksLoading = true
+        mHomeUIInteractor.categoriesLoading = true
+        getHomeData()
     }
 
-    private fun showHomeData() {
+    private fun getHomeData() {
         mHomeViewModel.trendingBookList.observe(this, Observer { list ->
-            mTrendingBooksRecyclerView.adapter =
-                BookAdapter(list)
-            mTrendingBooksRecyclerView.layoutManager = LinearLayoutManager(context)
+            mHomeUIInteractor.trendingBooksLoading = false
+            mHomeUIInteractor.showTrendingBooks(list)
         })
         mHomeViewModel.recentBooksVisitedList.observe(this, Observer { list ->
-            mRecentVisitedBooksRecyclerView.adapter =
-                BookAdapter(list)
-            mRecentVisitedBooksRecyclerView.layoutManager = LinearLayoutManager(context)
+            mHomeUIInteractor.recentVisitedBooksLoading = false
+            mHomeUIInteractor.showRecentVisitedBooks(list)
         })
         mHomeViewModel.categoryList.observe(this, Observer { list ->
-            mCategoriesRecyclerView.adapter =
-                CategoryAdapter(list)
-            mRecentVisitedBooksRecyclerView.layoutManager = GridLayoutManager(context, 3)
+            mHomeUIInteractor.categoriesLoading = false
+            mHomeUIInteractor.showCategories(list)
         })
+        mHomeViewModel.fetchHomeData()
     }
 
+    override fun openBooksOfCategory(category: Category) {
+        Utils.showToast("open book category clicked: " + category.name)
+    }
+
+    override fun openBookDetails(book: Book) {
+        Utils.showToast("open book details clicked: " + book.title)
+    }
 
 }

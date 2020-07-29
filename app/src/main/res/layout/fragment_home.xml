@@ -1,49 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".screens.main.fragments.home.HomeFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        style="@style/TextStyle"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="homeUIInteractor"
+            type="com.library.app.screens.main.fragments.home.HomeUIInteractor" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:background="@color/btn_grey"
-        android:padding="@dimen/dimen_size_5"
-        android:text="@string/trending"
-        android:textColor="@color/black" />
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trending_books_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context=".screens.main.fragments.home.HomeFragment">
 
-    <TextView
-        style="@style/TextStyle"
-        android:layout_width="match_parent"
-        android:background="@color/btn_grey"
-        android:padding="@dimen/dimen_size_5"
-        android:text="@string/recently_visited"
-        android:textColor="@color/black" />
+            <TextView
+                style="@style/TextStyle"
+                android:layout_width="match_parent"
+                android:background="@color/btn_dark_grey"
+                android:padding="@dimen/dimen_size_5"
+                android:text="@string/trending"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trending_books_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/pgbar_trending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="@{homeUIInteractor.trendingBooksLoading ? View.VISIBLE : View.GONE}" />
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_width="match_parent"
+                android:background="@color/btn_dark_grey"
+                android:padding="@dimen/dimen_size_5"
+                android:text="@string/recently_visited"
+                android:textColor="@color/black" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recent_visited_books_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recent_visited_books_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <TextView
-        style="@style/TextStyle"
-        android:layout_width="match_parent"
-        android:background="@color/btn_grey"
-        android:padding="@dimen/dimen_size_5"
-        android:text="@string/categories"
-        android:textColor="@color/black" />
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <ProgressBar
+                android:id="@+id/pgbar_recent_visited"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="@{homeUIInteractor.recentVisitedBooksLoading ? View.VISIBLE : View.GONE}" />
 
-</LinearLayout>
+
+            <TextView
+                style="@style/TextStyle"
+                android:layout_width="match_parent"
+                android:background="@color/btn_dark_grey"
+                android:padding="@dimen/dimen_size_5"
+                android:text="@string/categories"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/pgbar_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="@{homeUIInteractor.categoriesLoading ? View.VISIBLE : View.GONE}" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

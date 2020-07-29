@@ -1,12 +1,10 @@
 package com.library.app.di.modules
 
 import android.content.Context
-import com.library.app.di.annotations.ChangePasswordScope
-import com.library.app.di.annotations.ForgotPasswordScope
-import com.library.app.di.annotations.LoginScope
-import com.library.app.di.annotations.SignupScope
+import com.library.app.di.annotations.*
 import com.library.app.screens.common.DialogManager
 import com.library.app.screens.common.ValidationManager
+import com.library.app.screens.main.fragments.home.HomeUIInteractor
 import com.library.app.screens.onboarding.change_password.ChangePasswordUIInteractor
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordUIInteractor
 import com.library.app.screens.onboarding.login.LoginActivity
@@ -24,14 +22,20 @@ class UIInteractorModule {
 
     @Provides
     @LoginScope
-    fun provideLoginUIInteractor(context: Context, validationManager: ValidationManager): LoginUIInteractor {
-        return LoginUIInteractor(context,validationManager)
+    fun provideLoginUIInteractor(
+        context: Context,
+        validationManager: ValidationManager
+    ): LoginUIInteractor {
+        return LoginUIInteractor(context, validationManager)
     }
 
     @Provides
     @SignupScope
-    fun provideSignupUIInteractor(context: Context, validationManager: ValidationManager): SignupUIInteractor {
-        return SignupUIInteractor(context,validationManager)
+    fun provideSignupUIInteractor(
+        context: Context,
+        validationManager: ValidationManager
+    ): SignupUIInteractor {
+        return SignupUIInteractor(context, validationManager)
     }
 
     @Provides
@@ -41,7 +45,7 @@ class UIInteractorModule {
         dialogManager: DialogManager,
         validationManager: ValidationManager
     ): ForgotPasswordUIInteractor {
-        return ForgotPasswordUIInteractor(context, dialogManager,validationManager)
+        return ForgotPasswordUIInteractor(context, dialogManager, validationManager)
     }
 
     @Provides
@@ -51,7 +55,13 @@ class UIInteractorModule {
         dialogManager: DialogManager,
         validationManager: ValidationManager
     ): ChangePasswordUIInteractor {
-        return ChangePasswordUIInteractor(context, dialogManager,validationManager)
+        return ChangePasswordUIInteractor(context, dialogManager, validationManager)
+    }
+
+    @Provides
+    @MainScope
+    fun provideHomeUIInteractor(context: Context): HomeUIInteractor {
+        return HomeUIInteractor(context)
     }
 
 

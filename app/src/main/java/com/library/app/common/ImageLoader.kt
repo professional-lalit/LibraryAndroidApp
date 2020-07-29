@@ -9,10 +9,10 @@ import javax.inject.Inject
 /**
  * Created by Lalit N. Hajare, Software Engineer on 28/07/2020
  */
-class ImageLoadManager @Inject constructor(val application: CustomApplication) {
+object ImageLoader {
 
     fun getImage(imageView: ImageView, url: String) {
-        Glide.with(application)
+        Glide.with(CustomApplication.appInstance)
             .load(url)
             .placeholder(R.drawable.ic_book)
             .into(imageView)

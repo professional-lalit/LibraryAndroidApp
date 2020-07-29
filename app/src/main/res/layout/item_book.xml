@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/img_book"
         android:layout_width="@dimen/dimen_size_100"
-        android:layout_height="@dimen/dimen_size_100"
+        android:layout_height="@dimen/dimen_size_120"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_book" />
 
@@ -16,6 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_size_5"
         android:layout_toEndOf="@+id/img_book"
         android:orientation="vertical">
 
