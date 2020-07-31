@@ -40,6 +40,28 @@ interface ApiCallInterface {
      * Changes the user's existing password.
      */
     @POST("auth/change-password")
-    fun changePassword(@Body changePasswordRequestSchema: ChangePasswordRequestSchema): Deferred<Response<ChangePasswordResponseSchema>>
+    fun changePasswordAsync(@Body changePasswordRequestSchema: ChangePasswordRequestSchema): Deferred<Response<ChangePasswordResponseSchema>>
+
+
+    /**
+     * All the categories of books.
+     */
+    @GET("books/cat-list")
+    fun getCategoriesAsync(): Deferred<Response<CategoryListResponseSchema>>
+
+    /**
+     * All the books.
+     */
+    @GET("books/book-list")
+    fun getBooksAsync(
+        @Query("page") pageIndex: Int,
+        @Query("cat") category: String
+    ): Deferred<Response<BookListResponseSchema>>
+
+    /**
+     * Details of the book, as isbn is specified in request query param.
+     */
+    @GET("books/book-details")
+    fun getBookDetailsAsync(@Query("isbn") isbn: String): Deferred<Response<BookDetailsResponseSchema>>
 
 }

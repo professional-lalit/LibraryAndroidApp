@@ -28,4 +28,9 @@
     <string name="trending">Trending</string>
     <string name="recently_visited">Recently Visited</string>
     <string name="categories">Categories</string>
+    <string name="no_categories_found">No categories found</string>
+    <string name="short_description">Short Description</string>
+    <string name="long_description">Long Description</string>
+    <string name="book_not_found">Book not found</string>
+    <string name="not_found">Not found</string>
 </resources>

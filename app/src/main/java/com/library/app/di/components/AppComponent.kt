@@ -1,6 +1,7 @@
 package com.library.app.di.components
 
 import com.library.app.common.CustomApplication
+import com.library.app.common.Prefs
 import com.library.app.di.modules.*
 import com.library.app.repositories.AuthRepository
 import dagger.BindsInstance
@@ -25,5 +26,7 @@ interface AppComponent : AndroidInjector<CustomApplication> {
 
         fun build(): AppComponent
     }
+
+    fun getPrefs(): Prefs
 
 }

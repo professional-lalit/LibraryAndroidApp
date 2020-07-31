@@ -5,12 +5,11 @@ package com.library.app.models
  * This model is used for local business logic,
  * the data is acquired from network schema.
  */
-data class Book(
-    var title: String? = "",
-    var isbn: String? = "",
-    var pageCount: String? = "",
-    var publishedDate: String? = "",
-    var thumbnailUrl: String? = "",
-    var shortDescription: String? = "",
+open class Book {
+    var _id: String? = null
+    var isbn: String? = null
+    var title: String? = null
+    var thumbnailUrl: String? = null
+    var shortDescription: String? = null
     var categories: ArrayList<String>? = null
-)
+}

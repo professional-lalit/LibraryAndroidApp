@@ -79,7 +79,7 @@ class AuthRepository @Inject constructor(
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Any> {
         val changePasswordRequestSchema =
             ChangePasswordRequestSchema(mPreferences.userId!!, oldPassword, newPassword)
-        val response = mApiCallInterface.changePassword(changePasswordRequestSchema).await()
+        val response = mApiCallInterface.changePasswordAsync(changePasswordRequestSchema).await()
         return if (response.isSuccessful) {
             val changePasswordResponseSchema = response.body() as ChangePasswordResponseSchema
             Result.Success(changePasswordResponseSchema)

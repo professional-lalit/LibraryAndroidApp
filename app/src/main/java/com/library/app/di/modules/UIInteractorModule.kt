@@ -4,10 +4,10 @@ import android.content.Context
 import com.library.app.di.annotations.*
 import com.library.app.screens.common.DialogManager
 import com.library.app.screens.common.ValidationManager
+import com.library.app.screens.main.fragments.books.book_details.BookDetailsUIInteractor
 import com.library.app.screens.main.fragments.home.HomeUIInteractor
 import com.library.app.screens.onboarding.change_password.ChangePasswordUIInteractor
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordUIInteractor
-import com.library.app.screens.onboarding.login.LoginActivity
 import com.library.app.screens.onboarding.login.LoginUIInteractor
 import com.library.app.screens.onboarding.signup.SignupUIInteractor
 import dagger.Module
@@ -62,6 +62,13 @@ class UIInteractorModule {
     @MainScope
     fun provideHomeUIInteractor(context: Context): HomeUIInteractor {
         return HomeUIInteractor(context)
+    }
+
+    @Provides
+    @BookDetailScope
+    @MainScope
+    fun provideBookDetailsUIInteractor(context: Context): BookDetailsUIInteractor {
+        return BookDetailsUIInteractor(context)
     }
 
 

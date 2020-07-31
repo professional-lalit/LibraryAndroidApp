@@ -1,14 +1,18 @@
 package com.library.app.common
 
-import android.app.Application
 import android.content.Context
+import android.content.Intent
 import androidx.multidex.MultiDex
+import com.library.app.di.components.AppComponent
 import com.library.app.di.components.DaggerAppComponent
+import com.library.app.screens.onboarding.login.LoginActivity
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import javax.inject.Inject
+
 
 open class CustomApplication : DaggerApplication() {
+
+    private lateinit var mAppComponent: AppComponent
 
     companion object {
         var appInstance: CustomApplication? = null
@@ -25,11 +29,20 @@ open class CustomApplication : DaggerApplication() {
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().application(this).build()
+        mAppComponent = DaggerAppComponent.builder().application(this).build()
+        return mAppComponent
     }
 
     open fun getApiUrl(): String {
         return Constants.BASE_URL
+    }
+
+    fun logout() {
+        val prefs = mAppComponent.getPrefs()
+        prefs.clearData()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+        startActivity(intent)
     }
 
 }

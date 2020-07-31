@@ -47,4 +47,10 @@ class Prefs @Inject constructor(application: CustomApplication) {
             return mPreferences.getString(USER_ID, "")!!
         }
 
+    fun clearData() {
+        user = null
+        userId = null
+        accessToken = null
+    }
+
 }

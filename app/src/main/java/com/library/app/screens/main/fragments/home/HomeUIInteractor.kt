@@ -18,6 +18,7 @@ import com.library.app.models.Book
 import com.library.app.models.Category
 import com.library.app.screens.main.fragments.books.BookAdapter
 import com.library.app.screens.main.fragments.books.CategoryAdapter
+import com.library.app.utils.Utils
 import javax.inject.Inject
 
 /**
@@ -57,9 +58,13 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
         autoScrollListRight(mHomeBinding!!.recentVisitedBooksRecycler)
     }
 
-    fun showCategories(list: ArrayList<Category>) {
-        mHomeBinding!!.categoriesRecycler.adapter = CategoryAdapter(list, this)
-        mHomeBinding!!.categoriesRecycler.layoutManager = GridLayoutManager(context, 3)
+    fun showCategories(list: ArrayList<Category>?) {
+        if (list != null) {
+            mHomeBinding!!.categoriesRecycler.adapter = CategoryAdapter(list, this)
+            mHomeBinding!!.categoriesRecycler.layoutManager = GridLayoutManager(context, 3)
+        } else {
+            Utils.showToast(context.getString(R.string.no_categories_found))
+        }
     }
 
     @Bindable
@@ -131,7 +136,6 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
         handler.postDelayed(runnable, speedScroll)
     }
 
-
     /**
      * Callback from list item click along with clicked item data
      */
@@ -141,7 +145,6 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
         else if (model is Category)
             homeUIController!!.openBooksOfCategory(model)
     }
-
 
     interface HomeUIController {
         fun openBooksOfCategory(category: Category)

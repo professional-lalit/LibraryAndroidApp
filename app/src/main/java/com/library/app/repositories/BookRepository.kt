@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.library.app.common.Prefs
 import com.library.app.models.Book
+import com.library.app.models.BookDetails
 import com.library.app.models.Category
 import com.library.app.networking.ApiCallInterface
 import com.library.app.networking.models.BookListResponseSchema
@@ -23,38 +24,58 @@ class BookRepository @Inject constructor(
 
     suspend fun getTrendingBooks(): ArrayList<Book>? {
         val bookList = ArrayList<Book>()
-        val type: Type = object : TypeToken<BookListResponseSchema>() {}.type
-        val bookSchemas = (Gson().fromJson(
-            FileReader.readStringFromFile("book_apis", "TrendingBookList.json"),
-            type
-        ) as BookListResponseSchema).books
-        for (bookSchema in bookSchemas) {
-            bookList.add(bookSchema.convert())
+        val response = mApiCallInterface.getBooksAsync(1, "").await()
+        if (response.isSuccessful && response.body() != null && response.body()!!.books.isNotEmpty()) {
+            for (bookSchema in response.body()!!.books) {
+                bookList.add(bookSchema.convert())
+            }
+            return bookList
         }
-        return bookList
+        return null
     }
 
     suspend fun getRecentVisitedBooks(): ArrayList<Book>? {
         val bookList = ArrayList<Book>()
-        val type: Type = object : TypeToken<BookListResponseSchema>() {}.type
-        val bookSchemas = (Gson().fromJson(
-            FileReader.readStringFromFile("book_apis", "TrendingBookList.json"),
-            type
-        ) as BookListResponseSchema).books
-        for (bookSchema in bookSchemas) {
-            bookList.add(bookSchema.convert())
+        val response = mApiCallInterface.getBooksAsync(1, "").await()
+        if (response.isSuccessful && response.body() != null && response.body()!!.books.isNotEmpty()) {
+            for (bookSchema in response.body()!!.books) {
+                bookList.add(bookSchema.convert())
+            }
+            return bookList
         }
-        return bookList
+        return null
     }
 
     suspend fun getBookCategories(): ArrayList<Category>? {
-        return arrayListOf(
-            Category("Programming"), Category("Art"), Category("Life Style")
-            , Category("Academic"), Category("Competitive"), Category("General Knowledge")
-            , Category("Philosophy"), Category("Science"), Category("Technology")
-            , Category("Spiritual"), Category("Sports"), Category("Inspirational")
-            , Category("Political"), Category("History"), Category("Food & Travel")
-        )
+        val categoryListResponseSchema = mApiCallInterface.getCategoriesAsync().await()
+        if (categoryListResponseSchema.isSuccessful) {
+            val list = ArrayList<Category>()
+            categoryListResponseSchema.body()!!.cats.forEach { categorySchema ->
+                list.add(categorySchema.convert())
+            }
+            return list
+        }
+        return null
+    }
+
+    suspend fun getBooksOfCategory(category: Category, pageIndex: Int): ArrayList<Book>? {
+        val bookList = ArrayList<Book>()
+        val response = mApiCallInterface.getBooksAsync(pageIndex, category.name).await()
+        if (response.isSuccessful && response.body() != null && response.body()!!.books.isNotEmpty()) {
+            for (bookSchema in response.body()!!.books) {
+                bookList.add(bookSchema.convert())
+            }
+            return bookList
+        }
+        return null
+    }
+
+    suspend fun getBookDetails(isbn: String): BookDetails? {
+        val response = mApiCallInterface.getBookDetailsAsync(isbn).await()
+        if (response.isSuccessful && response.body() != null) {
+            return response.body()!!.convert()
+        }
+        return null
     }
 
 }

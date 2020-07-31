@@ -1,5 +1,6 @@
 package com.library.app.screens.main.fragments.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.library.app.models.Book
 import com.library.app.models.Category
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.BaseFragment
+import com.library.app.screens.main.fragments.books.book_details.BookDetailsActivity
 import com.library.app.utils.Utils
 import javax.inject.Inject
 
@@ -38,9 +40,6 @@ class HomeFragment @Inject constructor(val mHomeUIInteractor: HomeUIInteractor) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mHomeUIInteractor.trendingBooksLoading = true
-        mHomeUIInteractor.recentVisitedBooksLoading = true
-        mHomeUIInteractor.categoriesLoading = true
         getHomeData()
     }
 
@@ -57,6 +56,9 @@ class HomeFragment @Inject constructor(val mHomeUIInteractor: HomeUIInteractor) 
             mHomeUIInteractor.categoriesLoading = false
             mHomeUIInteractor.showCategories(list)
         })
+        mHomeUIInteractor.trendingBooksLoading = true
+        mHomeUIInteractor.recentVisitedBooksLoading = true
+        mHomeUIInteractor.categoriesLoading = true
         mHomeViewModel.fetchHomeData()
     }
 
@@ -65,7 +67,9 @@ class HomeFragment @Inject constructor(val mHomeUIInteractor: HomeUIInteractor) 
     }
 
     override fun openBookDetails(book: Book) {
-        Utils.showToast("open book details clicked: " + book.title)
+        val intent = Intent(activity, BookDetailsActivity::class.java)
+        intent.putExtra("isbn", book.isbn)
+        startActivity(intent)
     }
 
 }

@@ -47,8 +47,8 @@ class LoginUIInteractor @Inject constructor(
     /**
      * Form fields to submit
      */
-    var email: String = ""
-    var password: String = ""
+    var email: String = "hajare.lalit@gmail.com"
+    var password: String = "123@Abc"
 
     /**
      * Determines when to show progressbar on login screen & hide login button

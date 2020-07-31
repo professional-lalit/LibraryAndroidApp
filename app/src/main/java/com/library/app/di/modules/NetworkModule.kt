@@ -1,19 +1,21 @@
 package com.library.app.di.modules
 
+import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.library.app.common.Constants
+import com.library.app.common.CustomApplication
+import com.library.app.common.Prefs
 import com.library.app.networking.ApiCallInterface
 import dagger.Module
 import dagger.Provides
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 /**
  * Created by Lalit Hajare, Software Engineer on 3/6/20
@@ -22,11 +24,14 @@ import javax.inject.Singleton
  */
 
 @Module
-open class NetworkModule {
+class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAPIClient(): OkHttpClient {
+    fun provideAPIClient(
+        prefs: Prefs,
+        customApplication: CustomApplication
+    ): OkHttpClient {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient().newBuilder()
@@ -34,13 +39,14 @@ open class NetworkModule {
             .writeTimeout(20, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(logInterceptor)
-            .addInterceptor(HeaderInterceptor())
+            .addInterceptor(HeaderInterceptor(prefs))
+            .addInterceptor(ResponseInterceptor(prefs, customApplication))
             .build()
     }
 
     @Singleton
     @Provides
-    open fun provideRetrofit(apiClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(apiClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(apiClient)
             .baseUrl(Constants.BASE_URL)
@@ -58,19 +64,45 @@ open class NetworkModule {
     /**
      * This class is used to write headers at run time, when APIs are called
      */
-    class HeaderInterceptor : Interceptor {
+    class HeaderInterceptor(val prefs: Prefs) : Interceptor {
+
         override fun intercept(chain: Interceptor.Chain): Response {
             var contentLength: Long = 0L
             if (chain.request().body != null) {
                 contentLength = chain.request().body!!.contentLength()
             }
-
-            val request: Request = chain.request()
+            val requestBuilder: Request.Builder = chain.request()
                 .newBuilder()
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Content-Length", contentLength.toString())
-                .build()
-            return chain.proceed(request)
+            if (prefs.accessToken!!.isNotEmpty()) {
+                requestBuilder.addHeader("Authorization", "Bearer " + prefs.accessToken)
+            }
+            return chain.proceed(requestBuilder.build())
+        }
+
+    }
+
+    /**
+     * This class is used to check if AWT is expired in http response,
+     * if expired the user is taken out to Login Screen.
+     */
+    class ResponseInterceptor(
+        val prefs: Prefs,
+        val customApplication: CustomApplication
+    ) : Interceptor {
+
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request()
+            val response = chain.proceed(request)
+            if (response.code == 401 && prefs.accessToken!!.isNotEmpty()) {
+                handleUnauthorisedResponse()
+            }
+            return response
+        }
+
+        private fun handleUnauthorisedResponse() {
+            customApplication.logout()
         }
 
     }
