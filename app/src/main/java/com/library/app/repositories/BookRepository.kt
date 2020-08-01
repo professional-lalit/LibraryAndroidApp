@@ -58,9 +58,9 @@ class BookRepository @Inject constructor(
         return null
     }
 
-    suspend fun getBooksOfCategory(category: Category, pageIndex: Int): ArrayList<Book>? {
+    suspend fun getBooksOfCategory(categoryName: String?, pageIndex: Int): ArrayList<Book>? {
         val bookList = ArrayList<Book>()
-        val response = mApiCallInterface.getBooksAsync(pageIndex, category.name).await()
+        val response = mApiCallInterface.getBooksAsync(pageIndex, categoryName).await()
         if (response.isSuccessful && response.body() != null && response.body()!!.books.isNotEmpty()) {
             for (bookSchema in response.body()!!.books) {
                 bookList.add(bookSchema.convert())

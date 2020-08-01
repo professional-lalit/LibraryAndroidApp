@@ -1,8 +1,10 @@
 package com.library.app.screens.common
 
 import android.content.Intent
+import com.library.app.models.Book
 import com.library.app.screens.SplashActivity
 import com.library.app.screens.main.MainActivity
+import com.library.app.screens.main.fragments.books.book_list.BookListFragment
 import com.library.app.screens.onboarding.change_password.ChangePasswordActivity
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordActivity
 import com.library.app.screens.onboarding.login.LoginActivity
@@ -63,7 +65,7 @@ class ScreenNavigator @Inject constructor() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity.startActivity(intent)
         }
-
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.library.app.di.annotations
+package com.library.app.di.annotations.books
 
 /**
  * Created by Lalit N. Hajare, Software Engineer on 30/07/2020

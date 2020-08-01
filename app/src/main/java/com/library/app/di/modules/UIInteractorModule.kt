@@ -2,9 +2,12 @@ package com.library.app.di.modules
 
 import android.content.Context
 import com.library.app.di.annotations.*
+import com.library.app.di.annotations.books.BookDetailScope
+import com.library.app.di.annotations.books.BookListScope
 import com.library.app.screens.common.DialogManager
 import com.library.app.screens.common.ValidationManager
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsUIInteractor
+import com.library.app.screens.main.fragments.books.book_list.BookListUIInteractor
 import com.library.app.screens.main.fragments.home.HomeUIInteractor
 import com.library.app.screens.onboarding.change_password.ChangePasswordUIInteractor
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordUIInteractor
@@ -71,5 +74,11 @@ class UIInteractorModule {
         return BookDetailsUIInteractor(context)
     }
 
+    @Provides
+    @BookListScope
+    @MainScope
+    fun provideBookListUIInteractor(context: Context): BookListUIInteractor {
+        return BookListUIInteractor(context)
+    }
 
 }

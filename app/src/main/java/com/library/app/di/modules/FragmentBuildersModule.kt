@@ -1,9 +1,12 @@
 package com.library.app.di.modules
 
-import com.library.app.di.annotations.BookDetailScope
+import com.library.app.di.annotations.books.BookDetailScope
 import com.library.app.di.annotations.MainScope
+import com.library.app.di.annotations.books.BookListScope
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsFragment
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsUIInteractor
+import com.library.app.screens.main.fragments.books.book_list.BookListFragment
+import com.library.app.screens.main.fragments.books.book_list.BookListUIInteractor
 import com.library.app.screens.main.fragments.home.HomeFragment
 import com.library.app.screens.main.fragments.home.HomeUIInteractor
 import dagger.Module
@@ -17,8 +20,11 @@ class FragmentBuildersModule {
 
     @MainScope
     @Provides
-    fun contributeHomeFragment(homeUIInteractor: HomeUIInteractor): HomeFragment {
-        return HomeFragment(homeUIInteractor)
+    fun contributeHomeFragment(
+        homeUIInteractor: HomeUIInteractor,
+        bookListFragment: BookListFragment
+    ): HomeFragment {
+        return HomeFragment(homeUIInteractor, bookListFragment)
     }
 
     @MainScope
@@ -28,5 +34,14 @@ class FragmentBuildersModule {
         return BookDetailsFragment(bookDetailsUIInteractor)
     }
 
+    @MainScope
+    @BookListScope
+    @Provides
+    fun contributeBookListFragment(
+        bookListUIInteractor: BookListUIInteractor,
+        bookDetailsFragment: BookDetailsFragment
+    ): BookListFragment {
+        return BookListFragment(bookListUIInteractor, bookDetailsFragment)
+    }
 
 }

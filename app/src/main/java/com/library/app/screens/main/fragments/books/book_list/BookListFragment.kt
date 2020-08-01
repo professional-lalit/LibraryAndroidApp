@@ -1,0 +1,82 @@
+package com.library.app.screens.main.fragments.books.book_list
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.library.app.models.Book
+import com.library.app.screens.common.BaseActivity
+import com.library.app.screens.main.MainActivity
+import com.library.app.screens.main.fragments.books.book_details.BookDetailsFragment
+import javax.inject.Inject
+
+
+class BookListFragment @Inject constructor(
+    val bookListUIInteractor: BookListUIInteractor,
+    val mBookDetailsFragment: BookDetailsFragment
+) :
+    Fragment(), BookListUIInteractor.BookListController {
+
+    companion object {
+        const val CATEGORY_NAME = "category_name"
+    }
+
+    private var mCategory: String? = null
+
+    private var mPageIndex = 1
+
+    private lateinit var mBookListViewModel: BookListViewModel
+
+    override fun setArguments(args: Bundle?) {
+        super.setArguments(args)
+        mCategory = args?.getString(CATEGORY_NAME)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mBookListViewModel = ViewModelProvider(
+            this,
+            (activity as BaseActivity).providerFactory
+        ).get(BookListViewModel::class.java)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return bookListUIInteractor.getRootView()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bookListUIInteractor.mBookListController = this
+        loadBookList()
+    }
+
+    private fun loadBookList() {
+        mBookListViewModel.bookList.observe(this, Observer { list ->
+            bookListUIInteractor.addBooksInList(list)
+        })
+        mBookListViewModel.fetchBooks(mCategory, mPageIndex)
+    }
+
+    override fun openBookDetails(book: Book) {
+        val bundle = Bundle()
+        bundle.putString(BookDetailsFragment.ISBN, book.isbn)
+        mBookDetailsFragment.arguments = bundle
+        fragmentManager!!.beginTransaction()
+            .addToBackStack(MainActivity.MainScreenFragments.BOOK_DETAILS.name)
+            .add(this.id, mBookDetailsFragment).commit()
+    }
+
+    override fun loadMore() {
+        mPageIndex += 1
+        loadBookList()
+    }
+
+
+}

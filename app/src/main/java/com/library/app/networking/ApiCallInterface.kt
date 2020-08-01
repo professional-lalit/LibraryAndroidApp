@@ -55,7 +55,7 @@ interface ApiCallInterface {
     @GET("books/book-list")
     fun getBooksAsync(
         @Query("page") pageIndex: Int,
-        @Query("cat") category: String
+        @Query("cat") category: String?
     ): Deferred<Response<BookListResponseSchema>>
 
     /**
