@@ -44,18 +44,22 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
         return mHomeBinding?.root!!
     }
 
-    fun showTrendingBooks(list: ArrayList<Book>) {
-        mHomeBinding!!.trendingBooksRecycler.adapter = BookAdapter(list, this)
-        mHomeBinding!!.trendingBooksRecycler.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        autoScrollListLeft(mHomeBinding!!.trendingBooksRecycler)
+    fun showTrendingBooks(list: ArrayList<Book>?) {
+        if (list != null) {
+            mHomeBinding!!.trendingBooksRecycler.adapter = BookAdapter(list, this)
+            mHomeBinding!!.trendingBooksRecycler.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            autoScrollListLeft(mHomeBinding!!.trendingBooksRecycler)
+        }
     }
 
-    fun showRecentVisitedBooks(list: ArrayList<Book>) {
-        mHomeBinding!!.recentVisitedBooksRecycler.adapter = BookAdapter(list, this)
-        mHomeBinding!!.recentVisitedBooksRecycler.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        autoScrollListRight(mHomeBinding!!.recentVisitedBooksRecycler)
+    fun showRecentVisitedBooks(list: ArrayList<Book>?) {
+        if (list != null) {
+            mHomeBinding!!.recentVisitedBooksRecycler.adapter = BookAdapter(list, this)
+            mHomeBinding!!.recentVisitedBooksRecycler.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            autoScrollListRight(mHomeBinding!!.recentVisitedBooksRecycler)
+        }
     }
 
     fun showCategories(list: ArrayList<Category>?) {

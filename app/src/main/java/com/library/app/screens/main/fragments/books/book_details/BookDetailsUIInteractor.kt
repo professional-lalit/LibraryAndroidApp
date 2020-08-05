@@ -43,9 +43,7 @@ class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseO
         }
 
     fun showBookDetails(bookDetails: BookDetails) {
-        if (bookDetails.thumbnailUrl!!.isNotEmpty()) {
-            ImageLoader.getImage(mBinding!!.imgBook, bookDetails.thumbnailUrl!!)
-        }
+        ImageLoader.getImage(mBinding!!.imgBook, bookDetails.thumbnailUrl)
         if (bookDetails.title!!.isNotEmpty()) {
             mBinding!!.txtBookTitle.text = bookDetails.title!!
         }

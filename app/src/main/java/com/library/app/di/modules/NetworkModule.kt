@@ -26,7 +26,6 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    @Singleton
     @Provides
     fun provideAPIClient(
         prefs: Prefs,
@@ -44,7 +43,6 @@ class NetworkModule {
             .build()
     }
 
-    @Singleton
     @Provides
     fun provideRetrofit(apiClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -55,7 +53,6 @@ class NetworkModule {
             .build()
     }
 
-    @Singleton
     @Provides
     fun provideAPI(retrofit: Retrofit): ApiCallInterface {
         return retrofit.create(ApiCallInterface::class.java)

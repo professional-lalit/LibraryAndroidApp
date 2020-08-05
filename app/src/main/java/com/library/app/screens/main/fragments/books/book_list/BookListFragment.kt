@@ -7,18 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.library.app.di.annotations.books.BookListScope
 import com.library.app.models.Book
 import com.library.app.screens.common.BaseActivity
+import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.MainActivity
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsFragment
 import javax.inject.Inject
 
-
+@BookListScope
 class BookListFragment @Inject constructor(
     val bookListUIInteractor: BookListUIInteractor,
     val mBookDetailsFragment: BookDetailsFragment
 ) :
-    Fragment(), BookListUIInteractor.BookListController {
+    BaseFragment(), BookListUIInteractor.BookListController {
 
     companion object {
         const val CATEGORY_NAME = "category_name"

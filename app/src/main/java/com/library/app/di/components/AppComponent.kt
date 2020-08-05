@@ -3,7 +3,6 @@ package com.library.app.di.components
 import com.library.app.common.CustomApplication
 import com.library.app.common.Prefs
 import com.library.app.di.modules.*
-import com.library.app.repositories.AuthRepository
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -14,8 +13,7 @@ import javax.inject.Singleton
 @Component(
     modules = [AndroidSupportInjectionModule::class, NetworkModule::class, RepositoryModule::class
         , ViewModelFactoryModule::class, UIInteractorModule::class, AuthViewModelsModule::class,
-        MainViewModelsModule::class, ActivityBuildersModule::class, FragmentBuildersModule::class,
-        AppModule::class]
+        ActivityBuildersModule::class, AppModule::class]
 )
 interface AppComponent : AndroidInjector<CustomApplication> {
 

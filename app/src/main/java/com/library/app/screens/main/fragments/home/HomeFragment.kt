@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.library.app.common.ViewModelProviderFactory
 import com.library.app.models.Book
 import com.library.app.models.Category
 import com.library.app.screens.common.BaseActivity
@@ -15,8 +16,8 @@ import com.library.app.screens.main.MainActivity
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsActivity
 import com.library.app.screens.main.fragments.books.book_list.BookListFragment
 import com.library.app.utils.Utils
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
-
 
 class HomeFragment @Inject constructor(
     val mHomeUIInteractor: HomeUIInteractor,

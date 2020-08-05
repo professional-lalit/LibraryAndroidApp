@@ -12,7 +12,6 @@ import javax.inject.Inject
  * This class validation the fields on Signup screen
  * It returns the validation code on which the Activity/Screen acts upon.
  */
-@SignupScope
 class SignupInputValidator @Inject constructor() : InputValidator() {
 
     /**

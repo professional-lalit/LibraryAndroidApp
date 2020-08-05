@@ -8,6 +8,7 @@ import com.library.app.repositories.BookRepository
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 /**
  * Created by Lalit Hajare, Software Engineer on 3/6/20
@@ -16,7 +17,7 @@ import retrofit2.Retrofit
 @Module
 class RepositoryModule {
 
-    @AuthScope
+    @Singleton
     @Provides
     fun provideAuthRepository(
         retrofit: Retrofit,
@@ -26,7 +27,7 @@ class RepositoryModule {
         return AuthRepository(retrofit, apiCallInterface, prefs)
     }
 
-    @AuthScope
+    @Singleton
     @Provides
     fun provideBookRepository(
         retrofit: Retrofit,

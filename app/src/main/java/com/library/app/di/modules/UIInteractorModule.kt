@@ -15,6 +15,7 @@ import com.library.app.screens.onboarding.login.LoginUIInteractor
 import com.library.app.screens.onboarding.signup.SignupUIInteractor
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by Lalit Hajare, Software Engineer on 15/6/20
@@ -23,8 +24,8 @@ import dagger.Provides
 @Module
 class UIInteractorModule {
 
+    @Singleton
     @Provides
-    @LoginScope
     fun provideLoginUIInteractor(
         context: Context,
         validationManager: ValidationManager
@@ -32,8 +33,8 @@ class UIInteractorModule {
         return LoginUIInteractor(context, validationManager)
     }
 
+    @Singleton
     @Provides
-    @SignupScope
     fun provideSignupUIInteractor(
         context: Context,
         validationManager: ValidationManager
@@ -41,8 +42,8 @@ class UIInteractorModule {
         return SignupUIInteractor(context, validationManager)
     }
 
+    @Singleton
     @Provides
-    @ForgotPasswordScope
     fun provideForgotPasswordUIInteractor(
         context: Context,
         dialogManager: DialogManager,
@@ -51,8 +52,8 @@ class UIInteractorModule {
         return ForgotPasswordUIInteractor(context, dialogManager, validationManager)
     }
 
+    @Singleton
     @Provides
-    @ChangePasswordScope
     fun provideChangePasswordUIInteractor(
         context: Context,
         dialogManager: DialogManager,
@@ -61,22 +62,21 @@ class UIInteractorModule {
         return ChangePasswordUIInteractor(context, dialogManager, validationManager)
     }
 
+    @Singleton
     @Provides
-    @MainScope
     fun provideHomeUIInteractor(context: Context): HomeUIInteractor {
         return HomeUIInteractor(context)
     }
 
+    @Singleton
     @Provides
-    @BookDetailScope
-    @MainScope
     fun provideBookDetailsUIInteractor(context: Context): BookDetailsUIInteractor {
         return BookDetailsUIInteractor(context)
     }
 
+
+    @Singleton
     @Provides
-    @BookListScope
-    @MainScope
     fun provideBookListUIInteractor(context: Context): BookListUIInteractor {
         return BookListUIInteractor(context)
     }

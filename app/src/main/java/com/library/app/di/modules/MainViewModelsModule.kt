@@ -27,14 +27,12 @@ abstract class MainViewModelsModule {
     @Binds
     @IntoMap
     @MainScope
-    @BookDetailScope
     @ViewModelKey(BookDetailsViewModel::class)
     abstract fun bindBookDetailsViewModel(bookDetailsViewModel: BookDetailsViewModel): ViewModel
 
     @Binds
     @IntoMap
     @MainScope
-    @BookListScope
     @ViewModelKey(BookListViewModel::class)
     abstract fun bindBookListViewModel(bookListViewModel: BookListViewModel): ViewModel
 

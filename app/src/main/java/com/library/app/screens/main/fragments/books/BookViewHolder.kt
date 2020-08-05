@@ -24,7 +24,7 @@ class BookViewHolder(
 
     override fun onBindView(localData: Any) {
         val book = localData as Book
-        ImageLoader.getImage(imgBook, book.thumbnailUrl!!)
+        ImageLoader.getImage(imgBook, book.thumbnailUrl)
         txtBookTitle.text = book.title
         txtBookCategories.text =
             mItemView.context.getString(R.string.category) + ": " + book.categories

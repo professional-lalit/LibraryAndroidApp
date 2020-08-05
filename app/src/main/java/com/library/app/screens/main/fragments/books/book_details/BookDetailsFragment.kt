@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.library.app.R
+import com.library.app.di.annotations.books.BookDetailScope
 import com.library.app.screens.common.BaseActivity
+import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.fragments.home.HomeViewModel
 import com.library.app.utils.Utils
 import javax.inject.Inject
 
+@BookDetailScope
 class BookDetailsFragment @Inject constructor(val mBookDetailsUIInteractor: BookDetailsUIInteractor) :
-    Fragment(),
+    BaseFragment(),
     BookDetailsUIInteractor.BookDetailsController {
 
     private lateinit var mBookDetailsViewModel: BookDetailsViewModel

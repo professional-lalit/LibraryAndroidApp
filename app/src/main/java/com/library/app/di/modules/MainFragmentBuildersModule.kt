@@ -16,7 +16,7 @@ import dagger.Provides
  * Created by Lalit N. Hajare, Software Engineer on 29/07/2020
  */
 @Module
-class FragmentBuildersModule {
+class MainFragmentBuildersModule {
 
     @MainScope
     @Provides
@@ -28,14 +28,12 @@ class FragmentBuildersModule {
     }
 
     @MainScope
-    @BookDetailScope
     @Provides
     fun contributeBookDetailsFragment(bookDetailsUIInteractor: BookDetailsUIInteractor): BookDetailsFragment {
         return BookDetailsFragment(bookDetailsUIInteractor)
     }
 
     @MainScope
-    @BookListScope
     @Provides
     fun contributeBookListFragment(
         bookListUIInteractor: BookListUIInteractor,

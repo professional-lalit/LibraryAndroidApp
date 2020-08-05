@@ -23,25 +23,21 @@ class AppModule {
         return application.applicationContext
     }
 
-    @Singleton
     @Provides
     fun getPreferences(application: CustomApplication): Prefs {
         return Prefs(application)
     }
 
-    @Singleton
     @Provides
     fun getNavigator(): ScreenNavigator {
         return ScreenNavigator()
     }
 
-    @Singleton
     @Provides
     fun getDialogManager(context: Context): DialogManager {
         return DialogManager(context)
     }
 
-    @Singleton
     @Provides
     fun getValidationManager(): ValidationManager {
         return ValidationManager()

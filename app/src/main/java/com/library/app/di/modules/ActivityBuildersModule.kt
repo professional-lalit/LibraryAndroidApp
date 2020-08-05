@@ -19,32 +19,27 @@ abstract class ActivityBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeSplashActivity(): SplashActivity
 
-
     @AuthScope
-    @ChangePasswordScope
     @ContributesAndroidInjector
     abstract fun contributeChangePasswordActivity(): ChangePasswordActivity
 
     @AuthScope
-    @ForgotPasswordScope
     @ContributesAndroidInjector
     abstract fun contributeForgotPasswordActivity(): ForgotPasswordActivity
 
     @AuthScope
-    @LoginScope
     @ContributesAndroidInjector
     abstract fun contributeLoginActivity(): LoginActivity
 
     @AuthScope
-    @SignupScope
     @ContributesAndroidInjector
     abstract fun contributeSignupActivity(): SignupActivity
 
     @MainScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [MainFragmentBuildersModule::class, MainViewModelsModule::class])
     abstract fun contributeMainActivity(): MainActivity
 
-    @BookDetailScope
+    @MainScope
     @ContributesAndroidInjector
     abstract fun contributeBookDetailsActivity(): BookDetailsActivity
 

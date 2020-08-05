@@ -12,6 +12,7 @@ import com.library.app.BR
 import com.library.app.R
 import com.library.app.databinding.FragmentBookDetailsBinding
 import com.library.app.databinding.FragmentBookListBinding
+import com.library.app.di.annotations.books.BookListScope
 import com.library.app.models.Book
 import com.library.app.screens.common.UIInteractor
 import com.library.app.screens.main.fragments.books.BookAdapter
@@ -21,6 +22,7 @@ import javax.inject.Inject
 /**
  * Created by Lalit N. Hajare, Software Engineer on 01/08/2020
  */
+@BookListScope
 class BookListUIInteractor @Inject constructor(val mContext: Context) : BaseObservable(),
     UIInteractor,
         (Book) -> Unit {
@@ -50,11 +52,11 @@ class BookListUIInteractor @Inject constructor(val mContext: Context) : BaseObse
         }
 
     fun addBooksInList(list: ArrayList<Book>?) {
+        if (mBinding!!.recyclerBooks.adapter == null) {
+            mBookList.clear()
+            setRecyclerAdapter()
+        }
         if (list != null) {
-            if (mBinding!!.recyclerBooks.adapter == null) {
-                mBookList.clear()
-                setRecyclerAdapter()
-            }
             mBookList += list
             mBookListAdapter!!.notifyItemRangeInserted(mBookList.size - list.size, list.size)
             mBinding!!.txtNoRecords.visibility = View.GONE
