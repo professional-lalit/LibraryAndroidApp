@@ -20,21 +20,18 @@ abstract class MainViewModelsModule {
 
     @Binds
     @IntoMap
-    @MainScope
     @ViewModelKey(HomeViewModel::class)
     abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @MainScope
-    @ViewModelKey(BookDetailsViewModel::class)
-    abstract fun bindBookDetailsViewModel(bookDetailsViewModel: BookDetailsViewModel): ViewModel
+    @ViewModelKey(BookListViewModel::class)
+    abstract fun bindBookListViewModel(bookListViewModel: BookListViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @MainScope
-    @ViewModelKey(BookListViewModel::class)
-    abstract fun bindBookListViewModel(bookListViewModel: BookListViewModel): ViewModel
+    @ViewModelKey(BookDetailsViewModel::class)
+    abstract fun bindBookDetailsViewModel(bookDetailsViewModel: BookDetailsViewModel): ViewModel
 
 
 }

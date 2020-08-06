@@ -14,11 +14,9 @@ class MainActivity : BaseActivity() {
     private lateinit var fragmentContainer: FrameLayout
 
     enum class MainScreenFragments(tag: String) {
-        HOME("home"), BOOK_LIST("book_list"), BOOK_DETAILS("book_details")
+        HOME("home"), BOOK_LIST("book_list"), BOOK_DETAILS("book_details"),
+        BOOK_PREVIEW("book_preview")
     }
-
-    @Inject
-    lateinit var mHomeFragment: HomeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +39,7 @@ class MainActivity : BaseActivity() {
     private fun initViews() {
         fragmentContainer = findViewById(R.id.fragment_container)
         supportFragmentManager.beginTransaction()
-            .add(fragmentContainer.id, mHomeFragment).commit()
+            .add(fragmentContainer.id, HomeFragment()).commit()
     }
 
 

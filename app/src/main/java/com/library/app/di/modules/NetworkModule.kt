@@ -89,11 +89,17 @@ class NetworkModule {
         val customApplication: CustomApplication
     ) : Interceptor {
 
+        private val TAG = NetworkModule::class.java.simpleName
+
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request()
             val response = chain.proceed(request)
-            if (response.code == 401 && prefs.accessToken!!.isNotEmpty()) {
-                handleUnauthorisedResponse()
+            try {
+                if (response.code == 401 && prefs.accessToken!!.isNotEmpty()) {
+                    handleUnauthorisedResponse()
+                }
+            } catch (ex: Exception) {
+                Log.d(TAG, ex.toString())
             }
             return response
         }

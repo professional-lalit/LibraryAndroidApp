@@ -24,8 +24,7 @@ import javax.inject.Inject
  */
 @BookListScope
 class BookListUIInteractor @Inject constructor(val mContext: Context) : BaseObservable(),
-    UIInteractor,
-        (Book) -> Unit {
+    UIInteractor, (Book) -> Unit {
 
     var mBookListController: BookListController? = null
     var mBinding: FragmentBookListBinding? = null

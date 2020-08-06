@@ -12,10 +12,12 @@ import javax.inject.Inject
 object ImageLoader {
 
     fun getImage(imageView: ImageView, url: String?) {
-        Glide.with(CustomApplication.appInstance)
-            .load(url)
-            .placeholder(R.drawable.ic_book)
-            .into(imageView)
+        synchronized(Glide::class.java){
+            Glide.with(CustomApplication.appInstance)
+                .load(url)
+                .placeholder(R.drawable.ic_book)
+                .into(imageView)
+        }
     }
 
 }

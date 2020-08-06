@@ -11,12 +11,14 @@ import com.library.app.R
 import com.library.app.common.ImageLoader
 import com.library.app.databinding.FragmentBookDetailsBinding
 import com.library.app.models.BookDetails
+import com.library.app.screens.common.UIInteractor
 import javax.inject.Inject
 
 /**
  * Created by Lalit N. Hajare, Software Engineer on 30/07/2020
  */
-class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseObservable() {
+class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseObservable(),
+    UIInteractor {
 
     var mBookDetailsController: BookDetailsController? = null
     var mBinding: FragmentBookDetailsBinding? = null
@@ -24,7 +26,7 @@ class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseO
     /**
      * Provides the view to which this interactor operates
      */
-    fun getRootView(): View {
+    override fun getRootView(): View {
         mBinding = DataBindingUtil.inflate(
             LayoutInflater.from(mContext),
             R.layout.fragment_book_details,
@@ -71,6 +73,11 @@ class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseO
         } else {
             mBinding!!.txtBookLongDesc.text = mContext.getString(R.string.not_found)
         }
+    }
+
+
+    fun openBookPreview() {
+        mBookDetailsController!!.openBookPreview()
     }
 
     interface BookDetailsController {

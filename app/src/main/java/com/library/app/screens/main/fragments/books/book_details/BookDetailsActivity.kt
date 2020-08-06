@@ -10,8 +10,6 @@ import javax.inject.Inject
 
 class BookDetailsActivity : BaseActivity() {
 
-    @Inject
-    lateinit var mBookDetailsFragment: BookDetailsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +17,9 @@ class BookDetailsActivity : BaseActivity() {
         findViewById<Toolbar>(R.id.toolbar_main).title = "Book Details"
         val bundle = Bundle()
         bundle.putString(BookDetailsFragment.ISBN, intent.getStringExtra("isbn"))
-        mBookDetailsFragment.arguments = bundle
-        supportFragmentManager.beginTransaction().add(container.id, mBookDetailsFragment).commit()
+        val bookDetailsFragment = BookDetailsFragment()
+        bookDetailsFragment.arguments = bundle
+        supportFragmentManager.beginTransaction().add(container.id, bookDetailsFragment).commit()
     }
 
 }

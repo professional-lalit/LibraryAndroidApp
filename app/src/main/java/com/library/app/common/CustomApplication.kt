@@ -33,8 +33,8 @@ open class CustomApplication : DaggerApplication() {
         return mAppComponent
     }
 
-    open fun getApiUrl(): String {
-        return Constants.BASE_URL
+    fun getAppComponent(): AppComponent {
+        return mAppComponent
     }
 
     fun logout() {

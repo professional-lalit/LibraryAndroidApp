@@ -1,26 +1,32 @@
 package com.library.app.screens.main.fragments.books.book_list
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.library.app.common.CustomApplication
+import com.library.app.common.ViewModelProviderFactory
 import com.library.app.di.annotations.books.BookListScope
 import com.library.app.models.Book
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.MainActivity
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsFragment
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-@BookListScope
-class BookListFragment @Inject constructor(
-    val bookListUIInteractor: BookListUIInteractor,
-    val mBookDetailsFragment: BookDetailsFragment
-) :
-    BaseFragment(), BookListUIInteractor.BookListController {
+class BookListFragment : DaggerFragment(), BookListUIInteractor.BookListController {
+
+    @Inject
+    lateinit var bookListUIInteractor: BookListUIInteractor
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
 
     companion object {
         const val CATEGORY_NAME = "category_name"
@@ -32,6 +38,10 @@ class BookListFragment @Inject constructor(
 
     private lateinit var mBookListViewModel: BookListViewModel
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+    }
+
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
         mCategory = args?.getString(CATEGORY_NAME)
@@ -40,8 +50,7 @@ class BookListFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBookListViewModel = ViewModelProvider(
-            this,
-            (activity as BaseActivity).providerFactory
+            this, providerFactory
         ).get(BookListViewModel::class.java)
     }
 
@@ -57,6 +66,7 @@ class BookListFragment @Inject constructor(
         super.onViewCreated(view, savedInstanceState)
         bookListUIInteractor.mBookListController = this
         loadBookList()
+        Log.i("Book List", "book list screen memory: $this")
     }
 
     private fun loadBookList() {
@@ -69,6 +79,7 @@ class BookListFragment @Inject constructor(
     override fun openBookDetails(book: Book) {
         val bundle = Bundle()
         bundle.putString(BookDetailsFragment.ISBN, book.isbn)
+        val mBookDetailsFragment = BookDetailsFragment()
         mBookDetailsFragment.arguments = bundle
         fragmentManager!!.beginTransaction()
             .addToBackStack(MainActivity.MainScreenFragments.BOOK_DETAILS.name)

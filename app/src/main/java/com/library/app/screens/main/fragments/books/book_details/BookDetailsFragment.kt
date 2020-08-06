@@ -1,31 +1,40 @@
 package com.library.app.screens.main.fragments.books.book_details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.library.app.R
-import com.library.app.di.annotations.books.BookDetailScope
-import com.library.app.screens.common.BaseActivity
-import com.library.app.screens.common.BaseFragment
-import com.library.app.screens.main.fragments.home.HomeViewModel
+import com.library.app.common.ViewModelProviderFactory
+import com.library.app.screens.main.MainActivity
 import com.library.app.utils.Utils
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-@BookDetailScope
-class BookDetailsFragment @Inject constructor(val mBookDetailsUIInteractor: BookDetailsUIInteractor) :
-    BaseFragment(),
+class BookDetailsFragment : DaggerFragment(),
     BookDetailsUIInteractor.BookDetailsController {
 
-    private lateinit var mBookDetailsViewModel: BookDetailsViewModel
+
+    @Inject
+    lateinit var mBookDetailsUIInteractor: BookDetailsUIInteractor
+
+    @Inject
+    lateinit var mBookPreviewFragment: BookPreviewFragment
+
+
+    lateinit var mBookDetailsViewModel: BookDetailsViewModel
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
+
     private var mISBN: String? = ""
 
     companion object {
         const val ISBN = "isbn"
     }
+
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -35,8 +44,7 @@ class BookDetailsFragment @Inject constructor(val mBookDetailsUIInteractor: Book
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBookDetailsViewModel = ViewModelProvider(
-            this,
-            (activity as BaseActivity).providerFactory
+            this, providerFactory
         ).get(BookDetailsViewModel::class.java)
     }
 
@@ -69,7 +77,12 @@ class BookDetailsFragment @Inject constructor(val mBookDetailsUIInteractor: Book
     }
 
     override fun openBookPreview() {
-
+        val bundle = Bundle()
+        bundle.putString(BookPreviewFragment.ISBN, mISBN)
+        mBookPreviewFragment.arguments = bundle
+        fragmentManager!!.beginTransaction()
+            .addToBackStack(MainActivity.MainScreenFragments.BOOK_PREVIEW.name)
+            .add(this.id, mBookPreviewFragment).commit()
     }
 
     override fun addToCart() {

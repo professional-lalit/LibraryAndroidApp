@@ -36,7 +36,7 @@ abstract class ActivityBuildersModule {
     abstract fun contributeSignupActivity(): SignupActivity
 
     @MainScope
-    @ContributesAndroidInjector(modules = [MainFragmentBuildersModule::class, MainViewModelsModule::class])
+    @ContributesAndroidInjector(modules = [MainViewModelsModule::class, MainFragmentsModule::class])
     abstract fun contributeMainActivity(): MainActivity
 
     @MainScope

@@ -15,8 +15,4 @@ class UITestApplication : CustomApplication() {
         return DaggerTestAppComponent.builder().application(this).build()
     }
 
-    override fun getApiUrl(): String {
-        return Constants.TEST_BASE_URL
-    }
-
 }

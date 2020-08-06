@@ -7,6 +7,7 @@ import com.library.app.di.annotations.books.BookListScope
 import com.library.app.screens.common.DialogManager
 import com.library.app.screens.common.ValidationManager
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsUIInteractor
+import com.library.app.screens.main.fragments.books.book_details.BookPreviewUIInteractor
 import com.library.app.screens.main.fragments.books.book_list.BookListUIInteractor
 import com.library.app.screens.main.fragments.home.HomeUIInteractor
 import com.library.app.screens.onboarding.change_password.ChangePasswordUIInteractor
@@ -24,7 +25,6 @@ import javax.inject.Singleton
 @Module
 class UIInteractorModule {
 
-    @Singleton
     @Provides
     fun provideLoginUIInteractor(
         context: Context,
@@ -33,7 +33,6 @@ class UIInteractorModule {
         return LoginUIInteractor(context, validationManager)
     }
 
-    @Singleton
     @Provides
     fun provideSignupUIInteractor(
         context: Context,
@@ -42,7 +41,6 @@ class UIInteractorModule {
         return SignupUIInteractor(context, validationManager)
     }
 
-    @Singleton
     @Provides
     fun provideForgotPasswordUIInteractor(
         context: Context,
@@ -52,7 +50,6 @@ class UIInteractorModule {
         return ForgotPasswordUIInteractor(context, dialogManager, validationManager)
     }
 
-    @Singleton
     @Provides
     fun provideChangePasswordUIInteractor(
         context: Context,
@@ -62,23 +59,24 @@ class UIInteractorModule {
         return ChangePasswordUIInteractor(context, dialogManager, validationManager)
     }
 
-    @Singleton
     @Provides
     fun provideHomeUIInteractor(context: Context): HomeUIInteractor {
         return HomeUIInteractor(context)
     }
 
-    @Singleton
+    @Provides
+    fun provideBookListUIInteractor(context: Context): BookListUIInteractor {
+        return BookListUIInteractor(context)
+    }
+
     @Provides
     fun provideBookDetailsUIInteractor(context: Context): BookDetailsUIInteractor {
         return BookDetailsUIInteractor(context)
     }
 
-
-    @Singleton
     @Provides
-    fun provideBookListUIInteractor(context: Context): BookListUIInteractor {
-        return BookListUIInteractor(context)
+    fun provideBookPreviewUIInteractor(context: Context): BookPreviewUIInteractor {
+        return BookPreviewUIInteractor(context)
     }
 
 }

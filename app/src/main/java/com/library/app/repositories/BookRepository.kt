@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.library.app.common.Prefs
 import com.library.app.models.Book
 import com.library.app.models.BookDetails
+import com.library.app.models.BookPreview
 import com.library.app.models.Category
 import com.library.app.networking.ApiCallInterface
 import com.library.app.networking.models.BookListResponseSchema
@@ -72,6 +73,14 @@ class BookRepository @Inject constructor(
 
     suspend fun getBookDetails(isbn: String): BookDetails? {
         val response = mApiCallInterface.getBookDetailsAsync(isbn).await()
+        if (response.isSuccessful && response.body() != null) {
+            return response.body()!!.convert()
+        }
+        return null
+    }
+
+    suspend fun getBookPreview(isbn: String): BookPreview? {
+        val response = mApiCallInterface.getBookPreviewAsync(isbn).await()
         if (response.isSuccessful && response.body() != null) {
             return response.body()!!.convert()
         }

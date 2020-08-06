@@ -64,4 +64,10 @@ interface ApiCallInterface {
     @GET("books/book-details")
     fun getBookDetailsAsync(@Query("isbn") isbn: String): Deferred<Response<BookDetailsResponseSchema>>
 
+    /**
+     * Details of the book, as isbn is specified in request query param.
+     */
+    @GET("books/book-preview")
+    fun getBookPreviewAsync(@Query("isbn") isbn: String): Deferred<Response<BookPreviewResponseSchema>>
+
 }

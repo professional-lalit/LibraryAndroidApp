@@ -14,24 +14,27 @@ import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.MainActivity
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsActivity
+import com.library.app.screens.main.fragments.books.book_details.BookDetailsFragment
 import com.library.app.screens.main.fragments.books.book_list.BookListFragment
 import com.library.app.utils.Utils
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class HomeFragment @Inject constructor(
-    val mHomeUIInteractor: HomeUIInteractor,
-    val mBookListFragment: BookListFragment
-) : BaseFragment(),
+class HomeFragment : DaggerFragment(),
     HomeUIInteractor.HomeUIController {
 
     private lateinit var mHomeViewModel: HomeViewModel
 
+    @Inject
+    lateinit var mHomeUIInteractor: HomeUIInteractor
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mHomeViewModel = ViewModelProvider(
-            this,
-            (activity as BaseActivity).providerFactory
+            this, providerFactory
         ).get(HomeViewModel::class.java)
         mHomeUIInteractor.homeUIController = this
     }
@@ -71,16 +74,21 @@ class HomeFragment @Inject constructor(
     override fun openBooksOfCategory(category: Category) {
         val bundle = Bundle()
         bundle.putString(BookListFragment.CATEGORY_NAME, category.name)
-        mBookListFragment.arguments = bundle
+        val bookListFragment = BookListFragment()
+        bookListFragment.arguments = bundle
         fragmentManager!!.beginTransaction()
             .addToBackStack(MainActivity.MainScreenFragments.BOOK_LIST.name)
-            .add(this.id, mBookListFragment).commit()
+            .add(this.id, bookListFragment).commit()
     }
 
     override fun openBookDetails(book: Book) {
-        val intent = Intent(activity, BookDetailsActivity::class.java)
-        intent.putExtra("isbn", book.isbn)
-        startActivity(intent)
+        val bundle = Bundle()
+        bundle.putString(BookDetailsFragment.ISBN, book.isbn)
+        val bookDetailsFragment = BookDetailsFragment()
+        bookDetailsFragment.arguments = bundle
+        fragmentManager!!.beginTransaction()
+            .addToBackStack(MainActivity.MainScreenFragments.BOOK_DETAILS.name)
+            .add(this.id, bookDetailsFragment).commit()
     }
 
 }
