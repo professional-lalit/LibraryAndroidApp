@@ -21,7 +21,7 @@
             android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_preview"
+            android:layout_above="@+id/btn_add_cart"
             android:background="@color/white">
 
             <LinearLayout
@@ -217,13 +217,13 @@
         </ScrollView>
 
         <Button
-            android:id="@+id/btn_preview"
+            android:id="@+id/btn_add_cart"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
-            android:onClick="@{()->bookDetailsUIInteractor.openBookPreview()}"
+            android:onClick="@{()->bookDetailsUIInteractor.addToCart()}"
             android:background="@color/btn_blue"
-            android:text="@string/preview" />
+            android:text="@string/add_to_cart" />
 
         <ProgressBar
             android:id="@+id/pgbar"

@@ -1,5 +1,6 @@
 package com.library.app.screens.main.fragments.books.book_details
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +41,14 @@ class BookPreviewUIInteractor @Inject constructor(val mContext: Context) : BaseO
             notifyPropertyChanged(BR.loading)
         }
 
+    @SuppressLint("SetJavaScriptEnabled")
     fun showPreview(bookPreview: BookPreview) {
-        mBinding!!.webView.loadData(bookPreview.previewText, "text/html", "UTF-8")
+        mBinding!!.webView.settings.javaScriptEnabled = true
+        mBinding!!.webView.loadData(
+            bookPreview.previewText,
+            "text/html",
+            "UTF-8"
+        )
     }
 
     interface BookPreviewController

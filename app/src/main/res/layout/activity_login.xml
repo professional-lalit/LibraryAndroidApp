@@ -22,6 +22,7 @@
             android:id="@+id/textView"
             style="@style/TextStyle"
             android:text="@string/app_name"
+            android:textColor="@color/colorAccent"
             android:textSize="@dimen/text_size_50"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +62,7 @@
                 android:onClick="@{() -> loginUIInteractor.openForgotPasswordScreen()}"
                 android:padding="@dimen/dimen_size_5"
                 android:text="@string/forgot_password"
-                android:textColor="@color/text_red" />
+                android:textColor="@color/colorAccent" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -73,7 +74,7 @@
                     style="@style/ButtonStyle"
                     android:layout_centerInParent="true"
                     android:layout_margin="@dimen/dimen_size_20"
-                    android:background="@color/btn_green"
+                    android:background="@color/colorPrimary"
                     android:onClick="@{() -> loginUIInteractor.login()}"
                     android:text="@string/login"
                     android:visibility="@{loginUIInteractor.loading ? View.GONE : View.VISIBLE}" />
@@ -94,7 +95,7 @@
             android:onClick="@{()->loginUIInteractor.openSignupScreen()}"
             android:padding="@dimen/dimen_size_20"
             android:text="@string/dont_have_acc_signup"
-            android:textColor="@color/btn_orange"
+            android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

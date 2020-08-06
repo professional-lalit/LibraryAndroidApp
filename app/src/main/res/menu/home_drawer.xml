@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_recent"
+        android:title="@string/recently_visited" />
+
+    <item
+        android:id="@+id/action_saved"
+        android:title="@string/saved" />
+
+    <item
+        android:id="@+id/action_orders"
+        android:title="@string/orders" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout" />
+
+</menu>

@@ -35,4 +35,10 @@
     <string name="not_found">Not found</string>
     <string name="no_records_found">No records found</string>
     <string name="preview">Preview</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="saved">Saved</string>
+    <string name="orders">Orders</string>
+    <string name="logout">Logout</string>
+    <string name="navigation_drawer_open">drawer opened</string>
+    <string name="navigation_drawer_close">drawer closed</string>
 </resources>

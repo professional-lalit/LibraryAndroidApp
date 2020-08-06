@@ -76,14 +76,14 @@ class BookDetailsFragment : DaggerFragment(),
         mBookDetailsViewModel.fetchBookDetails(mISBN!!)
     }
 
-    override fun openBookPreview() {
-        val bundle = Bundle()
-        bundle.putString(BookPreviewFragment.ISBN, mISBN)
-        mBookPreviewFragment.arguments = bundle
-        fragmentManager!!.beginTransaction()
-            .addToBackStack(MainActivity.MainScreenFragments.BOOK_PREVIEW.name)
-            .add(this.id, mBookPreviewFragment).commit()
-    }
+    /*  override fun openBookPreview() {
+          val bundle = Bundle()
+          bundle.putString(BookPreviewFragment.ISBN, mISBN)
+          mBookPreviewFragment.arguments = bundle
+          fragmentManager!!.beginTransaction()
+              .addToBackStack(MainActivity.MainScreenFragments.BOOK_PREVIEW.name)
+              .add(this.id, mBookPreviewFragment).commit()
+      }*/
 
     override fun addToCart() {
 

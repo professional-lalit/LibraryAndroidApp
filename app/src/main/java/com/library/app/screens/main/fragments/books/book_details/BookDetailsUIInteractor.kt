@@ -76,12 +76,11 @@ class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseO
     }
 
 
-    fun openBookPreview() {
-        mBookDetailsController!!.openBookPreview()
+    fun addToCart() {
+        mBookDetailsController!!.addToCart()
     }
 
     interface BookDetailsController {
-        fun openBookPreview()
         fun addToCart()
     }
 

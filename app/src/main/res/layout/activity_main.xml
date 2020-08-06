@@ -11,11 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_main" />
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_main" />
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/home_navview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/layout_home_drawer_header"
+            app:menu="@menu/home_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>
 
