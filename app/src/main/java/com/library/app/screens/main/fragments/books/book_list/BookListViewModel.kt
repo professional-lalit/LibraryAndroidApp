@@ -26,4 +26,22 @@ class BookListViewModel @Inject constructor(val mBookRepository: BookRepository)
         }
     }
 
+    fun fetchRecentBooks() {
+        launch {
+
+        }
+    }
+
+    fun fetchSavedBooks() {
+        launch {
+
+        }
+    }
+
+    fun fetchCartBooks() {
+        launch {
+
+        }
+    }
+
 }

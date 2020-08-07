@@ -71,6 +71,21 @@ class BookRepository @Inject constructor(
         return null
     }
 
+    suspend fun getRecentBooks(): ArrayList<Book>? {
+        val bookList = ArrayList<Book>()
+        return bookList
+    }
+
+    suspend fun getSavedBooks(): ArrayList<Book>? {
+        val bookList = ArrayList<Book>()
+        return bookList
+    }
+
+    suspend fun getCartBooks(): ArrayList<Book>? {
+        val bookList = ArrayList<Book>()
+        return bookList
+    }
+
     suspend fun getBookDetails(isbn: String): BookDetails? {
         val response = mApiCallInterface.getBookDetailsAsync(isbn).await()
         if (response.isSuccessful && response.body() != null) {

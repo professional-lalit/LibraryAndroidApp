@@ -10,11 +10,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import com.google.android.material.navigation.NavigationView
 import com.library.app.R
 import com.library.app.common.CustomApplication
-import com.library.app.common.Prefs
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.main.fragments.home.HomeFragment
 
@@ -27,6 +25,9 @@ class MainActivity : BaseActivity() {
 
     private lateinit var mToolbar: Toolbar
 
+    private lateinit var txtName: TextView
+
+
     enum class MainScreenFragments(tag: String) {
         HOME("home"), BOOK_LIST("book_list"), BOOK_DETAILS("book_details"),
         BOOK_PREVIEW("book_preview")
@@ -36,46 +37,51 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setUpDrawerAndToolbar()
+        setUpToolbar()
 
         initViews()
+
+        setViews()
     }
 
-    private fun setUpDrawerAndToolbar() {
-
+    private fun setUpToolbar() {
         mToolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(mToolbar)
-
-        mDrawerLayout = findViewById(R.id.drawer)
-        val toggle = ActionBarDrawerToggle(
-            this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        mDrawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
     }
 
-    private fun setNavToolbarBackButton() {
+    private fun setNavActionBar() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_back)
-        supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setHomeToolbarBackButton() {
+    private fun setHomeActionBar() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_drawer)
-        supportActionBar!!.setDisplayShowCustomEnabled(true)
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initViews() {
+        mDrawerLayout = findViewById(R.id.drawer)
         fragmentContainer = findViewById(R.id.fragment_container)
+        val headerView = findViewById<NavigationView>(R.id.home_navview).getHeaderView(0)
+        txtName = headerView.findViewById(R.id.txt_name)
+    }
+
+    private fun setViews() {
         supportFragmentManager.beginTransaction()
             .add(fragmentContainer.id, HomeFragment()).commit()
-//        findViewById<TextView>(R.id.txt_name).text =
-//            CustomApplication.appInstance!!.getAppComponent().getPrefs().user!!.name
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                setNavActionBar()
+            } else {
+                setHomeActionBar()
+            }
+        }
+        setHomeActionBar()
+        txtName.text = CustomApplication.appInstance!!.getAppComponent().getPrefs().userId
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.home_menu, menu)
@@ -96,25 +102,19 @@ class MainActivity : BaseActivity() {
 
     //Manage the back button on action bar
     override fun onBackPressed() {
-        if (getCurrentFragment() is HomeFragment?) {
-            setHomeToolbarBackButton()
-        } else {
-            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
                 mDrawerLayout.closeDrawer(GravityCompat.START)
             } else {
                 super.onBackPressed()
             }
+        } else {
+            if (!mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
+                mDrawerLayout.openDrawer(GravityCompat.START)
+            } else {
+                mDrawerLayout.closeDrawer(GravityCompat.START)
+            }
         }
-    }
-
-    private fun getCurrentFragment(): Fragment? {
-        val fragmentManager: FragmentManager = supportFragmentManager
-        if (fragmentManager.backStackEntryCount > 0) {
-            val fragmentTag: String? =
-                fragmentManager.getBackStackEntryAt(fragmentManager.backStackEntryCount - 1).name
-            return fragmentManager.findFragmentByTag(fragmentTag)
-        }
-        return null
     }
 
 }
