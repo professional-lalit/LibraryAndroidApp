@@ -70,7 +70,8 @@ class MainActivity : BaseActivity() {
 
     private fun setViews() {
         supportFragmentManager.beginTransaction()
-            .add(fragmentContainer.id, HomeFragment()).commit()
+            .add(fragmentContainer.id, HomeFragment())
+            .commit()
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportFragmentManager.backStackEntryCount > 0) {
                 setNavActionBar()
@@ -91,7 +92,15 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                if (supportFragmentManager.backStackEntryCount == 0) {
+                    if (!mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
+                        mDrawerLayout.openDrawer(GravityCompat.START)
+                    } else {
+                        mDrawerLayout.closeDrawer(GravityCompat.START)
+                    }
+                } else {
+                    onBackPressed()
+                }
                 true
             }
             else -> {
@@ -102,18 +111,10 @@ class MainActivity : BaseActivity() {
 
     //Manage the back button on action bar
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
-                mDrawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                super.onBackPressed()
-            }
+        if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            if (!mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
-                mDrawerLayout.openDrawer(GravityCompat.START)
-            } else {
-                mDrawerLayout.closeDrawer(GravityCompat.START)
-            }
+            super.onBackPressed()
         }
     }
 
