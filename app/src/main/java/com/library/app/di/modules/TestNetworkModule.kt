@@ -34,9 +34,9 @@ class TestNetworkModule {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient().newBuilder()
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(2, TimeUnit.SECONDS)
+            .writeTimeout(2, TimeUnit.SECONDS)
+            .readTimeout(2, TimeUnit.SECONDS)
             .addInterceptor(logInterceptor)
             .addInterceptor(HeaderInterceptor())
             .addInterceptor(ResponseInterceptor(prefs, customApplication))
