@@ -13,8 +13,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.library.app.R
 import com.library.app.common.CustomApplication
+import com.library.app.common.Prefs
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.main.fragments.home.HomeFragment
+import javax.inject.Inject
 
 
 class MainActivity : BaseActivity() {
@@ -27,6 +29,8 @@ class MainActivity : BaseActivity() {
 
     private lateinit var txtName: TextView
 
+    @Inject
+    lateinit var mPrefs: Prefs
 
     enum class MainScreenFragments(tag: String) {
         HOME("home"), BOOK_LIST("book_list"), BOOK_DETAILS("book_details"),
@@ -80,7 +84,7 @@ class MainActivity : BaseActivity() {
             }
         }
         setHomeActionBar()
-        txtName.text = CustomApplication.appInstance!!.getAppComponent().getPrefs().userId
+        txtName.text = mPrefs.userId
     }
 
 
@@ -109,7 +113,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    //Manage the back button on action bar
     override fun onBackPressed() {
         if (mDrawerLayout.isDrawerVisible(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START)

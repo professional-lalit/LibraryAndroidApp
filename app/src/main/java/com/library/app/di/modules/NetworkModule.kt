@@ -9,10 +9,14 @@ import com.library.app.networking.ApiCallInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -26,6 +30,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
+    @Singleton
     @Provides
     fun provideAPIClient(
         prefs: Prefs,
@@ -34,15 +39,16 @@ class NetworkModule {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient().newBuilder()
-            .connectTimeout(20, TimeUnit.SECONDS)
-            .writeTimeout(20, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
             .addInterceptor(logInterceptor)
-            .addInterceptor(HeaderInterceptor(prefs))
+            .addInterceptor(HeaderInterceptor())
             .addInterceptor(ResponseInterceptor(prefs, customApplication))
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideRetrofit(apiClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
@@ -53,6 +59,7 @@ class NetworkModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideAPI(retrofit: Retrofit): ApiCallInterface {
         return retrofit.create(ApiCallInterface::class.java)
@@ -61,21 +68,23 @@ class NetworkModule {
     /**
      * This class is used to write headers at run time, when APIs are called
      */
-    class HeaderInterceptor(val prefs: Prefs) : Interceptor {
-
+    class HeaderInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
-            var contentLength: Long = 0L
+            var contentLength = 0L
             if (chain.request().body != null) {
                 contentLength = chain.request().body!!.contentLength()
             }
-            val requestBuilder: Request.Builder = chain.request()
+            val request: Request = chain.request()
                 .newBuilder()
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Content-Length", contentLength.toString())
-            if (prefs.accessToken!!.isNotEmpty()) {
-                requestBuilder.addHeader("Authorization", "Bearer " + prefs.accessToken)
+                .build()
+
+            return try {
+                chain.proceed(request)
+            } catch (ex: SocketTimeoutException) {
+                return createResponse(request)
             }
-            return chain.proceed(requestBuilder.build())
         }
 
     }
@@ -89,19 +98,20 @@ class NetworkModule {
         val customApplication: CustomApplication
     ) : Interceptor {
 
-        private val TAG = NetworkModule::class.java.simpleName
-
+        @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
+            var response: Response? = null
             val request = chain.request()
-            val response = chain.proceed(request)
-            try {
+            return try {
+                response = chain.proceed(request)
                 if (response.code == 401 && prefs.accessToken!!.isNotEmpty()) {
                     handleUnauthorisedResponse()
                 }
-            } catch (ex: Exception) {
-                Log.d(TAG, ex.toString())
+                response
+            } catch (ex: SocketTimeoutException) {
+                ex.printStackTrace()
+                return createResponse(request)
             }
-            return response
         }
 
         private fun handleUnauthorisedResponse() {
@@ -109,4 +119,21 @@ class NetworkModule {
         }
 
     }
+
+    companion object {
+
+        @JvmStatic
+        fun createResponse(request: Request): Response {
+            return Response.Builder()
+                .code(408)
+                .request(request)
+                .protocol(Protocol.HTTP_1_0)
+                .message("Please check internet connection")
+                .body(
+                    "{\"message\":[\"Please check internet connection\"]}".toResponseBody("application/json".toMediaTypeOrNull())
+                ).build()
+        }
+
+    }
+
 }

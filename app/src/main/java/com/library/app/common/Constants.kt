@@ -9,10 +9,10 @@ object Constants {
 
     const val APP_PREFS_NAME = "library_app_preferences"
 
-        const val BASE_URL = "https://dummy-library-system.herokuapp.com"
+    const val BASE_URL = "https://dummy-library-system.herokuapp.com"
 //    const val BASE_URL = "http://localhost:8080"
 
     //    const val TEST_BASE_URL = "https://dummy-library-system.herokuapp.com"
-    const val TEST_BASE_URL = "http://127.0.0.1:8080"
-
+    const val TEST_BASE_URL = "http://10.0.2.2:8080"
+//    const val TEST_BASE_URL = "http://localhost:8080"
 }

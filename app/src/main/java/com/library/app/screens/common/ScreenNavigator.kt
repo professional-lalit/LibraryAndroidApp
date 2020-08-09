@@ -52,6 +52,7 @@ class ScreenNavigator @Inject constructor() {
             val intent = Intent(activity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity.startActivity(intent)
+            activity.finish()
         }
 
         fun openHomePageAfterSplash(activity: SplashActivity) {

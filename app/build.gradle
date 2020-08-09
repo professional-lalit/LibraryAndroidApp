@@ -77,11 +77,14 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-android:2.7.22'
     // UI Tests
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
     androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
     androidTestImplementation "com.android.support.test:runner:1.0.2"
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:3.2.0"
+    androidTestImplementation ("org.awaitility:awaitility:4.0.1"){
+        exclude group: 'org.hamcrest'
+    }
     // ***************************************** Testing *********************************************************
 
     // *****************************  Networking  ******************************************************
