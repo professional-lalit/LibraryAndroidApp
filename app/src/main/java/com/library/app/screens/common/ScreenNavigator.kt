@@ -21,6 +21,11 @@ import javax.inject.Inject
  * an intent to open some screen.
  */
 
+/**
+ * This delay is added when new activity is started, this is done to address the issue faced while
+ * instrumentation testing. The Views on older activity are not found when new activity is visible
+ * instantly.
+ */
 const val SCREEN_DELAY = 500L
 
 class ScreenNavigator @Inject constructor() {
