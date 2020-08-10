@@ -28,7 +28,7 @@ class AuthRepository @Inject constructor(
      */
     suspend fun login(loginRequestSchema: LoginRequestSchema): Result<Any> {
         val response = mApiCallInterface.getAccessTokenAsync(loginRequestSchema).await()
-        return if (response.isSuccessful) {
+        return if (successCodes.contains(response.code())) {
             val loginResponseSchema = response.body() as LoginResponseSchema
             mPreferences.userId = loginResponseSchema.userId
             mPreferences.accessToken = loginResponseSchema.token
@@ -47,7 +47,7 @@ class AuthRepository @Inject constructor(
      */
     suspend fun signup(signupRequestSchema: SignupRequestSchema): Result<Any> {
         val response = mApiCallInterface.signupAsync(signupRequestSchema).await()
-        return if (response.isSuccessful) {
+        return if (successCodes.contains(response.code())) {
             val signupResponseResponseSchema = response.body() as SignupResponseSchema
             Result.Success(signupResponseResponseSchema)
         } else {
@@ -62,7 +62,7 @@ class AuthRepository @Inject constructor(
      */
     suspend fun forgotPassword(forgotPasswordRequestSchema: ForgotPasswordRequestSchema): Result<Any> {
         val response = mApiCallInterface.forgotPasswordAsync(forgotPasswordRequestSchema).await()
-        return if (response.isSuccessful) {
+        return if (successCodes.contains(response.code())) {
             val forgotPasswordResposeSchema = response.body() as ForgotPasswordResposeSchema
             mPreferences.userId = forgotPasswordResposeSchema.userId
             Result.Success(forgotPasswordResposeSchema)
@@ -80,7 +80,7 @@ class AuthRepository @Inject constructor(
         val changePasswordRequestSchema =
             ChangePasswordRequestSchema(mPreferences.userId!!, oldPassword, newPassword)
         val response = mApiCallInterface.changePasswordAsync(changePasswordRequestSchema).await()
-        return if (response.isSuccessful) {
+        return if (successCodes.contains(response.code())) {
             val changePasswordResponseSchema = response.body() as ChangePasswordResponseSchema
             Result.Success(changePasswordResponseSchema)
         } else {

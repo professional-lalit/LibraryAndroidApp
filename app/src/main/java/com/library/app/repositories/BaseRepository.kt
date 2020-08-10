@@ -16,6 +16,8 @@ import retrofit2.Retrofit
  */
 abstract class BaseRepository(val mRetrofit: Retrofit) {
 
+    protected val successCodes = arrayOf(200, 201, 202, 203)
+
     /**
      * Converts the API response to local model that is manageable according to business rules
      * @param response: The Server response to parse

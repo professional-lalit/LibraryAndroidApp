@@ -72,15 +72,15 @@ class SignupUIInteractor @Inject constructor(
 
     // ************************************* MESSAGES ***************************************
 
-    fun showValidationDialog(message: String) {
+    fun showValidationMsg(message: String) {
         makeToast(mContext, message)
     }
 
-    fun showSignupSuccessDialog(message: String) {
+    fun showSignupSuccessMsg(message: String) {
         makeToast(mContext, message)
     }
 
-    fun showSignupFailDialog(message: String) {
+    fun showSignupFailureMsg(message: String) {
         makeToast(mContext, message)
     }
 
@@ -98,35 +98,35 @@ class SignupUIInteractor @Inject constructor(
         val validator = mValidationManager.getSignupValidator(name, email, password, repassword)
         when (validator.isValid()) {
             InputValidator.ValidationCode.EMPTY_NAME_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.plz_enter_name))
+                showValidationMsg(mContext.getString(R.string.plz_enter_name))
                 return false
             }
             InputValidator.ValidationCode.FULL_NAME_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.plz_first_last_name))
+                showValidationMsg(mContext.getString(R.string.plz_first_last_name))
                 return false
             }
             InputValidator.ValidationCode.EMPTY_EMAIL_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.plz_enter_email))
+                showValidationMsg(mContext.getString(R.string.plz_enter_email))
                 return false
             }
             InputValidator.ValidationCode.INVALID_EMAIL_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.plz_enter_valid_email))
+                showValidationMsg(mContext.getString(R.string.plz_enter_valid_email))
                 return false
             }
             InputValidator.ValidationCode.EMPTY_PASSWORD_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.plz_enter_pwd))
+                showValidationMsg(mContext.getString(R.string.plz_enter_pwd))
                 return false
             }
             InputValidator.ValidationCode.INVALID_PASSWORD_LENGTH_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.pwd_shd_contain_6_char))
+                showValidationMsg(mContext.getString(R.string.pwd_shd_contain_6_char))
                 return false
             }
             InputValidator.ValidationCode.NEW_PASSWORD_SPCHR_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.pwd_shd_have_1_sp_char))
+                showValidationMsg(mContext.getString(R.string.pwd_shd_have_1_sp_char))
                 return false
             }
             InputValidator.ValidationCode.UNMATCHING_PASSWORDS_ERROR -> {
-                showValidationDialog(mContext.getString(R.string.plz_enter_name))
+                showValidationMsg(mContext.getString(R.string.plz_enter_name))
                 return false
             }
             InputValidator.ValidationCode.VALID -> return true

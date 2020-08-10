@@ -3,7 +3,6 @@ package com.library.app.screens.onboarding.signup
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.SignupResponseSchema
 import com.library.app.screens.common.BaseActivity
@@ -46,7 +45,7 @@ class SignupActivity : BaseActivity(), SignupUIInteractor.SignupController {
      */
     private fun observeSignupValidation() {
         signupViewModel.validationMsg.observe(this, Observer { msg ->
-            mSignupUIInteractor.showValidationDialog(msg)
+            mSignupUIInteractor.showValidationMsg(msg)
         })
     }
 
@@ -58,10 +57,11 @@ class SignupActivity : BaseActivity(), SignupUIInteractor.SignupController {
             mSignupUIInteractor.loading = false
             if (result is Result.Success) {
                 val response = result.data as SignupResponseSchema
-                mSignupUIInteractor.showSignupSuccessDialog(response.message!!)
+                mSignupUIInteractor.showSignupSuccessMsg(response.message!!)
             } else if (result is Result.Error) {
                 val err = result.errorResponseSchema
-                mSignupUIInteractor.showSignupFailDialog(err.message)
+                val message = err.data[0].msg
+                mSignupUIInteractor.showSignupFailureMsg(message)
             }
         })
     }

@@ -90,7 +90,7 @@ class TestNetworkModule {
      */
     class ResponseInterceptor(
         val prefs: Prefs,
-        val customApplication: UITestApplication
+        private val customApplication: UITestApplication
     ) : Interceptor {
 
         @Throws(IOException::class)

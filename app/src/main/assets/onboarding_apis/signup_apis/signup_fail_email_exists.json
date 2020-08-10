@@ -1,0 +1,11 @@
+{
+  "message": "Validation failed.",
+  "data": [
+    {
+      "location": "body",
+      "param": "email",
+      "value": "hajare.lalit1@gmail.com",
+      "msg": "E-Mail address already exists!"
+    }
+  ]
+}
