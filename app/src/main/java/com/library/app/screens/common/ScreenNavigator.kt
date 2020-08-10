@@ -9,6 +9,10 @@ import com.library.app.screens.onboarding.change_password.ChangePasswordActivity
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordActivity
 import com.library.app.screens.onboarding.login.LoginActivity
 import com.library.app.screens.onboarding.signup.SignupActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -16,6 +20,9 @@ import javax.inject.Inject
  * This class consists screen navigation routes, each function in this class is
  * an intent to open some screen.
  */
+
+const val SCREEN_DELAY = 500L
+
 class ScreenNavigator @Inject constructor() {
 
     /**
@@ -49,10 +56,13 @@ class ScreenNavigator @Inject constructor() {
         }
 
         fun openHomePageAfterLogin(activity: LoginActivity) {
-            val intent = Intent(activity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            activity.startActivity(intent)
-            activity.finish()
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(SCREEN_DELAY)
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                activity.startActivity(intent)
+                activity.finish()
+            }
         }
 
         fun openHomePageAfterSplash(activity: SplashActivity) {

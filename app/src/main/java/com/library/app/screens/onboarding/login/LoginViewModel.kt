@@ -38,18 +38,15 @@ class LoginViewModel @Inject constructor(
     val result: LiveData<Result<Any>> = mLoginResult
     val validationMsg: LiveData<String> = mValidationMessage
 
-    var loading = true
 
     /**
      * Get login result from `AuthRepository` & update the LiveData
      */
     fun login(email: String, password: String) {
-        loading = true
         val loginRequestSchema = LoginRequestSchema(email, password)
         launch {
             val response = authRepository.login(loginRequestSchema)
             mLoginResult.postValue(response)
-            loading = false
         }
     }
 

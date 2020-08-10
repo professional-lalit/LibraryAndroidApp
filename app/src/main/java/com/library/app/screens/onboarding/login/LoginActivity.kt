@@ -7,6 +7,10 @@ import com.library.app.R
 import com.library.app.networking.Result
 import com.library.app.networking.models.LoginResponseSchema
 import com.library.app.screens.common.BaseActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -61,7 +65,7 @@ class LoginActivity : BaseActivity(), LoginUIInteractor.LoginController {
             if (result is Result.Success) {
                 val response = result.data as LoginResponseSchema
                 mLoginUIInteractor.showLoginSuccessDialog(response.message!!)
-                mScreenNavigator.OnBoarding().openHomePageAfterLogin(this)
+                mScreenNavigator.OnBoarding().openHomePageAfterLogin(this@LoginActivity)
             } else if (result is Result.Error) {
                 val err = result.errorResponseSchema
                 mLoginUIInteractor.showLoginFailDialog(err.message)
