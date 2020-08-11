@@ -39,6 +39,12 @@ const val PASSWORD_CHANGE_SUCCESSFUL_MSG = "Password changed successfully!"
 /**
  * Created by Lalit N. Hajare, Software Engineer on 11/08/2020
  */
+/**
+ * The purpose of this test is to verify;
+ * 1. When old password is not matching
+ * 2. When password is recovered
+ * the expected dialog is displayed.
+ */
 @RunWith(AndroidJUnit4ClassRunner::class)
 class ChangePasswordActivityTest : BaseUITest() {
 

@@ -26,6 +26,12 @@ import java.util.concurrent.TimeUnit
 private const val SIGN_SUCCESS_MSG = "User created!"
 private const val SIGN_FAIL_EMAIL_EXIST_MSG = "E-Mail address already exists!"
 
+/**
+ * The purpose of this test is to verify;
+ * 1. When submitted email already exists
+ * 2. When submitted email & other info are legitimate
+ * the expected toast message is displayed.
+ */
 @RunWith(AndroidJUnit4ClassRunner::class)
 class SignupActivityTest : BaseUITest() {
 

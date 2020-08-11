@@ -32,7 +32,12 @@ import java.util.concurrent.TimeUnit
 private const val LOGIN_SUCCESS_MSG = "Login successful!"
 private const val LOGIN_FAILURE_MSG = "Wrong password!"
 
-
+/**
+ * The purpose of this test is to verify;
+ * 1. When submitted email & password are legitimate
+ * 2. When submitted email @ password are not legitimate
+ * the expected toast message is displayed.
+ */
 @RunWith(AndroidJUnit4ClassRunner::class)
 class LoginActivityTest : BaseUITest() {
 
