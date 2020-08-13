@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.library.app.networking.Result
 
 /**
  * Created by Lalit N. Hajare, Software Engineer on 30/07/2020
@@ -18,11 +19,11 @@ import javax.inject.Inject
 class BookDetailsViewModel @Inject constructor(val mBookRepository: BookRepository) :
     BaseViewModel() {
 
-    private var mBookDetails = MutableLiveData<BookDetails>()
-    private var mBookPreview = MutableLiveData<BookPreview>()
+    private var mBookDetails = MutableLiveData<Result<Any>>()
+    private var mBookPreview = MutableLiveData<Result<Any>>()
 
-    var bookDetails: LiveData<BookDetails> = mBookDetails
-    var bookPreview: LiveData<BookPreview> = mBookPreview
+    var bookDetails: LiveData<Result<Any>> = mBookDetails
+    var bookPreview: LiveData<Result<Any>> = mBookPreview
 
     fun fetchBookDetails(isbn: String) {
         launch {
@@ -32,11 +33,4 @@ class BookDetailsViewModel @Inject constructor(val mBookRepository: BookReposito
         }
     }
 
-    fun fetchBookPreview(isbn: String) {
-        launch {
-            withContext(Dispatchers.IO) {
-                mBookPreview.postValue(mBookRepository.getBookPreview(isbn))
-            }
-        }
-    }
 }

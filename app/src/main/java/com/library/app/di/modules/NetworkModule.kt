@@ -1,6 +1,5 @@
 package com.library.app.di.modules
 
-import android.util.Log
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.library.app.common.Constants
 import com.library.app.common.CustomApplication
@@ -12,7 +11,6 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -43,7 +41,7 @@ class NetworkModule {
             .writeTimeout(5, TimeUnit.SECONDS)
             .readTimeout(5, TimeUnit.SECONDS)
             .addInterceptor(logInterceptor)
-            .addInterceptor(HeaderInterceptor())
+            .addInterceptor(HeaderInterceptor(prefs))
             .addInterceptor(ResponseInterceptor(prefs, customApplication))
             .build()
     }
@@ -68,25 +66,25 @@ class NetworkModule {
     /**
      * This class is used to write headers at run time, when APIs are called
      */
-    class HeaderInterceptor : Interceptor {
+    class HeaderInterceptor(val prefs: Prefs) : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             var contentLength = 0L
             if (chain.request().body != null) {
                 contentLength = chain.request().body!!.contentLength()
             }
-            val request: Request = chain.request()
+            val requestBuilder: Request.Builder = chain.request()
                 .newBuilder()
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Content-Length", contentLength.toString())
-                .build()
-
+            if (prefs.accessToken != null && prefs.accessToken!!.isNotEmpty()) {
+                requestBuilder.addHeader("Authorization", "Bearer "+prefs.accessToken!!)
+            }
             return try {
-                chain.proceed(request)
+                chain.proceed(requestBuilder.build())
             } catch (ex: SocketTimeoutException) {
-                return createResponse(request)
+                return createResponse(requestBuilder.build())
             }
         }
-
     }
 
     /**

@@ -64,7 +64,7 @@ class ScreenNavigator @Inject constructor() {
             CoroutineScope(Dispatchers.Main).launch {
                 delay(SCREEN_DELAY)
                 val intent = Intent(activity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 activity.startActivity(intent)
                 activity.finish()
             }

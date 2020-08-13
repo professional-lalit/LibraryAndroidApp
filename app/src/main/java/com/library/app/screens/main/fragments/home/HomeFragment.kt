@@ -10,6 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.library.app.common.ViewModelProviderFactory
 import com.library.app.models.Book
 import com.library.app.models.Category
+import com.library.app.networking.Result
+import com.library.app.networking.models.BookListResponseSchema
+import com.library.app.networking.models.CategoryListResponseSchema
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.MainActivity
@@ -20,7 +23,7 @@ import com.library.app.utils.Utils
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class HomeFragment : DaggerFragment(),
+class HomeFragment : BaseFragment(),
     HomeUIInteractor.HomeUIController {
 
     private lateinit var mHomeViewModel: HomeViewModel
@@ -28,8 +31,6 @@ class HomeFragment : DaggerFragment(),
     @Inject
     lateinit var mHomeUIInteractor: HomeUIInteractor
 
-    @Inject
-    lateinit var providerFactory: ViewModelProviderFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,17 +54,23 @@ class HomeFragment : DaggerFragment(),
     }
 
     private fun getHomeData() {
-        mHomeViewModel.trendingBookList.observe(this, Observer { list ->
+        mHomeViewModel.trendingBookList.observe(this, Observer { result ->
             mHomeUIInteractor.trendingBooksLoading = false
-            mHomeUIInteractor.showTrendingBooks(list)
+            if (result is Result.Success) {
+                mHomeUIInteractor.showTrendingBooks(result.data as BookListResponseSchema)
+            }
         })
-        mHomeViewModel.recentBooksVisitedList.observe(this, Observer { list ->
+        mHomeViewModel.recentBooksVisitedList.observe(this, Observer { result ->
             mHomeUIInteractor.recentVisitedBooksLoading = false
-            mHomeUIInteractor.showRecentVisitedBooks(list)
+            if (result is Result.Success) {
+                mHomeUIInteractor.showRecentVisitedBooks(result.data as BookListResponseSchema)
+            }
         })
-        mHomeViewModel.categoryList.observe(this, Observer { list ->
+        mHomeViewModel.categoryList.observe(this, Observer { result ->
             mHomeUIInteractor.categoriesLoading = false
-            mHomeUIInteractor.showCategories(list)
+            if (result is Result.Success) {
+                mHomeUIInteractor.showCategories(result.data as CategoryListResponseSchema)
+            }
         })
         mHomeUIInteractor.trendingBooksLoading = true
         mHomeUIInteractor.recentVisitedBooksLoading = true

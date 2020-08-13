@@ -49,10 +49,10 @@ class BookPreviewFragment @Inject constructor(val bookPreviewUIInteractor: BookP
 
         mBookDetailsViewModel.bookPreview.observe(this, Observer { bookPreview ->
             bookPreviewUIInteractor.loading = false
-            bookPreviewUIInteractor.showPreview(bookPreview)
+//            bookPreviewUIInteractor.showPreview(bookPreview)
         })
         bookPreviewUIInteractor.loading = true
-        mBookDetailsViewModel.fetchBookPreview(mISBN!!)
+//        mBookDetailsViewModel.fetchBookPreview(mISBN!!)
     }
 
 }

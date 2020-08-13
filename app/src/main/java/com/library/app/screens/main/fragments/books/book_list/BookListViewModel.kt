@@ -8,15 +8,16 @@ import com.library.app.repositories.BookRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.library.app.networking.Result
 
 /**
  * Created by Lalit N. Hajare, Software Engineer on 01/08/2020
  */
 class BookListViewModel @Inject constructor(val mBookRepository: BookRepository) : BaseViewModel() {
 
-    private var mBookList = MediatorLiveData<ArrayList<Book>>()
+    private var mBookList = MediatorLiveData<Result<Any>>()
 
-    var bookList: LiveData<ArrayList<Book>> = mBookList
+    var bookList: LiveData<Result<Any>> = mBookList
 
     fun fetchBooks(category: String?, pageIndex: Int) {
         launch {

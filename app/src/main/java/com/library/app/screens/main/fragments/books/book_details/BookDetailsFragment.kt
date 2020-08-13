@@ -8,14 +8,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.library.app.R
 import com.library.app.common.ViewModelProviderFactory
+import com.library.app.networking.Result
+import com.library.app.networking.models.BookDetailsResponseSchema
+import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.MainActivity
 import com.library.app.utils.Utils
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class BookDetailsFragment : DaggerFragment(),
+class BookDetailsFragment : BaseFragment(),
     BookDetailsUIInteractor.BookDetailsController {
-
 
     @Inject
     lateinit var mBookDetailsUIInteractor: BookDetailsUIInteractor
@@ -26,8 +28,6 @@ class BookDetailsFragment : DaggerFragment(),
 
     lateinit var mBookDetailsViewModel: BookDetailsViewModel
 
-    @Inject
-    lateinit var providerFactory: ViewModelProviderFactory
 
     private var mISBN: String? = ""
 
@@ -63,10 +63,10 @@ class BookDetailsFragment : DaggerFragment(),
     }
 
     private fun loadBookDetails() {
-        mBookDetailsViewModel.bookDetails.observe(this, Observer { bookDetails ->
+        mBookDetailsViewModel.bookDetails.observe(this, Observer { result ->
             mBookDetailsUIInteractor.loading = false
-            if (bookDetails != null) {
-                mBookDetailsUIInteractor.showBookDetails(bookDetails)
+            if (result is Result.Success) {
+                mBookDetailsUIInteractor.showBookDetails(result.data as BookDetailsResponseSchema)
             } else {
                 Utils.showToast(getString(R.string.book_not_found))
                 requireActivity().finish()
@@ -76,14 +76,6 @@ class BookDetailsFragment : DaggerFragment(),
         mBookDetailsViewModel.fetchBookDetails(mISBN!!)
     }
 
-    /*  override fun openBookPreview() {
-          val bundle = Bundle()
-          bundle.putString(BookPreviewFragment.ISBN, mISBN)
-          mBookPreviewFragment.arguments = bundle
-          fragmentManager!!.beginTransaction()
-              .addToBackStack(MainActivity.MainScreenFragments.BOOK_PREVIEW.name)
-              .add(this.id, mBookPreviewFragment).commit()
-      }*/
 
     override fun addToCart() {
 

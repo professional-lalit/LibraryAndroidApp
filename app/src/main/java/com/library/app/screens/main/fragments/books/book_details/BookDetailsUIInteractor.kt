@@ -11,6 +11,7 @@ import com.library.app.R
 import com.library.app.common.ImageLoader
 import com.library.app.databinding.FragmentBookDetailsBinding
 import com.library.app.models.BookDetails
+import com.library.app.networking.models.BookDetailsResponseSchema
 import com.library.app.screens.common.UIInteractor
 import javax.inject.Inject
 
@@ -44,7 +45,8 @@ class BookDetailsUIInteractor @Inject constructor(val mContext: Context) : BaseO
             notifyPropertyChanged(BR.loading)
         }
 
-    fun showBookDetails(bookDetails: BookDetails) {
+    fun showBookDetails(bookDetailsResponse: BookDetailsResponseSchema) {
+        val bookDetails = bookDetailsResponse.convert()
         ImageLoader.getImage(mBinding!!.imgBook, bookDetails.thumbnailUrl)
         if (bookDetails.title!!.isNotEmpty()) {
             mBinding!!.txtBookTitle.text = bookDetails.title!!

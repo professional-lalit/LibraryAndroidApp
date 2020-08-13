@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.library.app.R
+import com.library.app.screens.common.BaseFragment
 
 
-class SavedBooksFragment : Fragment() {
+class SavedBooksFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

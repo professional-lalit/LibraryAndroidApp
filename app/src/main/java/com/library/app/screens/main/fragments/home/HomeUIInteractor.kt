@@ -16,6 +16,8 @@ import com.library.app.databinding.ActivityLoginBinding
 import com.library.app.databinding.FragmentHomeBinding
 import com.library.app.models.Book
 import com.library.app.models.Category
+import com.library.app.networking.models.BookListResponseSchema
+import com.library.app.networking.models.CategoryListResponseSchema
 import com.library.app.screens.main.fragments.books.BookAdapter
 import com.library.app.screens.main.fragments.books.CategoryAdapter
 import com.library.app.utils.Utils
@@ -44,31 +46,36 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
         return mHomeBinding?.root!!
     }
 
-    fun showTrendingBooks(list: ArrayList<Book>?) {
-        if (list != null) {
-            mHomeBinding!!.trendingBooksRecycler.adapter = BookAdapter(list, this)
-            mHomeBinding!!.trendingBooksRecycler.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            autoScrollListLeft(mHomeBinding!!.trendingBooksRecycler)
+    fun showTrendingBooks(listResponse: BookListResponseSchema) {
+        val list = arrayListOf<Book>()
+        for (bookItem in listResponse.books) {
+            list.add(bookItem.convert())
         }
+        mHomeBinding!!.trendingBooksRecycler.adapter = BookAdapter(list, this)
+        mHomeBinding!!.trendingBooksRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        autoScrollListLeft(mHomeBinding!!.trendingBooksRecycler)
     }
 
-    fun showRecentVisitedBooks(list: ArrayList<Book>?) {
-        if (list != null) {
-            mHomeBinding!!.recentVisitedBooksRecycler.adapter = BookAdapter(list, this)
-            mHomeBinding!!.recentVisitedBooksRecycler.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            autoScrollListRight(mHomeBinding!!.recentVisitedBooksRecycler)
+    fun showRecentVisitedBooks(listResponse: BookListResponseSchema) {
+        val list = arrayListOf<Book>()
+        for (bookItem in listResponse.books) {
+            list.add(bookItem.convert())
         }
+        mHomeBinding!!.recentVisitedBooksRecycler.adapter = BookAdapter(list, this)
+        mHomeBinding!!.recentVisitedBooksRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        autoScrollListRight(mHomeBinding!!.recentVisitedBooksRecycler)
+
     }
 
-    fun showCategories(list: ArrayList<Category>?) {
-        if (list != null) {
-            mHomeBinding!!.categoriesRecycler.adapter = CategoryAdapter(list, this)
-            mHomeBinding!!.categoriesRecycler.layoutManager = GridLayoutManager(context, 3)
-        } else {
-            Utils.showToast(context.getString(R.string.no_categories_found))
+    fun showCategories(listResponse: CategoryListResponseSchema) {
+        val list = arrayListOf<Category>()
+        for (catItem in listResponse.cats) {
+            list.add(catItem.convert())
         }
+        mHomeBinding!!.categoriesRecycler.adapter = CategoryAdapter(list, this)
+        mHomeBinding!!.categoriesRecycler.layoutManager = GridLayoutManager(context, 3)
     }
 
     @Bindable

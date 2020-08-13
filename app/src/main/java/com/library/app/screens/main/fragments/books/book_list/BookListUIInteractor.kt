@@ -14,6 +14,7 @@ import com.library.app.databinding.FragmentBookDetailsBinding
 import com.library.app.databinding.FragmentBookListBinding
 import com.library.app.di.annotations.books.BookListScope
 import com.library.app.models.Book
+import com.library.app.networking.models.BookListResponseSchema
 import com.library.app.screens.common.UIInteractor
 import com.library.app.screens.main.fragments.books.BookAdapter
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsUIInteractor
@@ -50,12 +51,16 @@ class BookListUIInteractor @Inject constructor(val mContext: Context) : BaseObse
             notifyPropertyChanged(BR.loading)
         }
 
-    fun addBooksInList(list: ArrayList<Book>?) {
+    fun addBooksInList(listResponse: BookListResponseSchema) {
         if (mBinding!!.recyclerBooks.adapter == null) {
             mBookList.clear()
             setRecyclerAdapter()
         }
-        if (list != null) {
+        val list = arrayListOf<Book>()
+        for (bookItem in listResponse.books) {
+            list.add(bookItem.convert())
+        }
+        if (list.isNotEmpty()) {
             mBookList += list
             mBookListAdapter!!.notifyItemRangeInserted(mBookList.size - list.size, list.size)
             mBinding!!.txtNoRecords.visibility = View.GONE

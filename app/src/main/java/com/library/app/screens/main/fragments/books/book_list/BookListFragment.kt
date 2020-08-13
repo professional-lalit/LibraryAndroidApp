@@ -13,6 +13,8 @@ import com.library.app.common.CustomApplication
 import com.library.app.common.ViewModelProviderFactory
 import com.library.app.di.annotations.books.BookListScope
 import com.library.app.models.Book
+import com.library.app.networking.Result
+import com.library.app.networking.models.BookListResponseSchema
 import com.library.app.screens.common.BaseActivity
 import com.library.app.screens.common.BaseFragment
 import com.library.app.screens.main.MainActivity
@@ -20,13 +22,11 @@ import com.library.app.screens.main.fragments.books.book_details.BookDetailsFrag
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class BookListFragment : DaggerFragment(), BookListUIInteractor.BookListController {
+class BookListFragment : BaseFragment(), BookListUIInteractor.BookListController {
 
     @Inject
     lateinit var bookListUIInteractor: BookListUIInteractor
 
-    @Inject
-    lateinit var providerFactory: ViewModelProviderFactory
 
     companion object {
         const val CATEGORY_NAME = "category_name"
@@ -70,8 +70,10 @@ class BookListFragment : DaggerFragment(), BookListUIInteractor.BookListControll
     }
 
     private fun loadBookList() {
-        mBookListViewModel.bookList.observe(this, Observer { list ->
-            bookListUIInteractor.addBooksInList(list)
+        mBookListViewModel.bookList.observe(this, Observer { result ->
+            if (result is Result.Success) {
+                bookListUIInteractor.addBooksInList(result.data as BookListResponseSchema)
+            }
         })
         mBookListViewModel.fetchBooks(mCategory, mPageIndex)
     }
