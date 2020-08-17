@@ -1,6 +1,7 @@
-package com.library.app.screens.common
+package com.inputvalidationmanager.module.validators
 
-import com.library.app.common.Constants
+import com.inputvalidationmanager.module.Constants
+import com.inputvalidationmanager.module.ValidatorFactory
 import java.util.regex.Pattern
 
 /**
@@ -87,7 +88,8 @@ abstract class InputValidator {
             if (this.scheme == null) {
                 throw SchemeNotSetException()
             } else {
-                mValidator = ValidatorFactory().getValidator(this.scheme!!)
+                mValidator = ValidatorFactory()
+                    .getValidator(this.scheme!!)
                 mValidator!!.name = this.name
                 mValidator!!.email = this.email
                 mValidator!!.password = this.password
