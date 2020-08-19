@@ -40,10 +40,7 @@ class SignupViewModelTest {
      * Dependencies for SUT
      */
     private val mAuthRepository: AuthRepository = Mockito.mock(AuthRepository::class.java)
-    private val mSignupInputValidator: SignupInputValidator =
-        Mockito.mock(SignupInputValidator::class.java)
-
-    private var SUT = SignupViewModel(mAuthRepository, mSignupInputValidator)
+    private var SUT = SignupViewModel(mAuthRepository)
 
     private val name = "XXXXX"
     private val email = "XXXXX"

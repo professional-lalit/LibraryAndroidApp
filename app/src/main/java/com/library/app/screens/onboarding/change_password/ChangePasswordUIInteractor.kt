@@ -6,17 +6,15 @@ import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
+import com.dialogsmanager.module.DialogManager
+import com.inputvalidationmanager.module.ValidationManager
+import com.inputvalidationmanager.module.validators.InputValidator
 import com.library.app.BR
 import com.library.app.R
 import com.library.app.databinding.ActivityChangePasswordBinding
-import com.library.app.databinding.ActivityLoginBinding
 import com.library.app.networking.models.ChangePasswordResponseSchema
 import com.library.app.networking.models.ErrorResponseSchema
 import com.library.app.screens.common.BaseController
-import com.library.app.screens.common.DialogManager
-import com.library.app.screens.common.InputValidator
-import com.library.app.screens.common.ValidationManager
-import com.library.app.screens.onboarding.login.LoginViewModel
 import makeToast
 import javax.inject.Inject
 

@@ -23,11 +23,7 @@ class SignupViewModel @Inject constructor(
     /**
      * Calls underlying API endpoint & returns API result
      */
-    val authRepository: AuthRepository,
-    /**
-     * Validates the data entered from screen
-     */
-    val signupInputValidator: SignupInputValidator
+    val authRepository: AuthRepository
 ) : BaseViewModel() {
 
     /**

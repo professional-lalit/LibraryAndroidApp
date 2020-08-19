@@ -1,12 +1,11 @@
 package com.library.app.di.modules
 
 import android.content.Context
-import com.library.app.common.CustomApplication
+import com.inputvalidationmanager.module.ValidationManager
 import com.library.app.common.Prefs
 import com.library.app.common.UITestApplication
-import com.library.app.screens.common.DialogManager
+import com.dialogsmanager.module.DialogManager
 import com.library.app.screens.common.ScreenNavigator
-import com.library.app.screens.common.ValidationManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -33,8 +32,8 @@ class TestAppModule {
 
     @Singleton
     @Provides
-    fun getDialogManager(context: Context): DialogManager {
-        return DialogManager(context)
+    fun getDialogManager(context: Context): com.dialogsmanager.module.DialogManager {
+        return com.dialogsmanager.module.DialogManager(context)
     }
 
     @Singleton

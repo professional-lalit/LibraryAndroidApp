@@ -1,16 +1,12 @@
 package com.library.app.screens.onboarding.change_password
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.library.app.networking.Result
 import com.library.app.networking.models.ChangePasswordResponseSchema
 import com.library.app.networking.models.ErrorObj
 import com.library.app.networking.models.ErrorResponseSchema
 import com.library.app.repositories.AuthRepository
-import com.library.app.screens.onboarding.login.LoginInputValidator
-import com.library.app.screens.onboarding.login.LoginViewModel
 import com.nhaarman.mockitokotlin2.anyOrNull
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
 import observeOnce
 import org.junit.Before
@@ -18,7 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 
 /**

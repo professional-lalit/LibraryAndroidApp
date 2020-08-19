@@ -1,7 +1,5 @@
 package com.library.app.screens.onboarding.forgot_password
 
-import com.library.app.screens.common.InputValidator
-import com.library.app.screens.common.ValidationManager
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

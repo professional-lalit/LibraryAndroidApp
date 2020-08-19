@@ -17,7 +17,7 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        Handler().postDelayed(Runnable {
+        Handler().postDelayed({
             if (mPrefs.accessToken!!.isEmpty()) {
                 mScreenNavigator.OnBoarding().openLoginActivityAfterSplash(this)
             } else {

@@ -1,8 +1,5 @@
 package com.library.app.screens.onboarding.signup
 
-import com.library.app.screens.common.InputValidator
-import com.library.app.screens.common.ValidationManager
-import com.library.app.screens.onboarding.login.LoginInputValidator
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

@@ -1,6 +1,5 @@
 package com.library.app.screens.common
 
-import androidx.fragment.app.Fragment
 import com.library.app.common.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -14,7 +13,7 @@ open class BaseFragment : DaggerFragment() {
     lateinit var mScreenNavigator: ScreenNavigator
 
     @Inject
-    lateinit var mDialogManager: DialogManager
+    lateinit var mDialogManager: com.dialogsmanager.module.DialogManager
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory

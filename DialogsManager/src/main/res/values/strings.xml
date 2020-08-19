@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="password_recovery">Password Recovery</string>
+    <string name="update_password">Update Password</string>
+    <string name="ok">ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+</resources>

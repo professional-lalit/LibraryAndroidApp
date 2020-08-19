@@ -1,3 +1,4 @@
+include ':DialogsManager'
 include ':InputValidationManager'
 include ':app'
 rootProject.name = "Library"

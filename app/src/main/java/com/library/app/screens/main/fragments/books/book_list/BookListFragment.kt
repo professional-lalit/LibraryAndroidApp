@@ -38,10 +38,6 @@ class BookListFragment : BaseFragment(), BookListUIInteractor.BookListController
 
     private lateinit var mBookListViewModel: BookListViewModel
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-    }
-
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
         mCategory = args?.getString(CATEGORY_NAME)

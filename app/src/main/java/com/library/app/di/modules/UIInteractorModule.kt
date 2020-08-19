@@ -1,11 +1,8 @@
 package com.library.app.di.modules
 
 import android.content.Context
-import com.library.app.di.annotations.*
-import com.library.app.di.annotations.books.BookDetailScope
-import com.library.app.di.annotations.books.BookListScope
-import com.library.app.screens.common.DialogManager
-import com.library.app.screens.common.ValidationManager
+import com.inputvalidationmanager.module.ValidationManager
+import com.dialogsmanager.module.DialogManager
 import com.library.app.screens.main.fragments.books.book_details.BookDetailsUIInteractor
 import com.library.app.screens.main.fragments.books.book_details.BookPreviewUIInteractor
 import com.library.app.screens.main.fragments.books.book_list.BookListUIInteractor
@@ -16,7 +13,6 @@ import com.library.app.screens.onboarding.login.LoginUIInteractor
 import com.library.app.screens.onboarding.signup.SignupUIInteractor
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Created by Lalit Hajare, Software Engineer on 15/6/20
@@ -44,7 +40,7 @@ class UIInteractorModule {
     @Provides
     fun provideForgotPasswordUIInteractor(
         context: Context,
-        dialogManager: DialogManager,
+        dialogManager: com.dialogsmanager.module.DialogManager,
         validationManager: ValidationManager
     ): ForgotPasswordUIInteractor {
         return ForgotPasswordUIInteractor(context, dialogManager, validationManager)
@@ -53,7 +49,7 @@ class UIInteractorModule {
     @Provides
     fun provideChangePasswordUIInteractor(
         context: Context,
-        dialogManager: DialogManager,
+        dialogManager: com.dialogsmanager.module.DialogManager,
         validationManager: ValidationManager
     ): ChangePasswordUIInteractor {
         return ChangePasswordUIInteractor(context, dialogManager, validationManager)

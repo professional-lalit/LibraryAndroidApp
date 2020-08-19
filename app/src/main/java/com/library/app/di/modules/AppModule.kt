@@ -1,14 +1,13 @@
 package com.library.app.di.modules
 
 import android.content.Context
+import com.inputvalidationmanager.module.ValidationManager
 import com.library.app.common.CustomApplication
 import com.library.app.common.Prefs
-import com.library.app.screens.common.DialogManager
+import com.dialogsmanager.module.DialogManager
 import com.library.app.screens.common.ScreenNavigator
-import com.library.app.screens.common.ValidationManager
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Created by Lalit Hajare, Software Engineer on 3/6/20

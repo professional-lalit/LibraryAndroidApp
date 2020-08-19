@@ -6,11 +6,11 @@ import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
+import com.inputvalidationmanager.module.ValidationManager
+import com.inputvalidationmanager.module.validators.InputValidator
 import com.library.app.BR
 import com.library.app.R
 import com.library.app.databinding.ActivitySignupBinding
-import com.library.app.screens.common.InputValidator
-import com.library.app.screens.common.ValidationManager
 import makeToast
 import javax.inject.Inject
 

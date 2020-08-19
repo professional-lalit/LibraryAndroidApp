@@ -1,15 +1,15 @@
-package com.library.app.screens.common
+package com.dialogsmanager.module.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.library.app.R
+import com.dialogsmanager.module.R
 
 /**
- * Created by Lalit Hajare, Software Engineer on 22/6/20
+ * Created by Lalit N. Hajare, Software Engineer on 19/08/2020
  */
-class InfoDialog(val callback: () -> Unit) : DialogFragment() {
+class ConfirmDialog(val callback: (Boolean) -> Unit) : DialogFragment() {
 
     private lateinit var mTitle: String
     private lateinit var mMessage: String
@@ -24,18 +24,25 @@ class InfoDialog(val callback: () -> Unit) : DialogFragment() {
         return AlertDialog.Builder(context!!)
             .setTitle(mTitle)
             .setMessage(mMessage)
-            .setNeutralButton(
-                R.string.ok
+            .setCancelable(false)
+            .setPositiveButton(
+                R.string.yes
             ) { dialog, which ->
-                callback.invoke()
+                callback.invoke(true)
+                dismiss()
+            }
+            .setNegativeButton(
+                R.string.no
+            ) { dialog, which ->
+                callback.invoke(false)
                 dismiss()
             }
             .create()
     }
 
     companion object {
-        fun getInstance(callback: () -> Unit): InfoDialog {
-            return InfoDialog(callback)
+        fun getInstance(callback: (Boolean?) -> Unit): ConfirmDialog {
+            return ConfirmDialog(callback)
         }
     }
 

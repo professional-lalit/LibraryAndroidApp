@@ -1,23 +1,20 @@
 package com.library.app.screens.onboarding.forgot_password
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
+import com.inputvalidationmanager.module.ValidationManager
+import com.inputvalidationmanager.module.validators.InputValidator
 import com.library.app.BR
 import com.library.app.R
-import com.library.app.common.Constants
 import com.library.app.databinding.ActivityForgotPasswordBinding
 import com.library.app.networking.models.ErrorResponseSchema
 import com.library.app.networking.models.ForgotPasswordResposeSchema
 import com.library.app.screens.common.BaseController
-import com.library.app.screens.common.DialogManager
-import com.library.app.screens.common.InputValidator
-import com.library.app.screens.common.ValidationManager
+import com.dialogsmanager.module.DialogManager
 import makeToast
 import javax.inject.Inject
 
@@ -28,7 +25,7 @@ import javax.inject.Inject
  */
 class ForgotPasswordUIInteractor @Inject constructor(
     val mContext: Context,
-    val dialogManager: DialogManager,
+    val dialogManager: com.dialogsmanager.module.DialogManager,
     val mValidationManager: ValidationManager
 ) : BaseObservable() {
 

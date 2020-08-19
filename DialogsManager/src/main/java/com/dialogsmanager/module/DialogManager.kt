@@ -1,12 +1,11 @@
-package com.library.app.screens.common
+package com.dialogsmanager.module
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.library.app.R
-import com.library.app.common.Constants
+import com.dialogsmanager.module.dialogs.ConfirmDialog
+import com.dialogsmanager.module.dialogs.InfoDialog
+import com.dialogsmanager.module.dialogs.PromptDialog
 
 /**
  * Created by Lalit Hajare, Software Engineer on 22/6/20
@@ -28,15 +27,15 @@ class DialogManager constructor(val mContext: Context) {
      * Identifiers used to avoid repetitive dialogs on screen.
      * These identifiers are used as `tag` while showing `DialogFragment`.
      */
-    object DialogIdentifiers {
-        const val DIALOG_FORGOT_PASSWORD_SUCCESS = "forgot_password_success_prompt"
-        const val DIALOG_FORGOT_PASSWORD_FAILURE = "forgot_password_failure_prompt"
-        const val DIALOG_CHANGE_PASSWORD_SUCCESS = "change_password_success_prompt"
-        const val DIALOG_CHANGE_PASSWORD_FAILURE = "change_password_failure_prompt"
+    enum class DialogIdentifiers(val tagName: String) {
+        DIALOG_FORGOT_PASSWORD_SUCCESS("forgot_password_success_prompt"),
+        DIALOG_FORGOT_PASSWORD_FAILURE("forgot_password_failure_prompt"),
+        DIALOG_CHANGE_PASSWORD_SUCCESS("change_password_success_prompt"),
+        DIALOG_CHANGE_PASSWORD_FAILURE("change_password_failure_prompt")
     }
 
     /**
-     * The function to show Information Dialog, which is used to just notify user and has a single
+     * The function to show Information/Alert Dialog, which is used to just notify user and has a single
      * neutral button on it.
      */
     private fun showInfo(
@@ -51,6 +50,45 @@ class DialogManager constructor(val mContext: Context) {
         bundle.putString("title", title)
         bundle.putString("message", msg)
         val dialogFragment = InfoDialog.getInstance(callback)
+        dialogFragment.arguments = bundle
+        dialogFragment.show(fragmentManager!!, tag)
+    }
+
+    /**
+     * The function to show Confirmation Dialog, which is used to get confirmation from user
+     * and has two buttons 'Yes' & 'No'
+     */
+    private fun showConfirmation(
+        fragMgr: FragmentManager,
+        tag: String,
+        title: String,
+        msg: String,
+        callback: (Boolean?) -> Unit
+    ) {
+        fragmentManager = fragMgr
+        val bundle = Bundle()
+        bundle.putString("title", title)
+        bundle.putString("message", msg)
+        val dialogFragment = ConfirmDialog.getInstance(callback)
+        dialogFragment.arguments = bundle
+        dialogFragment.show(fragmentManager!!, tag)
+    }
+
+    /**
+     * The function to show Prompt Dialog, which gets input from user
+     */
+    private fun showPrompt(
+        fragMgr: FragmentManager,
+        tag: String,
+        title: String,
+        msg: String,
+        callback: (String?) -> Unit
+    ) {
+        fragmentManager = fragMgr
+        val bundle = Bundle()
+        bundle.putString("title", title)
+        bundle.putString("message", msg)
+        val dialogFragment = PromptDialog.getInstance(callback)
         dialogFragment.arguments = bundle
         dialogFragment.show(fragmentManager!!, tag)
     }
@@ -76,7 +114,7 @@ class DialogManager constructor(val mContext: Context) {
         callback: () -> Unit
     ) {
         val title = mContext.getString(R.string.password_recovery)
-        val tag = DialogIdentifiers.DIALOG_FORGOT_PASSWORD_SUCCESS
+        val tag = DialogIdentifiers.DIALOG_FORGOT_PASSWORD_SUCCESS.tagName
         fragmentManager = fragMgr
         if (!isDialogShown(tag))
             showInfo(fragmentManager!!, tag, title, message, callback)
@@ -92,7 +130,8 @@ class DialogManager constructor(val mContext: Context) {
         callback: () -> Unit
     ) {
         val title = mContext.getString(R.string.password_recovery)
-        val tag = DialogIdentifiers.DIALOG_FORGOT_PASSWORD_FAILURE
+        val tag =
+            DialogIdentifiers.DIALOG_FORGOT_PASSWORD_FAILURE.tagName
         fragmentManager = fragMgr
         if (!isDialogShown(tag))
             showInfo(fragmentManager!!, tag, title, message, callback)
@@ -104,7 +143,8 @@ class DialogManager constructor(val mContext: Context) {
         callback: () -> Unit
     ) {
         val title = mContext.getString(R.string.update_password)
-        val tag = DialogIdentifiers.DIALOG_CHANGE_PASSWORD_SUCCESS
+        val tag =
+            DialogIdentifiers.DIALOG_CHANGE_PASSWORD_SUCCESS.tagName
         fragmentManager = fragMgr
         if (!isDialogShown(tag))
             showInfo(fragmentManager!!, tag, title, message, callback)
@@ -116,7 +156,8 @@ class DialogManager constructor(val mContext: Context) {
         callback: () -> Unit
     ) {
         val title = mContext.getString(R.string.update_password)
-        val tag = DialogIdentifiers.DIALOG_CHANGE_PASSWORD_FAILURE
+        val tag =
+            DialogIdentifiers.DIALOG_CHANGE_PASSWORD_FAILURE.tagName
         fragmentManager = fragMgr
         if (!isDialogShown(tag))
             showInfo(fragmentManager!!, tag, title, message, callback)
