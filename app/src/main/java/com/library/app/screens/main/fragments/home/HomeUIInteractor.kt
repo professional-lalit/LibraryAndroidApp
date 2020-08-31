@@ -48,8 +48,10 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
 
     fun showTrendingBooks(listResponse: BookListResponseSchema) {
         val list = arrayListOf<Book>()
-        for (bookItem in listResponse.books) {
-            list.add(bookItem.convert())
+        if (listResponse.books != null) {
+            for (bookItem in listResponse.books) {
+                list.add(bookItem.convert())
+            }
         }
         mHomeBinding!!.trendingBooksRecycler.adapter = BookAdapter(list, this)
         mHomeBinding!!.trendingBooksRecycler.layoutManager =
@@ -59,8 +61,10 @@ class HomeUIInteractor @Inject constructor(private val context: Context) : BaseO
 
     fun showRecentVisitedBooks(listResponse: BookListResponseSchema) {
         val list = arrayListOf<Book>()
-        for (bookItem in listResponse.books) {
-            list.add(bookItem.convert())
+        if (listResponse.books != null) {
+            for (bookItem in listResponse.books) {
+                list.add(bookItem.convert())
+            }
         }
         mHomeBinding!!.recentVisitedBooksRecycler.adapter = BookAdapter(list, this)
         mHomeBinding!!.recentVisitedBooksRecycler.layoutManager =

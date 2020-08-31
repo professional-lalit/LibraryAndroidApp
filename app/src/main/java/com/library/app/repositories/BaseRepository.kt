@@ -26,10 +26,15 @@ abstract class BaseRepository(val mRetrofit: Retrofit) {
      * to local model
      */
     fun parseError(errorBody: ResponseBody): ErrorResponseSchema {
-        return mRetrofit.responseBodyConverter<ErrorResponseSchema>(
-            ErrorResponseSchema::class.java,
-            arrayOf()
-        ).convert(errorBody)!!
+        return try {
+            mRetrofit.responseBodyConverter<ErrorResponseSchema>(
+                ErrorResponseSchema::class.java,
+                arrayOf()
+            ).convert(errorBody)!!
+        } catch (e: Exception) {
+            ErrorResponseSchema("", arrayListOf())
+        }
     }
+
 }
 

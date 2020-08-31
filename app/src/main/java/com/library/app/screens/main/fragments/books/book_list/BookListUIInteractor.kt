@@ -57,8 +57,10 @@ class BookListUIInteractor @Inject constructor(val mContext: Context) : BaseObse
             setRecyclerAdapter()
         }
         val list = arrayListOf<Book>()
-        for (bookItem in listResponse.books) {
-            list.add(bookItem.convert())
+        if (listResponse.books != null) {
+            for (bookItem in listResponse.books!!) {
+                list.add(bookItem.convert())
+            }
         }
         if (list.isNotEmpty()) {
             mBookList += list

@@ -30,9 +30,15 @@ class AuthRepository @Inject constructor(
         val response = mApiCallInterface.getAccessTokenAsync(loginRequestSchema).await()
         return if (successCodes.contains(response.code())) {
             val loginResponseSchema = response.body() as LoginResponseSchema
-            mPreferences.userId = loginResponseSchema.userId
-            mPreferences.accessToken = loginResponseSchema.token
-            Result.Success(loginResponseSchema)
+            if (loginResponseSchema.userId != null && loginResponseSchema.token != null) {
+                mPreferences.userId = loginResponseSchema.userId
+                mPreferences.accessToken = loginResponseSchema.token
+                Result.Success(loginResponseSchema)
+            } else {
+                mPreferences.userId = null
+                mPreferences.accessToken = null
+                Result.Error(ErrorResponseSchema("Token not received", arrayListOf()))
+            }
         } else {
             mPreferences.userId = null
             mPreferences.accessToken = null
@@ -47,11 +53,15 @@ class AuthRepository @Inject constructor(
      */
     suspend fun signup(signupRequestSchema: SignupRequestSchema): Result<Any> {
         val response = mApiCallInterface.signupAsync(signupRequestSchema).await()
-        return if (successCodes.contains(response.code())) {
+        if (successCodes.contains(response.code())) {
             val signupResponseResponseSchema = response.body() as SignupResponseSchema
-            Result.Success(signupResponseResponseSchema)
+            if (signupResponseResponseSchema.userId != null) {
+                return Result.Success(signupResponseResponseSchema)
+            } else {
+                return Result.Error(ErrorResponseSchema("Sign up failed", arrayListOf()))
+            }
         } else {
-            Result.Error(parseError(response.errorBody()!!))
+            return Result.Error(parseError(response.errorBody()!!))
         }
     }
 
@@ -64,8 +74,12 @@ class AuthRepository @Inject constructor(
         val response = mApiCallInterface.forgotPasswordAsync(forgotPasswordRequestSchema).await()
         return if (successCodes.contains(response.code())) {
             val forgotPasswordResposeSchema = response.body() as ForgotPasswordResposeSchema
-            mPreferences.userId = forgotPasswordResposeSchema.userId
-            Result.Success(forgotPasswordResposeSchema)
+            if (forgotPasswordResposeSchema.userId != null) {
+                mPreferences.userId = forgotPasswordResposeSchema.userId
+                Result.Success(forgotPasswordResposeSchema)
+            } else {
+                Result.Error(ErrorResponseSchema("User not found", arrayListOf()))
+            }
         } else {
             Result.Error(parseError(response.errorBody()!!))
         }

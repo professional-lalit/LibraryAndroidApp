@@ -23,5 +23,5 @@ data class BookItemSchema(
 }
 
 data class BookListResponseSchema(
-    val books: ArrayList<BookItemSchema>
+    val books: ArrayList<BookItemSchema>?
 ) : BaseResponseSchema()

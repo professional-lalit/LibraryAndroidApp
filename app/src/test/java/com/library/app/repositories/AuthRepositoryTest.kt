@@ -1,17 +1,18 @@
 package com.library.app.repositories
 
+import com.google.gson.Gson
 import com.library.app.common.Prefs
 import com.library.app.networking.ApiCallInterface
 import com.library.app.networking.Result
-import com.library.app.networking.models.LoginRequestSchema
-import com.library.app.networking.models.LoginResponseSchema
-import com.library.app.networking.models.SignupRequestSchema
-import com.library.app.networking.models.SignupResponseSchema
+import com.library.app.networking.models.*
 import com.nhaarman.mockitokotlin2.*
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.Protocol
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,8 +31,6 @@ import retrofit2.Retrofit
  */
 @RunWith(MockitoJUnitRunner::class)
 class AuthRepositoryTest {
-
-    private val MSG_USER_NOT_FOUND = "A user with this email could not be found."
 
     /**
      * Dependencies for SUT
@@ -52,7 +51,7 @@ class AuthRepositoryTest {
      * & Success is returned
      */
     @Test
-    fun `api success access token acquired`() = runBlockingTest {
+    fun `api access token acquired`() = runBlockingTest {
         //Arrange
         val userId = "XXXXX"
         val token = "XXXXXXXXXXXXXXX"
@@ -64,9 +63,11 @@ class AuthRepositoryTest {
                 successApiResponse
             )
         )
+
         //Act
         val result: Result<Any> = SUT.login(loginRequestSchema)
         delay(100)
+
         //Assert
         val captor = ArgumentCaptor.forClass(String::class.java)
         assertEquals(Result.Success::class.java, result.javaClass)
@@ -82,7 +83,7 @@ class AuthRepositoryTest {
      * & Error is returned
      */
     @Test
-    fun `api success access token not acquired`() = runBlockingTest {
+    fun `api access token not acquired`() = runBlockingTest {
         //Arrange
         val userId = null
         val token = null
@@ -110,7 +111,7 @@ class AuthRepositoryTest {
      * Ensure that success result is returned when valid request is sent
      */
     @Test
-    fun `api success signup success`() = runBlockingTest {
+    fun `api signup success`() = runBlockingTest {
         //Arrange
         val signupRequestSchema = SignupRequestSchema("XXXX", "asd@add.com", "123@abc")
         val signupResponseSchema = SignupResponseSchema("XXXXXXXXX")
@@ -131,7 +132,7 @@ class AuthRepositoryTest {
      * Ensure that error result is returned when invalid request is sent
      */
     @Test
-    fun `api success signup failed`() = runBlockingTest {
+    fun `api signup failed`() = runBlockingTest {
         //Arrange
         val signupRequestSchema = SignupRequestSchema("XXXX", "asd@add.com", "123@abc")
         val signupResponseSchema = SignupResponseSchema(null)
@@ -143,6 +144,48 @@ class AuthRepositoryTest {
         )
         //Act
         val result: Result<Any> = SUT.signup(signupRequestSchema)
+        delay(100)
+        //Assert
+        assertEquals(Result.Error::class.java, result.javaClass)
+    }
+
+    /**
+     * Ensure that success result is returned when invalid request is sent
+     */
+    @Test
+    fun `api forgot password success`() = runBlockingTest {
+        //Arrange
+        val forgotPasswordRequestSchema = ForgotPasswordRequestSchema("XXXX")
+        val forgotPasswordResposeSchema = ForgotPasswordResposeSchema("XXXX")
+        val failedApiResponse = Response.success(forgotPasswordResposeSchema)
+        `when`(mApiCallInterface.forgotPasswordAsync(any())).thenReturn(
+            CompletableDeferred(
+                failedApiResponse
+            )
+        )
+        //Act
+        val result: Result<Any> = SUT.forgotPassword(forgotPasswordRequestSchema)
+        delay(100)
+        //Assert
+        assertEquals(Result.Success::class.java, result.javaClass)
+    }
+
+    /**
+     * Ensure that error result is returned when invalid request is sent
+     */
+    @Test
+    fun `api forgot password failure`() = runBlockingTest {
+        //Arrange
+        val forgotPasswordRequestSchema = ForgotPasswordRequestSchema("XXXX")
+        val forgotPasswordResposeSchema = ForgotPasswordResposeSchema(null)
+        val failedApiResponse = Response.success(forgotPasswordResposeSchema)
+        `when`(mApiCallInterface.forgotPasswordAsync(any())).thenReturn(
+            CompletableDeferred(
+                failedApiResponse
+            )
+        )
+        //Act
+        val result: Result<Any> = SUT.forgotPassword(forgotPasswordRequestSchema)
         delay(100)
         //Assert
         assertEquals(Result.Error::class.java, result.javaClass)
