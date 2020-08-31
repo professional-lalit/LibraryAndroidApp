@@ -12,6 +12,8 @@ abstract class BaseUITest {
 
     protected var webServer = MockWebServer()
 
+
+
     protected fun initTest() {
         webServer.start(8080)
         Intents.init()

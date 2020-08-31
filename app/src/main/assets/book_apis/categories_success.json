@@ -1,0 +1,119 @@
+{
+  "message": "Fetched categories successfully.",
+  "cats": [
+    {
+      "name": ""
+    },
+    {
+      "name": ".NET"
+    },
+    {
+      "name": "Algorithmic Art"
+    },
+    {
+      "name": "Business"
+    },
+    {
+      "name": "Client Server"
+    },
+    {
+      "name": "Client-Server"
+    },
+    {
+      "name": "Computer Graph"
+    },
+    {
+      "name": "Computer Graphics"
+    },
+    {
+      "name": "In Action"
+    },
+    {
+      "name": "Internet"
+    },
+    {
+      "name": "Java"
+    },
+    {
+      "name": "Microsoft"
+    },
+    {
+      "name": "Microsoft .NET"
+    },
+    {
+      "name": "Microsoft/.NET"
+    },
+    {
+      "name": "Miscella"
+    },
+    {
+      "name": "Miscellaneous"
+    },
+    {
+      "name": "Mobile"
+    },
+    {
+      "name": "Mobile Technology"
+    },
+    {
+      "name": "Networking"
+    },
+    {
+      "name": "Next Generation Databases"
+    },
+    {
+      "name": "Object-Oriented Programming"
+    },
+    {
+      "name": "Object-Technology Programming"
+    },
+    {
+      "name": "Open Source"
+    },
+    {
+      "name": "P"
+    },
+    {
+      "name": "PHP"
+    },
+    {
+      "name": "Perl"
+    },
+    {
+      "name": "PowerBuilder"
+    },
+    {
+      "name": "Programming"
+    },
+    {
+      "name": "Python"
+    },
+    {
+      "name": "S"
+    },
+    {
+      "name": "SOA"
+    },
+    {
+      "name": "Software Development"
+    },
+    {
+      "name": "Software Engineering"
+    },
+    {
+      "name": "Theory"
+    },
+    {
+      "name": "Web Development"
+    },
+    {
+      "name": "XML"
+    },
+    {
+      "name": "internet"
+    },
+    {
+      "name": "java"
+    }
+  ]
+}

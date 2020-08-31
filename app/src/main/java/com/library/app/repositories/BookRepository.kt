@@ -28,7 +28,7 @@ class BookRepository @Inject constructor(
 ) : BaseRepository(mRetrofit) {
 
     suspend fun getTrendingBooks(): Result<Any> {
-        val response = mApiCallInterface.getBooksAsync(1, "").await()
+        val response = mApiCallInterface.getTrendingBooksAsync(1, "").await()
         return if (successCodes.contains(response.code())) {
             val booksResponse = response.body() as BookListResponseSchema
             Result.Success(booksResponse)

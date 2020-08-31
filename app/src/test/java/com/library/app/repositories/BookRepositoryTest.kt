@@ -47,10 +47,8 @@ class BookRepositoryTest {
         //Arrange
         val bookListResponseSchema = BookListResponseSchema(arrayListOf())
         val successApiResponse = Response.success(bookListResponseSchema)
-        `when`(mApiCallInterface.getBooksAsync(any(), any())).thenReturn(
-            CompletableDeferred(
-                successApiResponse
-            )
+        `when`(mApiCallInterface.getTrendingBooksAsync(any(), any())).thenReturn(
+            CompletableDeferred(successApiResponse)
         )
 
         //Act
@@ -69,7 +67,7 @@ class BookRepositoryTest {
             400,
             bookListResponseSchema.toString().toResponseBody("application/json".toMediaTypeOrNull())
         )
-        `when`(mApiCallInterface.getBooksAsync(any(), any())).thenReturn(
+        `when`(mApiCallInterface.getTrendingBooksAsync(any(), any())).thenReturn(
             CompletableDeferred(failApiResponse)
         )
 

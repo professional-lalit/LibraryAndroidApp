@@ -58,6 +58,16 @@ interface ApiCallInterface {
         @Query("cat") category: String?
     ): Deferred<Response<BookListResponseSchema>>
 
+
+    /**
+     * All the books.
+     */
+    @GET("books/trending-book-list")
+    fun getTrendingBooksAsync(
+        @Query("page") pageIndex: Int,
+        @Query("cat") category: String?
+    ): Deferred<Response<BookListResponseSchema>>
+
     /**
      * Details of the book, as isbn is specified in request query param.
      */

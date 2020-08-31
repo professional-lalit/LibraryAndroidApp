@@ -1,4 +1,4 @@
-package com.library.app.screens.main.fragments.books.book_details
+package com.library.app.screens.main
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar

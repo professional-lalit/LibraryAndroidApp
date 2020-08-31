@@ -15,6 +15,6 @@ data class CategoryResponseSchema(
     }
 }
 
-data class CategoryListResponseSchema(val cats: ArrayList<CategoryResponseSchema>) :
+data class CategoryListResponseSchema(val cats: ArrayList<CategoryResponseSchema>?) :
     BaseResponseSchema() {
 }

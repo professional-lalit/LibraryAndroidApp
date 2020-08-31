@@ -1,10 +1,9 @@
 package com.library.app.di.modules
 
 import com.library.app.di.annotations.*
-import com.library.app.di.annotations.books.BookDetailScope
 import com.library.app.screens.SplashActivity
 import com.library.app.screens.main.MainActivity
-import com.library.app.screens.main.fragments.books.book_details.BookDetailsActivity
+import com.library.app.screens.main.BookDetailsActivity
 import com.library.app.screens.onboarding.change_password.ChangePasswordActivity
 import com.library.app.screens.onboarding.forgot_password.ForgotPasswordActivity
 import com.library.app.screens.onboarding.login.LoginActivity

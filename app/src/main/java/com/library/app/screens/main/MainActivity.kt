@@ -21,6 +21,8 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
+    val mHomeFragment = HomeFragment()
+
     private lateinit var fragmentContainer: FrameLayout
 
     private lateinit var mDrawerLayout: DrawerLayout
@@ -74,7 +76,7 @@ class MainActivity : BaseActivity() {
 
     private fun setViews() {
         supportFragmentManager.beginTransaction()
-            .add(fragmentContainer.id, HomeFragment())
+            .add(fragmentContainer.id, mHomeFragment)
             .commit()
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportFragmentManager.backStackEntryCount > 0) {
