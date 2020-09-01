@@ -39,7 +39,7 @@ abstract class ActivityBuildersModule {
     abstract fun contributeMainActivity(): MainActivity
 
     @MainScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [BookDetailsFragmentsModule::class, MainViewModelsModule::class])
     abstract fun contributeBookDetailsActivity(): BookDetailsActivity
 
 }
